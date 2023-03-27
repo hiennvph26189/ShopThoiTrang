@@ -19,7 +19,7 @@ const PriceProfile = () => {
    
     const [price, setPrice] = useState(0);
     
-    const info = useSelector((state)=> state.personalInfo)
+    const info = useSelector((state)=> state.Reducers.arrUser)
    
     const [errImage, setErrImage] = useState(false);
     const [errPrice, setErrPrice] = useState(false);

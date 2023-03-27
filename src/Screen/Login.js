@@ -5,7 +5,7 @@ import { Image, Text, View,ToastAndroid,Pressable } from "react-native";
 import CustomButton from "../common/CustomButton";
 import CustomTextInput from "../common/CustomTextInput";
 import {LOGIN} from "../../api";
-import updateEmail from "../redux/action/updateAction";
+import {updateEmail} from "../redux/action/Actions";
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
 
@@ -14,16 +14,13 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassWord] = useState('');
     const [err, setErr] = useState(false);
-    const info = useSelector((state)=> state.personalInfo)
+    const info = useSelector((state)=> state.Reducers.arrUser)
     const [showPassWord1,setShowPass1] = useState(true);
     const [errMessage , setErrMessage] = useState('');
     const dispatch = useDispatch();
     useEffect(()=>{
         setErr(false)
-        if(info.email){
-            setEmail(info.email);
-        }
-
+        console.log(info)
     },[])
     showPass1 = ()=>{
             setShowPass1(!showPassWord1)
@@ -43,15 +40,18 @@ const Login = () => {
            
                     if(res.data.errCode ===0){
                         console.log("OK")
-                        setErr(true)
+                        setErr(false)
                         
                         ToastAndroid.showWithGravity(
                             'Chào mừng: ' + res.data.user.tenThanhVien,
                             ToastAndroid.SHORT,
                             ToastAndroid.BOTTOM,  10,100,
                           );
+                          
                           dispatch(updateEmail(res.data.user))
-                        navigation.navigate('Home')
+                         
+                          navigation.navigate('Home')
+                       
                      }else{
                          setErrMessage(res.data.message)
                         

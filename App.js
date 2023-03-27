@@ -11,12 +11,14 @@ import {store} from "./src/redux/store";
 
 export default function App() {
   return (
-    <Provider store={store}>
+    
+      <Provider store={store} >
       <NavigationContainer>
             <AuthStack/>
            
       </NavigationContainer>
-    </Provider>
+      </Provider>
+   
   );
 }
 

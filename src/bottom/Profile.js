@@ -16,7 +16,7 @@ const Profile = () => {
     const [image,setImage] = useState('')
     const isFocused = useIsFocused()
     const navigation = useNavigation()
-    const info = useSelector((state)=> state.personalInfo)
+    const info = useSelector(state => state.Reducers.arrUser);
     const [profile,setProfile] = useState({})
     
     const singOut = ()=>{

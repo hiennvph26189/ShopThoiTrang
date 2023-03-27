@@ -23,7 +23,7 @@ const LichSuNapTien = () => {
    
     const [arrprice, setArPrice] = useState([]);
     
-    const info = useSelector((state)=> state.personalInfo)
+    const info = useSelector((state)=> state.Reducers.arrUser)
    
     const data = {
         id: info.id  

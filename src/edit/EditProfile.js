@@ -20,7 +20,7 @@ const EditProfile = () => {
     const [file, setFile] = useState({});
     const [phone, setPhone] = useState('');
     const [addres, setAddres] = useState('');
-    const info = useSelector((state)=> state.personalInfo)
+    const info = useSelector((state)=> state.Reducers.arrUser)
     const [BadPhone, setBadPhone] = useState(false);
     const [BadName, setBadName] = useState(false);
     const [BadAddress,setBadAddress] = useState(false);

@@ -7,4 +7,6 @@ export const  PROFILEMEMBER = URL+"/api/profile-member"
 export const  EDITPROFILEMEMBER = URL+"/api/edit-profile-member"
 export const  NAPTIENMEMBER = URL+"/api/naptien-members"
 export const  LICHSUNAPTIENMEMBER = URL+"/api/lich-su-naptien-members"
+export const  GETCATEGORIES = URL+"/api/get-all-categories"
+export const  GETALLPRODUCTS = URL+"/api/get-all-product"
 
