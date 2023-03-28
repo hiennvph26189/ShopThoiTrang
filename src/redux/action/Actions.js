@@ -13,8 +13,6 @@ export const updateEmail = data =>({
 export const arrCategories = data =>({
     type: FECTH_CATEGORIES,
     arrCategories: data,
-},()=>{
-    console.log(data,"alkd;fka;kf")
 });
 export const removeFormCart = index =>({
     type: REMOVE_FORM_CART,

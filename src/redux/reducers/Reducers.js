@@ -23,10 +23,11 @@ export const Reducers = (state = initState, action) => {
        
             
         case REMOVE_FORM_CART:
-            const deletedArray1 = state.arrCart.filter((item, index) => {
-                return index !== action.payloads;
-            });
-        return deletedArray1;
+            console.log(action.payloads)
+            // const deletedArray1 = state.arrCart.filter((item, index) => {
+            //     return index !== action.payloads;
+            // });
+        // return {...state};
          
         default:
             return state;

@@ -1,5 +1,5 @@
-export const URL = "http://192.168.1.61:8080"
-//Hiển: ở nhà:  192.168.1.62,192.168.1.61 ở trường:  192.168.137.1
+export const URL = "http://10.24.38.241:8080"
+//Hiển: ở nhà:  192.168.1.62,192.168.1.61 ở trường:  192.168.137.1,10.24.38.241
 //
 export const LOGIN = URL+"/api/login-member"
 export const ADDMENBER = URL+"/api/add-member"

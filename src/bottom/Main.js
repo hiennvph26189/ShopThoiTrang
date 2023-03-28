@@ -22,7 +22,7 @@ const Main = () => {
             if(res && res.data.errCode === 0){
                 //console.log(res.data.products,"OK")
                 setTshirtList(res.data.products)
-                dispatch(arrCategories(res.data.products))
+               
                 setRefreshing(false)
                
             }
@@ -42,21 +42,44 @@ const Main = () => {
     
     useEffect(() => {
         loadCategories()
-        loadAllProducts()
-        
-        
-        
-       
-        
-   
+        loadAllProducts()       
     }, [isFocused]);
+
     onRefresh = ()=>{
         setRefreshing(true)
         loadCategories()
         loadAllProducts()
     }
   
-    
+    listDanhSach = (id)=>{
+        return (
+           <>
+            
+                
+                <FlatList
+                    data={tshirtList.filter((p) => p.idDanhSach === id)}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id.toString()}
+                    extraData={id}
+                    
+                    renderItem={({ item }) => {
+                        
+                        return (
+                            <MyProductItem item={item}
+                    onAddWishlist={x => {
+                        dispatch(addToWishlist(x));
+                    }}
+                    onAddToCart={x => {
+                        dispatch(addItemToCart(item));
+                    }} />
+            );
+           }}
+       />
+
+           </>
+        )
+    }
     return (
         <ScrollView
         refreshControl={
@@ -66,7 +89,7 @@ const Main = () => {
             />
           }
         style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 ,marginBottom: 30}}>
                 <Header
                     title={'Home'} />
                 <Image source={require('../imgs/banner.png')}
@@ -82,7 +105,7 @@ const Main = () => {
                     <FlatList
                         data={categoryList}
                         horizontal
-                        showsHorizontalScrollIndicator={false}
+                       
                         renderItem={({ item, index }) => {
                             return (
                                 <TouchableOpacity style={{
@@ -116,42 +139,16 @@ const Main = () => {
                                     }}>
                                         {item.name}
                                     </Text>
-
-                                   
+                                    <View style={{ marginTop: 20 }}>
+                                    {listDanhSach(item.id)}
+                                    </View>
                                 </>
                             );
                         }}
                     />
-                     <View style={{ marginTop: 20 }}>
-                                    <FlatList
-                                        data={tshirtList.filter((p) => p.idDanhSach === selectedCategory)}
-                                        horizontal
-                                        keyExtractor={(item) => item.id.toString()}
-                                        extraData={selectedCategory}
-                                        showsHorizontalScrollIndicator={false}
-                                        renderItem={({ item }) => {
-                                            console.log(item)
-                                            return (
-                                                <MyProductItem item={item}
-                                        onAddWishlist={x => {
-                                            dispatch(addToWishlist(x));
-                                        }}
-                                        onAddToCart={x => {
-                                            dispatch(addItemToCart(item));
-                                        }} />
-                                );
-                        }}
-                    />
-                </View>
+                    
                 </View>    
                 </>
-               
-                
-
-              
-               
-               
-
             </View>
         </ScrollView>
     )

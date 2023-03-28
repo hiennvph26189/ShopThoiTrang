@@ -14,14 +14,20 @@ const Home = (props) => {
     const [selectTab, setSelectetab] = useState(0);
     const info = useSelector((state) => state)
     const data = useSelector(state => state);
-    
+    const [arr,setArr]= useState([])
     const dispatch = useDispatch();
     
     useEffect(() => {
         
-        
-        
     }, [isFocused])
+    leghtArr = (arrs)=>{
+        let count = 0
+        arrs.map((item)=>{
+            count ++
+        })
+      
+        return count
+    }
     
     return (
         <View style={{ flex: 1 }}>
@@ -94,7 +100,7 @@ const Home = (props) => {
                             top:5,
                             right:5,
                         }}>
-                            <Text style={{color:'#fff', fontWeight:'600'}}>{data.Reducers.arrCart.length}</Text>
+                            <Text style={{color:'#fff', fontWeight:'600'}}>{leghtArr(data.Reducers.arrCart)}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

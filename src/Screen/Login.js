@@ -11,8 +11,8 @@ import axios from "axios";
 
 const Login = () => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState('');
-    const [password, setPassWord] = useState('');
+    const [email, setEmail] = useState('Nva@gmail.com');
+    const [password, setPassWord] = useState('123456');
     const [err, setErr] = useState(false);
     const info = useSelector((state)=> state.Reducers.arrUser)
     const [showPassWord1,setShowPass1] = useState(true);
