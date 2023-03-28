@@ -8,6 +8,7 @@ import Profile from "../bottom/Profile";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategoriesStart } from "../redux/action/Actions";
+import CartItem from "../common/CartItem";
 const Home = (props) => {
      const isFocused = useIsFocused()
     const navigation = props.navigation;
@@ -16,22 +17,26 @@ const Home = (props) => {
     const data = useSelector(state => state);
     const [arr,setArr]= useState([])
     const dispatch = useDispatch();
-    
+    const arlenght = (item)=>{
+        console.log(item)
+    }
     useEffect(() => {
         
     }, [isFocused])
     leghtArr = (arrs)=>{
         let count = 0
-        arrs.map((item)=>{
-            count ++
-        })
-      
+        if(arrs){
+            arrs.map((item)=>{
+                count ++
+            })
+        }
         return count
     }
-    
+  
     return (
         <View style={{ flex: 1 }}>
             {selectTab == 0 ? (<Main />) : selectTab == 1 ? (<NewPaper />) : selectTab == 2 ? (<Cart />) : selectTab == 3 ? (<Contact />) : (<Profile />)}
+           
             <View
                 style={{
                     width: '100%',

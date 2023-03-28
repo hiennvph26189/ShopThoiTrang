@@ -5,6 +5,8 @@ import axios from "axios";
 export const addItemToCart = data =>({
     type: ADD_TO_CART,
     payload: data,
+},()=>{
+    // console.log(data)
 });
 export const updateEmail = data =>({
     type: CAP_NHAT_EMAIL,

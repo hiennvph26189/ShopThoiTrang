@@ -1,7 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from "react-native"
 import React from "react";
+import axios from "axios";
+import {GETCARTUSER,POSTCARTUSER} from "../../api"
+import {useDispatch, useSelector} from 'react-redux'
 
 const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
+    const info = useSelector(state => state.Reducers.arrUser);
     showImage = (image)=>{
         if(image){
            
@@ -21,6 +25,20 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
         x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return  x;
 }
+   onAddToCart= async(item)=>{
+        let id =  info.id
+        if(id&&item.id){
+            let data = {
+                idUser: id,
+                idSP: item.id
+            }
+            await axios.post(POSTCARTUSER,data).then(res =>{
+                if(res.errCode === 0 ){
+                    console.log("OK")
+                }
+            })
+        }
+    }
     return (
         <View style={{
             width: 250,
