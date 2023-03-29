@@ -1,4 +1,4 @@
-import {  View,SafeAreaView,ScrollView,StyleSheet,Button,Pressable } from "react-native";
+import {  View,SafeAreaView,ScrollView,RefreshControl,StyleSheet,Button,Pressable } from "react-native";
 import {Avatar, Title,Caption, Text,TouchableRipple} from "react-native-paper"
 import {React,useEffect,useState} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
@@ -18,6 +18,11 @@ const Profile = () => {
     const navigation = useNavigation()
     const info = useSelector(state => state.Reducers.arrUser);
     const [profile,setProfile] = useState({})
+    const [refreshing, setRefreshing] = useState(false);
+        onRefresh = () => {
+            setRefreshing(true)
+            getProfile()
+        }
     
     const singOut = ()=>{
        navigation.navigate('Login')
@@ -36,16 +41,19 @@ const Profile = () => {
         id: info.id,
        
      }
+    const getProfile = ()=>{
+        axios.post(PROFILEMEMBER,data).then((response)=>{
+            console.log(response.data)
+           if(response.data.errCode ===0){
+               console.log(response.userMember)
+               setProfile({...response.data.userMember})
+               setRefreshing(false)
+           }
+       })
+    }
     useEffect(()=>{
         console.log(data.id)
-        axios.post(PROFILEMEMBER,data).then((response)=>{
-             console.log(response.data)
-            if(response.data.errCode ===0){
-                console.log(response.userMember)
-                setProfile({...response.data.userMember})
-
-            }
-        })
+        getProfile()
          
         
     },[isFocused])
@@ -60,7 +68,12 @@ const Profile = () => {
                 title={'Profile'}
                 show={true}
             />
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView  refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={() => { onRefresh() }}
+                />
+            } >
             <View style={styles.userInfoSectiom}>
                 <View style = {{flexDirection:'row'}}>
                     <Avatar.Image

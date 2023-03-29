@@ -40,7 +40,7 @@ const CartItem = (props) => {
        
     },[])
     
-    console.log(props,"adsj;ad;f")
+   
     showImage = (image)=>{
         if(image){
            

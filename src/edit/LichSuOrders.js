@@ -16,6 +16,10 @@ import fr from "moment/locale/fr";
 import {PROFILEMEMBER,LichSuOrdersMEMBER} from "../../api";
 import { onChange } from "react-native-reanimated";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import ChoXacNhan from "./ChoXacNhan";
+import DangGiaoHang from "./DangGiaoHang";
+import DangXuLyHang from "./DangXuLyHang";
+import GiaoThanhCong from "./GiaoThanhCong";
 const LichSuOrders = () => {
     const navigation = useNavigation()
     const isFocused = useIsFocused()
@@ -24,19 +28,14 @@ const LichSuOrders = () => {
     const [arrprice, setArPrice] = useState([]);
     
     const info = useSelector((state)=> state.Reducers.arrUser)
-   
+    const [selectTab, setSelectetab] = useState(0);
     const data = {
         id: info.id  
      }
    
      
       useEffect(()=>{
-        axios.get(`${LichSuOrdersMEMBER}?id=${data.id}`).then((response)=>{
-            console.log(response.data);
-           if(response.data.errCode ===0){
-                setArPrice(response.data.data.reverse())
-           }
-       }).catch((error)=>{console.log(error)});
+       
    
     },[isFocused])
     
@@ -58,49 +57,33 @@ const price =(price)=>{
 
   
     return (
-        <View style={[styles.container,{flex:1, backgroundColor:'npm#FFFAF0'}]} showsVerticalScrollIndicator={false}>
-            <View style={{flexDirection:'row', justifyContent:'space-between',padding:10, borderBottomColor:"#ccc",borderBottomWidth:1}}>
-                <Text style={{fontSize:19,fontWeight:'bold' }}>Số tiền nạp</Text>
-                <Text style={{fontSize:19,fontWeight:'bold' }}>Ngày Nạp</Text>
-                <Text style={{fontSize:19,fontWeight:'bold' }}>Trạng thái</Text>
+        <View style={[styles.container,{flex:1, backgroundColor:'#FFFFF0',marginBottom:55}]} showsVerticalScrollIndicator={false}>
+            <View style={{flexDirection:"row" ,justifyContent:"center",alignItems:"center"}}>
+                <Pressable style={[styles.tab,{
+                    backgroundColor: selectTab == 0 ? "#CCC" : "#fff"
+                }]} onPress={()=>{setSelectetab(0)}}>
+                    <Text>Chờ Xác Nhận</Text>
+                </Pressable>
+                <Pressable style={[styles.tab,{
+                    backgroundColor: selectTab == 1 ? "#CCC" : "#fff"
+                }]} onPress={()=>{setSelectetab(1)}}>
+                    <Text>Chờ lấy hàng </Text>
+                </Pressable>
+                <Pressable style={[styles.tab,{
+                    backgroundColor: selectTab == 2 ? "#CCC" : "#fff"
+                }]} onPress={()=>{setSelectetab(2)}}>
+                    <Text>Đang Giao </Text>
+                </Pressable>
+                <Pressable style={[styles.tab,{
+                    backgroundColor: selectTab == 3 ? "#CCC" : "#fff"
+                }]} onPress={()=>{setSelectetab(3)}}>
+                    <Text> Thành công</Text>
+                </Pressable>
             </View>
-                <FlatList
-                     
-                     data={arrprice} 
-                     // item là giao diện trả về sau mỗi vòng lặp 
-                     renderItem={({item})=>(
-                         <View style={styles.listView}>
-                             <View style={styles.listView_Text}>
-                                {item.status === 1?
-                                    <Text style={{width:'40%',color:'#228B22',fontSize:16,fontWeight:'600'}}> +{price(item.tienNap)}</Text>
-                                    :
-                                    <Text style={{width:'40%',color:'#B22222',fontSize:16,fontWeight:'600'}}> {price(item.tienNap)}</Text>
-                                }
-                               
-                               <View style={styles.dateTime}>
-                               <Text style={{color:'#000',fontSize:16,fontWeight:'600'}}> {formatDate(item.createdAt)} </Text>
-                               <Text style={{color:'#000',fontSize:16,fontWeight:'600'}}> {formatTime(item.createdAt)} </Text>
-                               </View>
-                               {item.status === 0&& 
-                                     <Text style={{width:'33.3333%',textAlign:'right',color:'#FFA500',fontSize:16,fontWeight:'600'}}> Chờ xét duyệt </Text>
-                               }
-                                {item.status === 1&& 
-                                     <Text style={{width:'33.3333%',textAlign:'right',color:'#008000',fontSize:16,fontWeight:'600'}}>Nạp tiền thành công </Text>
-                               }
-                               {item.status === 2&& 
-                                     <Text style={{width:'33.3333%',textAlign:'right',color:'#8B0000',fontSize:16,fontWeight:'600'}}>Nạp tiền thất bại </Text>
-                               }
-                              
-                             </View>
-                            
-                            
-                             
-                             
-                         </View>
-                     )}
-                     // key là giá trị duy nhất trả về sau mỗi vòng lặp
-                     keyExtractor={(item) => item.id}
-                 />
+            <View>
+            {selectTab == 0 ? (<ChoXacNhan />) : selectTab == 1 ? (<DangXuLyHang />) : selectTab == 2 ? (<DangGiaoHang />) :  (<GiaoThanhCong />) }
+            </View>
+           
                
 
               
@@ -120,5 +103,16 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         paddingBottom:10
     },
+    tab:{
+        margin:5,
+        borderColor:'#000',
+        borderWidth:1,
+        padding:5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        
+        borderRadius:5,
+    }
    
 })

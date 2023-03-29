@@ -8,6 +8,7 @@ import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER,UPDATECARTUSER,OR
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
+
 const Cart = () => {
     const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused()
@@ -20,6 +21,7 @@ const Cart = () => {
     const [arrProducts,setArrProducts] = useState()
     const [tongTiens,setTongTien] = useState(0)
     const [profile,setProfile] = useState({})
+    const [idCart,setIdCart] = useState([])
     const getUser = ()=>{
         let data = {
             id: info.id,
@@ -27,7 +29,7 @@ const Cart = () => {
         axios.post(PROFILEMEMBER,data).then((response)=>{
             console.log(response.data)
            if(response.data.errCode ===0){
-               console.log(response.userMember)
+               
                setProfile({...response.data.userMember})
 
            }
@@ -53,7 +55,7 @@ const Cart = () => {
         if(info.id){
             let idUser = info.id;
             await axios.get(`${GETCARTUSER}?id=${idUser}`).then(res=>{
-                console.log(res.data.Carts,"ads;ak;dfk");
+               
                 if(res.data.errCode == 0){
                     setCartList(res.data.Carts)
                     tongTien(res.data.Carts)
@@ -79,7 +81,7 @@ const Cart = () => {
            await axios.delete(`${DELETECARTUSER}?id=${id}`).then(res=>{
             if(res.data.errCode === 0){
                 listCart()
-                console.log(res.data.errMessage)
+            
             }
        }).catch(err=>{console.log(err)});
    }
@@ -104,25 +106,33 @@ const Cart = () => {
             size:size
         }
         
-    console.log(data)
+    
         await axios.put(UPDATECARTUSER,data).then(res=>{
         if(res.data.errCode === 0){
             listCart()
         }
     }).catch(err=>{console.log(err)});
 }
-   
+
   const orderProducts = async()=>{
-            let id = []
+            let ids = []
             cartList.map((item)=>{
-                id.push(item.id)
+                ids.push(item.id)
             })
+           
+          let ib = JSON.stringify(ids)
+          
+            // for(let i=0; i<cartList.length; i){
+            //     id.push(cartList[i].id)
+            // }
+        
+        // console.log(JSON.stringify(id))
         let tienUser = info.tienTk
         setCheckedOrder(true)
         if(cartList){
             if(tongTiens <profile.tienTk){
                 data = {
-                    idCart:[...id],
+                    idCart:ib,
                     idUser: info.id,
                     tongTien: tongTiens,
                 }
