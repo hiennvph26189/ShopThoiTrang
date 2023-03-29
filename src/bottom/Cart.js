@@ -1,10 +1,10 @@
-import { FlatList, Text, View,ScrollView, RefreshControl,Pressable } from "react-native";
+import { FlatList, Text,Alert, View,ScrollView, RefreshControl,Pressable } from "react-native";
 import React, { useState,useEffect } from "react";
 import CartItem from "../common/CartItem";
 import {useDispatch, useSelector} from 'react-redux';
 import { removeFormCart } from "../redux/action/Actions";
 import Header from "../common/Header";
-import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER,UPDATECARTUSER} from "../../api"
+import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER,UPDATECARTUSER,ORDERCARTUSER,PROFILEMEMBER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
@@ -15,9 +15,24 @@ const Cart = () => {
     const cartData = useSelector(state => state.Reducers.arrCart);
     const info = useSelector(state => state.Reducers.arrUser);
     const dispacth = useDispatch();
+    const [checkOrder,setCheckedOrder] = useState(false)
     const [load,setIsLoadding] = useState(false)
     const [arrProducts,setArrProducts] = useState()
     const [tongTiens,setTongTien] = useState(0)
+    const [profile,setProfile] = useState({})
+    const getUser = ()=>{
+        let data = {
+            id: info.id,
+        }
+        axios.post(PROFILEMEMBER,data).then((response)=>{
+            console.log(response.data)
+           if(response.data.errCode ===0){
+               console.log(response.userMember)
+               setProfile({...response.data.userMember})
+
+           }
+       })
+    }
     const loadAllProducts = async (id) => {
             await axios.get(GETALLPRODUCTS).then((res) => {
     
@@ -48,6 +63,7 @@ const Cart = () => {
         }
     }
     useEffect(()=>{
+        getUser()
         listCart()
         loadAllProducts()
         
@@ -70,42 +86,74 @@ const Cart = () => {
    const checkId = (id)=>{
     
    }
-   const congSL = async(id,sl)=>{
-        let data = {
-            id: id,
-            soLuong: sl
-        }
-        // console.log(data)
-    await axios.put(UPDATECARTUSER,data).then(res=>{
-        if(res.data.errCode === 0){
-            listCart()
-           
-        }
-   }).catch(err=>{console.log(err)});
-   }
    const tongTien = (arr)=>{
         let tien = 0
         arr.map((item)=>{
             tien = tien + item.thanhTien
             
         })
+
         setTongTien(tien)
         
         
    }
-   const truSL = async(id,sl)=>{
+   const updateCart = async(id,sl,size) =>{
         let data = {
             id: id,
-            soLuong: sl
+            soLuong: sl,
+            size:size
         }
-        // console.log(data)
-    await axios.put(UPDATECARTUSER,data).then(res=>{
+        
+    console.log(data)
+        await axios.put(UPDATECARTUSER,data).then(res=>{
         if(res.data.errCode === 0){
             listCart()
-           
         }
-   }).catch(err=>{console.log(err)});
-   }
+    }).catch(err=>{console.log(err)});
+}
+   
+  const orderProducts = async()=>{
+            let id = []
+            cartList.map((item)=>{
+                id.push(item.id)
+            })
+        let tienUser = info.tienTk
+        setCheckedOrder(true)
+        if(cartList){
+            if(tongTiens <profile.tienTk){
+                data = {
+                    idCart:[...id],
+                    idUser: info.id,
+                    tongTien: tongTiens,
+                }
+                await axios.post(ORDERCARTUSER,data).then(res=>{
+                    if(res.data.errCode === 0){
+                        Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
+                           
+                            {text: 'OK', onPress: () =>{
+                                setCartList([])
+                                setCheckedOrder(false)
+                                listCart()
+                                getUser()
+                            }},
+                          ]);
+                        
+                     
+                        
+                    }else{
+                        console.log(res.data.errCode)
+                        alert(res.data.errMessage)
+                    }
+                }).catch(err=>{console.log(err)});
+            }else{
+                return alert("Số dư của bạn không đủ, hãy nạp thêm tiền")
+            }
+            
+        }else{
+            
+            return alert("Không có sản phẩm nào trong giỏ hàng"); 
+        }
+  }
     return (
         <View style={{ flex: 1 }}>
              <Header
@@ -121,7 +169,7 @@ const Cart = () => {
              >
                 {cartList.map((item,index)=>{
                     return(
-                        <CartItem key={item.id} item1={item} deteleItem ={DeleteItemCart} checkid = {checkId} congSL = {congSL} truSL = {truSL} tongTien = {tongTiens}
+                        <CartItem key={item.id} item1={item} deteleItem ={DeleteItemCart} checkid = {checkId}  tongTien = {tongTiens} updateCart ={updateCart}
                     
                     />
                     )
@@ -159,7 +207,7 @@ const Cart = () => {
                     >{price(tongTiens)}</Text>
                 </View>
                 <View>
-                    <Pressable style={{
+                    <Pressable onPress={()=>{orderProducts()}} style={{
                         borderColor: "#000",
                         borderWidth:1,
                         height:50,

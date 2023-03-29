@@ -27,7 +27,10 @@ const Profile = () => {
         navigation.navigate('PriceProfile',{id:info.id})
     } 
     const lichSuNapTien = ()=>{
-        navigation.navigate('LichSuNapTien',{id:info.id})
+        navigation.navigate('LichSuNapTien')
+    }
+    const handleLichSuMuaHang = ()=>{
+        navigation.navigate('Lịch Sử Mua Hàng')
     }
     const data = {
         id: info.id,
@@ -166,7 +169,7 @@ const Profile = () => {
                     </View>
                    
                 </TouchableRipple>
-                <TouchableRipple>
+                <TouchableRipple onPress={()=>{handleLichSuMuaHang()}}>
                     <View style={styles.menuItem}>
                         <Icon name="book" color="#000" size={25}/>
                         <Text style={styles.menuItemText}>

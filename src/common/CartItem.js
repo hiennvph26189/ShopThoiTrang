@@ -1,8 +1,9 @@
-import { View, Text, Image, TouchableOpacity,Pressable } from "react-native"
+import { View, Text, Image, TouchableOpacity,Pressable,StyleSheet } from "react-native"
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
+import SelectDropdown from 'react-native-select-dropdown'
 import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux';
 import { useEffect,useState } from "react";
@@ -13,6 +14,9 @@ const CartItem = (props) => {
     const [arrProducts,setArrProducts]= useState([])
     const [idSP,setIdSp] = useState()
     const info = useSelector(state => state.Reducers.arrUser);
+    const [size,setSize] = useState('')
+    const countries = ["Egypt", "Canada", "Australia", "Ireland"]
+
     const loadAllProducts = async (id) => {
         await axios.get(GETALLPRODUCTS).then((res) => {
 
@@ -31,6 +35,7 @@ const CartItem = (props) => {
     }
     useEffect(()=>{
         setSoLuong(props.item1.soLuong)
+        setSize(props.item1.size)
         loadAllProducts()
        
     },[])
@@ -74,7 +79,7 @@ const CartItem = (props) => {
         count = count +1
         setSoLuong(count)
         
-        props.congSL(id,count)
+        props.updateCart(id,count,size)
 
         
     }
@@ -82,11 +87,27 @@ const CartItem = (props) => {
         let count = soLuong 
         count = count -1
         setSoLuong(count)
-        props.truSL(id,count)
+        props.updateCart(id,count,size)
 
         
     }
-    
+    const sizeM = (id)=>{
+        setSize("M")
+       
+        props.updateCart(id,soLuong,"M")
+    }
+    const sizeL = (id)=>{
+        setSize("L")
+        props.updateCart(id,soLuong,"L")
+    }
+    const sizeXL = (id)=>{
+        setSize("XL")
+        props.updateCart(id,soLuong,"XL")
+    }
+    const sizeXXL = (id)=>{
+        setSize("XXL")
+        props.updateCart(id,soLuong,"XXL")
+    }
     return (
         
         <TouchableOpacity onPress={()=>{CheckID(props.item1.id)}} style={{
@@ -272,8 +293,19 @@ const CartItem = (props) => {
                          }
                     
                 </View>
-                <View>
-                    <Text>Sze</Text>
+                <View style={{flexDirection:"row"}}>
+                      <Pressable onPress={()=>{sizeM(props.item1.id)}}  style={[styles.size,{backgroundColor: size=="M"?"#ccc":"#fff"}]}>
+                        <Text style={styles.textSize}>M</Text>
+                    </Pressable>   
+                    <Pressable  onPress={()=>{sizeL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="L"?"#ccc":"#fff"}]}>
+                        <Text style={styles.textSize}>L</Text>
+                    </Pressable  >
+                    <Pressable  onPress={()=>{sizeXL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="XL"?"#ccc":"#fff"}]}>
+                        <Text style={styles.textSize}>XL</Text>
+                    </Pressable >
+                    <Pressable  onPress={()=>{sizeXXL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="XXL"?"#ccc":"#fff"}]}>
+                        <Text style={styles.textSize}>XXL</Text>
+                    </Pressable>
                 </View>
                 
             </View>
@@ -284,5 +316,18 @@ const CartItem = (props) => {
         
     );
 };
-
+const styles = StyleSheet.create({
+   size:{
+    width:36,
+    padding:7,
+    borderColor:"#000",
+    borderWidth:1,
+    borderRadius:3,
+    marginRight: 2
+   },
+textSize:{
+    fontSize:11,
+    textAlign: "center"
+}
+})
 export default CartItem;

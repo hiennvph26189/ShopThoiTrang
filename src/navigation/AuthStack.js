@@ -8,6 +8,7 @@ import Home from '../Screen/Home';
 import EditProfile from '../edit/EditProfile';
 import PriceProfile from "../edit/PriceProfile";
 import LichSuNapTien from "../edit/LichSuNapTien";
+import LichSuOrders from "../edit/LichSuOrders";
 const Stack = createNativeStackNavigator();
 // const HomeScreen = () => {
 //   return(
@@ -27,6 +28,7 @@ const AuthStack = ()=>{
           <Stack.Screen options={{headerShown: true}} name='EditProfile' component={EditProfile}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='PriceProfile' component={PriceProfile}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='LichSuNapTien' component={LichSuNapTien}></Stack.Screen>
+          <Stack.Screen options={{headerShown: true}} name='Lịch Sử Mua Hàng' component={LichSuOrders}></Stack.Screen>
         </Stack.Navigator>
     )
 }

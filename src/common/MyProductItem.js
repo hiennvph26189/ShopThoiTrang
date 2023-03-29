@@ -30,7 +30,8 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
         if(id&&item.id){
             let data = {
                 idUser: id,
-                idSP: item.id
+                idSP: item.id,
+                size: "M"
             }
             await axios.post(POSTCARTUSER,data).then(res =>{
                 if(res.errCode === 0 ){
