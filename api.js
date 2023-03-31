@@ -15,5 +15,7 @@ export const  DELETECARTUSER = URL+"/api/delete-cart-product"
 export const  UPDATECARTUSER = URL+"/api/update-cart-product"
 export const  ORDERCARTUSER = URL+"/api/orders-cart-product"
 export const  GET_ALL_USER_ORDERS = URL+"/api/lich-su-cart-product"
+export const  HUY_USER_ORDERS = URL+"/api/huy-don-cart-product"
+export const CHI_TIET_ORDERS = URL+"/api/chi-tiet-don-cart-product"
 
 

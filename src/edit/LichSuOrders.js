@@ -16,12 +16,13 @@ import fr from "moment/locale/fr";
 import {PROFILEMEMBER,LichSuOrdersMEMBER} from "../../api";
 import { onChange } from "react-native-reanimated";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import ChoXacNhan from "./ChoXacNhan";
+import DangXuLy from "./DangXuLy";
 import DangGiaoHang from "./DangGiaoHang";
-import DangXuLyHang from "./DangXuLyHang";
+import DonHuy from "./DonHuy";
 import GiaoThanhCong from "./GiaoThanhCong";
-const LichSuOrders = () => {
-    const navigation = useNavigation()
+const LichSuOrders = (props) => {
+    const navigation = props.navigation;
+    console.log(navigation);
     const isFocused = useIsFocused()
     const [image, setImage] = useState('');
    
@@ -29,6 +30,12 @@ const LichSuOrders = () => {
     
     const info = useSelector((state)=> state.Reducers.arrUser)
     const [selectTab, setSelectetab] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
+    onRefresh = () => {
+        getProfile()
+        setRefreshing(true)
+        
+    }
     const data = {
         id: info.id  
      }
@@ -38,51 +45,36 @@ const LichSuOrders = () => {
        
    
     },[isFocused])
-    
-     
-  
-const formatDate= (date)=>{
-    const newFr = Moment(date).locale("vi", fr).format("DD/MM/YYYY");
-    return newFr
-}
-const formatTime= (time)=>{
-    const newFr = Moment(time).locale("vi", fr).format("HH:mm:ss");
-    return newFr
-} 
-const price =(price)=>{
-    let x = price;
-    x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
-    return  x;
-} 
-
-  
+    const orderDetails = (id)=>{
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id});
+    }
     return (
-        <View style={[styles.container,{flex:1, backgroundColor:'#FFFFF0',marginBottom:55}]} showsVerticalScrollIndicator={false}>
+        <View style={[styles.container,{flex:1, backgroundColor:'#DCDCDC',marginBottom:55}]} showsVerticalScrollIndicator={false}>
             <View style={{flexDirection:"row" ,justifyContent:"center",alignItems:"center"}}>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 0 ? "#CCC" : "#fff"
                 }]} onPress={()=>{setSelectetab(0)}}>
-                    <Text>Chờ Xác Nhận</Text>
+                    <Text>Đang xử lý</Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 1 ? "#CCC" : "#fff"
                 }]} onPress={()=>{setSelectetab(1)}}>
-                    <Text>Chờ lấy hàng </Text>
+                    <Text>Đang Giao </Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 2 ? "#CCC" : "#fff"
                 }]} onPress={()=>{setSelectetab(2)}}>
-                    <Text>Đang Giao </Text>
+                    <Text>Đã giao thành công</Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 3 ? "#CCC" : "#fff"
                 }]} onPress={()=>{setSelectetab(3)}}>
-                    <Text> Thành công</Text>
+                    <Text> Đơn hủy</Text>
                 </Pressable>
             </View>
-            <View>
-            {selectTab == 0 ? (<ChoXacNhan />) : selectTab == 1 ? (<DangXuLyHang />) : selectTab == 2 ? (<DangGiaoHang />) :  (<GiaoThanhCong />) }
-            </View>
+            <ScrollView>
+            {selectTab == 0 ? (<DangXuLy orderDetails={orderDetails} />) : selectTab == 1 ? (<DangGiaoHang orderDetail={orderDetails} />) : selectTab == 2 ? (<GiaoThanhCong orderDetails={orderDetails}/>) :  (<DonHuy />) }
+            </ScrollView>
            
                
 

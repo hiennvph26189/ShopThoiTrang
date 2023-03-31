@@ -1,10 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from "react-native"
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import {GETCARTUSER,POSTCARTUSER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
 
-const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
+const MyProductItem = (props) => {
+    const item = props.item
+   
+    useEffect(()=>{
+        
+    })
     const info = useSelector(state => state.Reducers.arrUser);
     showImage = (image)=>{
         if(image){
@@ -27,6 +32,7 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
 }
    onAddToCart= async(item)=>{
         let id =  info.id
+        // console.log("Ok")
         if(id&&item.id){
             let data = {
                 idUser: id,
@@ -34,8 +40,8 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
                 size: "M"
             }
             await axios.post(POSTCARTUSER,data).then(res =>{
-                if(res.errCode === 0 ){
-                    console.log("OK")
+                if(res.data.errCode === 0 ){
+                    props.addCart()
                 }
             })
         }
@@ -43,7 +49,7 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
     return (
         <View style={{
             width: 250,
-            height: 370,
+            height: "auto",
             borderRadius: 10,
             elevation: 5,
             backgroundColor: '#fff',
@@ -69,7 +75,7 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
            
             <Text style={{
                 marginLeft: 10,
-                marginTop: 10,
+                marginTop:8,
                 fontSize: 16,
                 fontWeight: '600',
             }}>
@@ -77,7 +83,7 @@ const MyProductItem = ({ item,onAddToCart,onAddWishlist }) => {
             <View style={{
                 paddingLeft: 10,
                 paddingRight: 10,
-                marginTop: 20,
+                marginTop: 5,
                 marginBottom:10,
                 
             }}>

@@ -8,7 +8,7 @@ import { addItemToCart, addToWishlist, fetchCategoriesStart } from "../redux/act
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { GETCATEGORIES, GETALLPRODUCTS } from "../../api"
-const Main = () => {
+const Main = (props) => {
     const isFocused = useIsFocused();
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
@@ -51,7 +51,10 @@ const Main = () => {
         loadAllProducts()
     }
 
-
+    const addCart = ()=>{
+        console.log("Ok")
+        props.addCart()
+    }
     listDanhSach = (id) => {
         return (
             <>
@@ -64,14 +67,10 @@ const Main = () => {
 
                     renderItem={({ item }) => {
                         return (
-                            <MyProductItem item={item}
-                                onAddWishlist={x => {
-                                    dispatch(addToWishlist(x));
-                                }}
-                                onAddToCart={x => {
-                                    
-                                    dispatch(addItemToCart(item));
-                                }}
+                            <MyProductItem 
+                            item={item}
+                               
+                                addCart = {addCart}
                             />
                         );
                     }
@@ -109,7 +108,7 @@ const Main = () => {
             }
             nestedScrollEnabled={true}
             style={{ flex: 1 }}>
-            <View style={{ flex: 1, marginBottom: 30 }}>
+            <View style={{ flex: 1, marginBottom: 40 }}>
                 <Header
                     title={'Home'} />
                 <Image source={require('../imgs/banner.png')}
@@ -138,7 +137,7 @@ const Main = () => {
                                 }}>
                                     {item.name}
                                 </Text>
-                                <View style={{ marginTop: 20 }}>
+                                <View style={{ marginTop: 15 }}>
                                     {listDanhSach(item.id)}
                                 </View>
                             </View>

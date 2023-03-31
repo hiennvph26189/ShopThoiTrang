@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity,Pressable,StyleSheet } from "react-native"
+    import { View, Text, Image, TouchableOpacity,Pressable,StyleSheet } from "react-native"
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER} from "../../api"

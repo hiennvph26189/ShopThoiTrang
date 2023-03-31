@@ -9,6 +9,7 @@ import EditProfile from '../edit/EditProfile';
 import PriceProfile from "../edit/PriceProfile";
 import LichSuNapTien from "../edit/LichSuNapTien";
 import LichSuOrders from "../edit/LichSuOrders";
+import OrderDetail from "../edit/OrderDetail";
 const Stack = createNativeStackNavigator();
 // const HomeScreen = () => {
 //   return(
@@ -29,6 +30,7 @@ const AuthStack = ()=>{
           <Stack.Screen options={{headerShown: true}} name='PriceProfile' component={PriceProfile}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='LichSuNapTien' component={LichSuNapTien}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Lịch Sử Mua Hàng' component={LichSuOrders}></Stack.Screen>
+          <Stack.Screen options={{headerShown: true}} name='Chi tiết đơn hàng' component={OrderDetail}></Stack.Screen>
         </Stack.Navigator>
     )
 }

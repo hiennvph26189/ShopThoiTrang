@@ -9,7 +9,7 @@ import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
 
-const Cart = () => {
+const Cart = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused()
     const [cartList, setCartList] = useState([]);
@@ -81,7 +81,7 @@ const Cart = () => {
            await axios.delete(`${DELETECARTUSER}?id=${id}`).then(res=>{
             if(res.data.errCode === 0){
                 listCart()
-            
+                props.deleteCart()
             }
        }).catch(err=>{console.log(err)});
    }
@@ -145,6 +145,7 @@ const Cart = () => {
                                 setCheckedOrder(false)
                                 listCart()
                                 getUser()
+                                props.deleteCart()
                             }},
                           ]);
                         
@@ -164,6 +165,9 @@ const Cart = () => {
             return alert("Không có sản phẩm nào trong giỏ hàng"); 
         }
   }
+  const deleteCart = ()=>{
+    console.log("OK")
+  }
     return (
         <View style={{ flex: 1 }}>
              <Header
@@ -179,7 +183,7 @@ const Cart = () => {
              >
                 {cartList.map((item,index)=>{
                     return(
-                        <CartItem key={item.id} item1={item} deteleItem ={DeleteItemCart} checkid = {checkId}  tongTien = {tongTiens} updateCart ={updateCart}
+                        <CartItem key={item.id} item1={item} deteleItem ={DeleteItemCart} checkid = {checkId}  tongTien = {tongTiens} updateCart ={updateCart} 
                     
                     />
                     )

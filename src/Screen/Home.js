@@ -5,38 +5,57 @@ import Contact from "../bottom/Contact";
 import Main from "../bottom/Main";
 import NewPaper from "../bottom/NewPaper";
 import Profile from "../bottom/Profile";
+import CartItem from "../common/CartItem";
+import {GETCARTUSER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategoriesStart } from "../redux/action/Actions";
-import CartItem from "../common/CartItem";
+import axios from "axios";
 const Home = (props) => {
+    const info = useSelector(state => state.Reducers.arrUser);
      const isFocused = useIsFocused()
     const navigation = props.navigation;
     const [selectTab, setSelectetab] = useState(0);
-    const info = useSelector((state) => state)
+   
     const data = useSelector(state => state);
-    const [arr,setArr]= useState([])
+    const [lenght,setLenght]= useState(0)
     const dispatch = useDispatch();
+
     const arlenght = (item)=>{
         console.log(item)
     }
-    useEffect(() => {
-        
-    }, [isFocused])
-    leghtArr = (arrs)=>{
+    const listCart = async()=>{
         let count = 0
-        if(arrs){
-            arrs.map((item)=>{
-                count ++
+        if(info.id){
+            let idUser = info.id;
+            await axios.get(`${GETCARTUSER}?id=${idUser}`).then(res=>{
+                if(res.data.errCode == 0){
+                    res.data.Carts.map((item)=>{
+                        count = count +1
+                    })
+                    
+                }
             })
         }
-        return count
+        setLenght(count) 
+        
+        
     }
+    const deleteCart = ()=>{
+        listCart()
+    }
+    const addCart = ()=>{
+        listCart()
+    }
+    useEffect(() => {
+        listCart()
+    }, [isFocused])
+   
   
     return (
         <View style={{ flex: 1 }}>
-            {selectTab == 0 ? (<Main />) : selectTab == 1 ? (<NewPaper />) : selectTab == 2 ? (<Cart />) : selectTab == 3 ? (<Contact />) : (<Profile />)}
-           
+            {selectTab == 0 ? (<Main addCart={addCart} />) : selectTab == 1 ? (<NewPaper />) : selectTab == 2 ? (<Cart deleteCart={deleteCart} />) : selectTab == 3 ? (<Contact />) : (<Profile />)}
+            <View style={{height:40}}></View>
             <View
                 style={{
                     width: '100%',
@@ -94,19 +113,22 @@ const Home = (props) => {
                             source={require('../Screen/image/bag.png')}
                             style={{ width: 24, height: 24, tintColor: '#fff', justifyContent: "center", alignSelf: "center", marginTop: 10 }}
                         />
-                        <View style={{
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'red',
-                            borderRadius: 10,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            position:'absolute',
-                            top:5,
-                            right:5,
-                        }}>
-                            <Text style={{color:'#fff', fontWeight:'600'}}>{leghtArr(data.Reducers.arrCart)}</Text>
-                        </View>
+                        {lenght >0&&
+                             <View style={{
+                                width: 20,
+                                height: 20,
+                                backgroundColor: 'red',
+                                borderRadius: 10,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position:'absolute',
+                                top:0,
+                                right:0,
+                            }}>
+                                <Text style={{color:'#fff', textAlign:"center", fontWeight:'600'}}>{lenght}</Text>
+                            </View>
+                        }
+                       
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity

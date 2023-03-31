@@ -4,10 +4,12 @@ import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS} from "../../api"
 import {React,useState,useEffect} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
+import {Avatar, Title,Caption,TouchableRipple} from "react-native-paper"
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-const GiaoThanhCong = () => {
+const DangXuLy = (props) => {
+    const navigation = useNavigation()
     const isFocused = useIsFocused()
     const [listDonHang,setListDonHang] = useState([])
     const [listCarts, setListCarts] = useState([])
@@ -25,7 +27,13 @@ const GiaoThanhCong = () => {
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
             
             if(res.data.errCode === 0){
-                setListDonHang(res.data.getDaGiaoThanhCong)
+                setListDonHang(res.data.getOrders)
+                res.data.getOrders.map((item)=>{
+                    if(item.status===0||item.status===5){
+                        arr.push(item)
+                    }
+                })
+                setGetOrder([...arr])
                 setListCarts(res.data.getCarts)
                 setGetAllProducts(res.data.getAllProducts)    
                 setRefreshing(false)
@@ -42,7 +50,35 @@ const GiaoThanhCong = () => {
     //    setGetOrder([...arr])
     // }
     console.log(listDonHang)
-    
+    const handleHuyDon = (id)=>{
+        data = {
+            id: id,
+        }
+        if(id){
+            Alert.alert('Xác nhận hủy đơn hàng', 'Bạn có chắc muốn hủy đơn hàng này', [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: async() => {
+                    await axios.put(HUY_USER_ORDERS,data).then((res) => {
+                        if(res.data.errCode == 0){
+                            Alert.alert('Thông báo', 'Đơn hàng đã được hủy, bạn hãy chờ bên Shop duyệt hủy đơn hàng', [
+                                {text: 'OK', onPress: () => {
+                                    getAllOrder()
+                                }},
+                              ]);
+                        }else{
+                            alert("Đơn hàng không tồn tại")
+                        }
+
+                     }).catch((err) => {console.log(err)});
+                }},
+              ]);
+        }
+
+    }
     useEffect(()=>{
         
         getAllOrder()
@@ -128,11 +164,14 @@ const GiaoThanhCong = () => {
                 }
             })
         })
+        orderDetail = (id)=>{
+            props.orderDetails(id)
+        }
         return (
             products.map((item,index)=>{
                 return (
-                    <View key={index}>
-                        <View style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                    <View  key={index}>
+                        <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
                             <Image
                                source={{uri:showImage(item.image)}} 
                                style={{width:50,height:50}}
@@ -207,10 +246,10 @@ const GiaoThanhCong = () => {
                     />
                 }
                 >
-            {listDonHang.map((item,index)=>{
+            {getOrder.map((item,index)=>{
                 return (
                     
-                    <View key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
+                    <Pressable onPress={()=>{orderDetail(item.id)}} key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
@@ -219,7 +258,7 @@ const GiaoThanhCong = () => {
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 2?"#006400":"#993333"}}>{item.status === 2?"Đã giao thành công":""} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 0?"#FFA500":"#993333"}}>{item.status === 0?"Đơn hàng đang được xử lý":""} </Text>
                        
                             
                         </View>
@@ -228,13 +267,17 @@ const GiaoThanhCong = () => {
                         <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
                         <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
                         </View>
-                       
-                        
-                        
-                    </View>
+                        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                            <View></View>
+                            <Pressable  onPress={()=>{item.status==0?handleHuyDon(item.id):""}} style={{borderColor:"#fff", borderWidth:1,width:100,justifyContent:"center",padding:7,alignItems:"center",borderRadius:10,backgroundColor:item.status === 0?"#FF4500":"#888888"}}>
+                                <Text style={{color:"#fff",fontSize:17,fontWeight:"700"}}>HỦY</Text>
+                            </Pressable>
+                        </View>
+                           
+                    </Pressable>
                 )
             })}
         </ScrollView>
     )
 }
-export default GiaoThanhCong;
+export default DangXuLy;
