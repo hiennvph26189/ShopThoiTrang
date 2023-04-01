@@ -214,12 +214,12 @@ const DangGiaoHang = () => {
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.createdAt)}</Text>
+                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
                         </View>
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 1?"#228B22":"#993333"}}>{item.status === 1?"Đơn hàng của bạn đang được giao":""} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 2?"#6A5ACD":"#993333"}}>{item.status === 2?"Đơn hàng của bạn đang được giao":""} </Text>
                        
                             
                         </View>

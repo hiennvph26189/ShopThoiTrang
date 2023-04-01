@@ -13,6 +13,7 @@ const OrderDetail = (props) => {
     const route = props.route;
     const idOder = route.params.id
     const idUser = route.params.idUser
+    console.log(route)
     const getAllOrder = async()=>{
         let arr = []
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${idUser}`).then((res)=>{
@@ -38,7 +39,7 @@ const OrderDetail = (props) => {
         
         getOrderDetails()
         getAllOrder()
-        list()
+        
 
     },[isFocused])
     getSize = (arr,id)=>{
@@ -70,92 +71,119 @@ const OrderDetail = (props) => {
         x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return  x;
 }
+tongSoSanPham =(id)=>{
+    let count = 0
+    if(id){
+        let list = JSON.parse(id)
+        
+       list.map((item)=>{
+           listCarts.map((item2,inbiex)=>{
+               if(item === item2.id){
+                   count = count+1
+               }
+           }) 
+       })
+    }
+   
+    return count
+}
  const list = ()=>{
-     
-        let list = JSON.parse(idCart)
-       
-       console.log(list,"aksdfakdf;");
-        list.map((item)=>{
-            listCarts.map((item2)=>{
-                if(item === item2.id){
-                    setIdSP({...item2})
-                }
+        let list = [];
+        let IdSP = [];
+        let products = []
+        if(idCart){
+             list = JSON.parse(idCart)
+           console.log(idCart)
+        }     
+       console.log(list);
+            if(listCarts){
+                listCarts.map((item2)=>{
+                list.map((item)=>{
+                    if(item===item2.id){
+                        IdSP.push(item2)
+                    }
+                })
             }) 
-        })
-    //     IdSP.map((item)=>{
-    //         getAllProducts.map((product)=>{
-    //             if(item.ipSanPham == product.id){
-    //                 products.push(product) 
-    //             }
-    //         })
-    //     })
-    //     return (
-    //         products.map((item,index)=>{
-    //             return (
-    //                 <View  key={index}>
-    //                     <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
-    //                         <Image
-    //                            source={{uri:showImage(item.image)}} 
-    //                            style={{width:50,height:50}}
-    //                         />
-    //                         <View style={{}}>
-    //                             <Text style={{width:"80%",padding:6,alignItems:"center"}}>{item.tenSp}</Text>
-    //                             <View style={{width:310, flexDirection:"row", justifyContent:"space-between"}}>
-    //                             {item.sale <=0?
-    //                                  <Text style={{
-    //                                     fontSize: 15,
-    //                                     fontWeight: '600',
-    //                                     color: 'red'
-    //                                 }}>
+            }
+            
+            if(getAllProducts){
+                getAllProducts.map((product)=>{        
+                    IdSP.map((item)=>{               
+                            if(item.ipSanPham == product.id){
+                                products.push(product) 
+                            }           
+                        }) 
+                    })
+            }
+          
+        return (
+            products.map((item,index)=>{
+                return (
+                    <View  key={index}>
+                        <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                            <Image
+                               source={{uri:showImage(item.image)}} 
+                               style={{width:70,height:70}}
+                            />
+                            <View style={{}}>
+                                <Text style={{width:"80%",padding:6,alignItems:"center"}}>{item.tenSp}</Text>
+                                <View style={{width:310, flexDirection:"row", justifyContent:"space-between"}}>
+                                {item.sale <=0?
+                                     <Text style={{
+                                        fontSize: 15,
+                                        fontWeight: '600',
+                                        color: 'red'
+                                    }}>
                                         
-    //                                     {price(item.giaSanPham) }
-    //                                 </Text>
-    //                                 :
-    //                                 <View style={{flexDirection:'row', marginLeft:4
+                                        {price(item.giaSanPham) }
+                                    </Text>
+                                    :
+                                    <View style={{flexDirection:'row', marginLeft:4
                                    
                                    
-    //                             }}>
-    //                                  <Text style={{
-    //                                     fontSize: 14,
-    //                                     fontWeight: '600',
-    //                                     color: '#696969',
-    //                                     textDecorationLine:'line-through'
-    //                                 }}>
+                                }}>
+                                     <Text style={{
+                                        fontSize: 14,
+                                        fontWeight: '600',
+                                        color: '#696969',
+                                        textDecorationLine:'line-through'
+                                    }}>
                                     
-    //                                 {price(item.giaSanPham ) }
-    //                             </Text>
+                                    {price(item.giaSanPham ) }
+                                </Text>
                                    
-    //                             <Text style={{
-    //                                 fontSize:18,
-    //                                 marginLeft:5,
-    //                                 marginRight:5
-    //                             }}>-</Text>
-    //                             <Text style={{
-    //                                     fontSize: 15,
-    //                                     fontWeight: '600',
-    //                                     color: '#B22222',
+                                <Text style={{
+                                    fontSize:18,
+                                    marginLeft:5,
+                                    marginRight:5
+                                }}>-</Text>
+                                <Text style={{
+                                        fontSize: 15,
+                                        fontWeight: '600',
+                                        color: '#B22222',
                                        
-    //                                 }}>
+                                    }}>
                                     
-    //                                 {price(item.giaSanPham-(item.giaSanPham *(item. sale/100)) ) }
-    //                             </Text>
-    //                             </View>
-    //                         }
-    //                         <Text>Size: {getSize(IdSP,item.id)}</Text>
-    //                         <Text >x{getSoLuong(IdSP,item.id)}</Text>
-    //                             </View>
+                                    {price(item.giaSanPham-(item.giaSanPham *(item. sale/100)) ) }
+                                </Text>
+                                </View>
+                            }
+                            <Text>Size: {getSize(IdSP,item.id)}</Text>
+                            <Text >x{getSoLuong(IdSP,item.id)}</Text>
+                                </View>
                               
-    //                         </View>
-    //                     </View>
+                            </View>
+                        </View>
                         
-    //                 </View>
+                    </View>
                     
                        
                     
-    //             )
+                )
 
-    //        })
-    //     )
+           })
+        )
+   
     }
     
     return (
@@ -174,8 +202,16 @@ const OrderDetail = (props) => {
             <View>
                 <Text style={styles.thongtinkhachhnag}>Đơn hàng</Text>
                 <ScrollView>
+                   
+                        {list()}
                     
+
                 </ScrollView>
+                <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
+                            
+                            <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(idCart)}</Text>
+                            {/* <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(this.state.tongTien)}</Text> </Text> */}
+                            </View>
             </View>
         </View>
     )

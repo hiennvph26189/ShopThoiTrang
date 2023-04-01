@@ -40,16 +40,8 @@ const DangXuLy = (props) => {
             }
         }).catch((err)=>{console.log(err)})
     }
-    // const checkStatus = () => {
-    //     let arr = []
-    //     listDonHang.map((item)=>{
-    //         if(item.status===0||item.status===5){
-    //             arr.push(item)
-    //         }
-    //     })
-    //    setGetOrder([...arr])
-    // }
-    console.log(listDonHang)
+   
+    
     const handleHuyDon = (id)=>{
         data = {
             id: id,
@@ -164,9 +156,8 @@ const DangXuLy = (props) => {
                 }
             })
         })
-        orderDetail = (id)=>{
-            props.orderDetails(id)
-        }
+        
+    
         return (
             products.map((item,index)=>{
                 return (
@@ -236,7 +227,9 @@ const DangXuLy = (props) => {
         )
     }
    
-    
+    orderDetail = (id)=>{
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id});
+    }
     return (
         <ScrollView 
                 refreshControl={
@@ -246,7 +239,7 @@ const DangXuLy = (props) => {
                     />
                 }
                 >
-            {getOrder.map((item,index)=>{
+            {listDonHang.map((item,index)=>{
                 return (
                     
                     <Pressable onPress={()=>{orderDetail(item.id)}} key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
@@ -258,7 +251,7 @@ const DangXuLy = (props) => {
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 0?"#FFA500":"#993333"}}>{item.status === 0?"Đơn hàng đang được xử lý":""} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 0?"#FFA500":"#20B2AA"}}>{item.status === 1?"Đã xác nhận đơn hàng":"Đơn hàng đang được xử lý"} </Text>
                        
                             
                         </View>

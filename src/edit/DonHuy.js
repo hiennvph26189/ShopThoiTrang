@@ -1,10 +1,11 @@
 import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable} from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS} from "../../api"
+import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS,DELETE_ORDERS} from "../../api"
 import {React,useState,useEffect} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
 import Moment from 'moment';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
 const DonHuy = () => {
@@ -15,6 +16,7 @@ const DonHuy = () => {
     const [getOrder,setGetOrder] = useState([])
     const info = useSelector((state)=> state.Reducers.arrUser)
     const [refreshing, setRefreshing] = useState(false);
+    const [showDelete,setShowDelete] = useState(false)
     onRefresh = () => {
         getAllOrder()
         setRefreshing(true)
@@ -225,7 +227,29 @@ const DonHuy = () => {
         )
     }
    
-    
+    handleShowDelete = (id)=>{
+        Alert.alert('Delete orders', 'Bạn có chắc muốn xóa đơn hàng này', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: async() => {
+                await axios.delete(`${DELETE_ORDERS}?id=${id}`).then((res) => {
+                    if(res.data.errCode == 0){
+                        Alert.alert('Thông báo', 'Đơn hàng đã được Xóa', [
+                            {text: 'OK', onPress: () => {
+                                getAllOrder()
+                            }},
+                          ]);
+                    }else{
+                        alert("Đơn hàng không tồn tại")
+                    }
+
+                 }).catch((err) => {console.log(err)});
+            }},
+          ]);
+    }
     return (
         <ScrollView 
                 refreshControl={
@@ -237,28 +261,42 @@ const DonHuy = () => {
                 >
             {listDonHang.map((item,index)=>{
                 return (
-                    
-                    <View key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
-                       
+                    <View key={item.id}>
+                        <View style={{marginTop:15,justifyContent:"space-between",flexDirection:"row"}}>
+                            {
+                                showDelete? 
+                                    <>
+                                     <View></View>
+                                    <Pressable style={{marginRight:10}}>
+                                            <FontAwesome name="trash" size={24} color={"red"} style={{}}/>
+                                    </Pressable>
+                                </>
+                               
+                                :null
+                            }
+                           
+                        </View>
+                    <Pressable onLongPress={()=>{handleShowDelete(item.id)}}  style={{backgroundColor:"#fff",borderRadius:10,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
+                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.createdAt)}</Text>
+                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
                         </View>
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 0?"#FFA500":"#993333"}}>{item.status === 5?"Đang xác nhận hủy đơn":"Đang chờ xét duyệt"} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 4?"#FF0000 ":"#008000"}}>{item.status === 4?"Đang xác nhận hủy đơn":`Đã hủy đơn, tiền của bạn đã được hoàn lại:  +${price(item.tongTien)} `} </Text>
                        
                             
                         </View>
                         <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
                             
                         <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
-                        <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
+                        <Text style={{fontSize:18, fontWeight:"700",textDecorationLine:item.status === 5?"line-through":"none"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
                         </View>
                        
                         
-                        
+                      </Pressable>  
                     </View>
                 )
             })}

@@ -214,12 +214,12 @@ const GiaoThanhCong = () => {
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.createdAt)}</Text>
+                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
                         </View>
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 2?"#006400":"#993333"}}>{item.status === 2?"Đã giao thành công":""} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 3?"#006400":"#993333"}}>{item.status === 3?"Đã giao thành công":""} </Text>
                        
                             
                         </View>

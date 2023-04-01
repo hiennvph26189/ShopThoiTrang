@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from "react-native"
+import { View, Text,Alert, Image, TouchableOpacity } from "react-native"
 import React, { useEffect } from "react";
 import axios from "axios";
 import {GETCARTUSER,POSTCARTUSER} from "../../api"
@@ -34,16 +34,27 @@ const MyProductItem = (props) => {
         let id =  info.id
         // console.log("Ok")
         if(id&&item.id){
-            let data = {
-                idUser: id,
-                idSP: item.id,
-                size: "M"
-            }
-            await axios.post(POSTCARTUSER,data).then(res =>{
-                if(res.data.errCode === 0 ){
-                    props.addCart()
+            if(item.soLuong > 0){
+                let data = {
+                    idUser: id,
+                    idSP: item.id,
+                    size: "M"
                 }
-            })
+                await axios.post(POSTCARTUSER,data).then(res =>{
+                    if(res.data.errCode === 0 ){
+                        props.addCart()
+                    }
+                })
+            }else{
+                
+                Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
+                    {text: 'OK', onPress: () => {
+                       
+                    }},
+                  ]);
+            
+            }
+           
         }
     }
     return (

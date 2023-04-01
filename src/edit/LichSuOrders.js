@@ -46,10 +46,10 @@ const LichSuOrders = (props) => {
    
     },[isFocused])
     const orderDetails = (id)=>{
-        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id});
+       
     }
     return (
-        <View style={[styles.container,{flex:1, backgroundColor:'#DCDCDC',marginBottom:55}]} showsVerticalScrollIndicator={false}>
+        <View style={[styles.container,{flex:1, backgroundColor:'#DCDCDC'}]} showsVerticalScrollIndicator={false}>
             <View style={{flexDirection:"row" ,justifyContent:"center",alignItems:"center"}}>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 0 ? "#CCC" : "#fff"
