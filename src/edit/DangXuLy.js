@@ -228,7 +228,7 @@ const DangXuLy = (props) => {
     }
    
     orderDetail = (id)=>{
-        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id});
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
     }
     return (
         <ScrollView 

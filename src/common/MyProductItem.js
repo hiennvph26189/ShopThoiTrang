@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import {GETCARTUSER,POSTCARTUSER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
-
+import { useNavigation,useIsFocused } from "@react-navigation/native";
 const MyProductItem = (props) => {
     const item = props.item
-   
+    const navigation = useNavigation();
     useEffect(()=>{
         
     })
@@ -38,7 +38,8 @@ const MyProductItem = (props) => {
                 let data = {
                     idUser: id,
                     idSP: item.id,
-                    size: "M"
+                    size: "M",
+                    soLuong:1
                 }
                 await axios.post(POSTCARTUSER,data).then(res =>{
                     if(res.data.errCode === 0 ){
@@ -57,8 +58,11 @@ const MyProductItem = (props) => {
            
         }
     }
+    handleDetailProduct = (id)=>{
+        navigation.navigate('Chi tiết sản phẩm',{id: id},{handleDetailProduct:{handleDetailProduct}});
+    }
     return (
-        <View style={{
+        <TouchableOpacity  onPress={()=>{handleDetailProduct(item.id)}} style={{
             width: 250,
             height: "auto",
             borderRadius: 10,
@@ -172,7 +176,7 @@ const MyProductItem = (props) => {
                     style={{ width: 24, height: 24, }}
                 />
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     );
 };
 

@@ -20,7 +20,7 @@ const OrderDetail = (props) => {
     const idOder = route.params.id
     const idUser = route.params.idUser
     const info = useSelector((state)=> state.Reducers.arrUser)
-    console.log(route)
+
     const getAllOrder = async()=>{
         let arr = []
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${idUser}`).then((res)=>{
