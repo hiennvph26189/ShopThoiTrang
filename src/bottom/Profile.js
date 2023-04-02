@@ -9,7 +9,7 @@ import editProfile from "../edit/EditProfile"
 import axios from "axios";
 import Header from "../common/Header";
 
-import {PROFILEMEMBER,URL} from "../../api";
+import {PROFILEMEMBER,GET_ALL_USER_ORDERS} from "../../api";
 
 
 const Profile = () => {
@@ -19,9 +19,11 @@ const Profile = () => {
     const info = useSelector(state => state.Reducers.arrUser);
     const [profile,setProfile] = useState({})
     const [refreshing, setRefreshing] = useState(false);
+    const [getAllOrders,setGetAllOrders]= useState([]);
         onRefresh = () => {
             setRefreshing(true)
             getProfile()
+            getAllOrder()
         }
     
     const singOut = ()=>{
@@ -51,8 +53,18 @@ const Profile = () => {
            }
        })
     }
+    const getAllOrder = async()=>{
+        let arr = []
+        await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
+            
+            if(res.data.errCode === 0){
+                setGetAllOrders(res.data.getAllOrder)
+                setRefreshing(false)
+            }
+        }).catch((err)=>{console.log(err)})
+    }
     useEffect(()=>{
-        console.log(data.id)
+        getAllOrder()
         getProfile()
          
         
@@ -62,6 +74,15 @@ const Profile = () => {
         x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return  x;
 }
+    const countAllOrders = ()=>{
+        let count = 0
+        if(getAllOrders){
+            getAllOrders.map((iten,index)=>{
+                count = count+1
+            })
+        }
+        return count;
+    }
     return (
         <SafeAreaView style={styles.container}>
             <Header
@@ -141,7 +162,7 @@ const Profile = () => {
                     <Caption>Wallet</Caption>
                 </View> 
                 <View style={styles.infoBox}>
-                    <Title style={styles.title}>12</Title>
+                    <Title style={styles.title}>{countAllOrders()}</Title>
                     <Caption>Orders</Caption>
                 </View>
             </View>

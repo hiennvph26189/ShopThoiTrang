@@ -10,6 +10,7 @@ import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
 const DonHuy = () => {
     const isFocused = useIsFocused()
+    const navigation = useNavigation()
     const [listDonHang,setListDonHang] = useState([])
     const [listCarts, setListCarts] = useState([])
     const [getAllProducts, setGetAllProducts] = useState([])
@@ -250,6 +251,10 @@ const DonHuy = () => {
             }},
           ]);
     }
+    orderDetail = (id)=>{
+        console.log(id)
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
+    }
     return (
         <ScrollView 
                 refreshControl={
@@ -261,43 +266,30 @@ const DonHuy = () => {
                 >
             {listDonHang.map((item,index)=>{
                 return (
-                    <View key={item.id}>
-                        <View style={{marginTop:15,justifyContent:"space-between",flexDirection:"row"}}>
-                            {
-                                showDelete? 
-                                    <>
-                                     <View></View>
-                                    <Pressable style={{marginRight:10}}>
-                                            <FontAwesome name="trash" size={24} color={"red"} style={{}}/>
-                                    </Pressable>
-                                </>
-                               
-                                :null
-                            }
-                           
-                        </View>
-                    <Pressable onLongPress={()=>{handleShowDelete(item.id)}}  style={{backgroundColor:"#fff",borderRadius:10,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
-                        
-                        <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-                            <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
-                        </View>
-                        {list(item.idCart,item.tongTien)}
-                        <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
-                        
-                            <Text style={{fontWeight:"600",color:item.status === 4?"#FF0000 ":"#008000"}}>{item.status === 4?"Đang xác nhận hủy đơn":`Đã hủy đơn, tiền của bạn đã được hoàn lại:  +${price(item.tongTien)} `} </Text>
+                    
                        
+                        <Pressable onPress={()=>{orderDetail(item.id)}} onLongPress={()=>{item.status == 5&&handleShowDelete(item.id)}} key={item.id}  style={{backgroundColor:"#fff",borderRadius:10,marginLeft:5,marginTop:10,marginRight:5,padding:7,justifyContent:"space-between"}}>
                             
-                        </View>
-                        <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
+                            <View style={{justifyContent:"space-between",flexDirection:"row"}}>
+                                <View></View>
+                                <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
+                            </View>
+                            {list(item.idCart,item.tongTien)}
+                            <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                             
-                        <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
-                        <Text style={{fontSize:18, fontWeight:"700",textDecorationLine:item.status === 5?"line-through":"none"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
-                        </View>
-                       
+                                <Text style={{fontWeight:"600",color:item.status === 4?"#FF0000 ":"#008000"}}>{item.status === 4?"Đang xác nhận hủy đơn":`Đã hủy đơn, tiền của bạn đã được hoàn lại:  +${price(item.tongTien)} `} </Text>
                         
-                      </Pressable>  
-                    </View>
+                                
+                            </View>
+                            <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
+                                
+                            <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
+                            <Text style={{fontSize:18, fontWeight:"700",textDecorationLine:item.status === 5?"line-through":"none"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
+                            </View>
+                        
+                            
+                        </Pressable>  
+                  
                 )
             })}
         </ScrollView>

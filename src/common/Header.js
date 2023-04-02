@@ -16,8 +16,8 @@ const Header = ({title,show}) => {
     const [showEditProfile, setShowEditProfile] = useState(false)
     return(
         <View style={{
-            width: '100%',
-            height: 70,
+            
+            height: 65,
             justifyContent: "space-between",
             alignItems:"center",
             flexDirection:"row",
@@ -32,7 +32,7 @@ const Header = ({title,show}) => {
                 fontWeight:'600',
                 fontSize:20,
                 color:'#000',
-               
+                marginLeft:15,
                 marginTop:15,
                 textAlign:'center',
                 }}>{title} </Text>

@@ -1,17 +1,11 @@
 import {  View,SafeAreaView,TextInput,ScrollView,Text,ImageBackground,StyleSheet,Button,Pressable,ImputText, Platform, Image } from "react-native";
 import {React,useState,useEffect} from "react";
-import { ActivityIndicator} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
 import {useDispatch, useSelector} from 'react-redux'
-import { RadioButton } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import {PROFILEMEMBER,NAPTIENMEMBER} from "../../api";
-import { onChange } from "react-native-reanimated";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 const PriceProfile = () => {
     const navigation = useNavigation()
     const isFocused = useIsFocused()

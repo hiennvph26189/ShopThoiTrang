@@ -2,7 +2,11 @@ import { View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pr
 import axios from "axios";
 import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
+import {useDispatch, useSelector} from 'react-redux'
 import {React,useState,useEffect} from "react";
+import Moment from 'moment';
+import fr from "moment/locale/fr";
+import { getDate } from "date-fns";
 const OrderDetail = (props) => {
     const isFocused = useIsFocused()
     const [getAllProducts, setGetAllProducts] = useState([]) 
@@ -10,9 +14,12 @@ const OrderDetail = (props) => {
     const [getOrder, setOrder] = useState({})
     const [idCart,setIdCart] = useState("")
     const [IdSP,setIdSP] = useState([])
+    const [tongTien, setTongTien] = useState(0)
+    const [status, setStatus] = useState(0)
     const route = props.route;
     const idOder = route.params.id
     const idUser = route.params.idUser
+    const info = useSelector((state)=> state.Reducers.arrUser)
     console.log(route)
     const getAllOrder = async()=>{
         let arr = []
@@ -32,6 +39,9 @@ const OrderDetail = (props) => {
             if(res.data.errCode === 0){
                 setOrder(res.data.detailOrder)
                 setIdCart(res.data.detailOrder.idCart)
+                setTongTien(res.data.detailOrder.tongTien)
+                setStatus(res.data.detailOrder.status)
+
             }
         }).catch((err)=>{console.log(err)})
     }
@@ -53,6 +63,10 @@ const OrderDetail = (props) => {
         return(
             size
         )
+    }
+    formatDate= (date)=>{
+        const newFr = Moment(date).locale("vi", fr).format("DD/MM/YYYY HH:mm:ss");
+        return newFr
     }
      getSoLuong = (arr,id)=>{
         let soLuong = 0
@@ -191,28 +205,37 @@ tongSoSanPham =(id)=>{
             <View style={{marginBottom:10,marginTop:5}}>
                 <Text style={styles.thongtinkhachhnag}>Thông tin khách hàng</Text>
                 <View style={styles.infoUser}>
-                        <Text style={styles.textInfoUser}>Họ và tên:  <Text style={styles.textName}>Nguyễn Văn Hiển</Text></Text>
-                        <Text style={styles.textInfoUser}>Số Điện thoại:  <Text style={styles.textName}>0373753158</Text></Text>
-                        <Text style={styles.textInfoUser}>Địa chỉ nhận hàng:  <Text style={styles.textName}>Hải Dương</Text></Text>
-                        <Text style={styles.textInfoUser}>Ngày đặt đơn:  <Text style={styles.textName}></Text></Text>
+                        <Text style={styles.textInfoUser}>Họ và tên:  <Text style={styles.textName}>{info.tenThanhVien}</Text></Text>
+                        <Text style={styles.textInfoUser}>Số Điện thoại:  <Text style={styles.textName}>{info.soDienThoai}</Text></Text>
+                        <Text style={styles.textInfoUser}>Địa chỉ nhận hàng:  <Text style={styles.textName}>{info.diaChi}</Text></Text>
+                        <Text style={styles.textInfoUser}>Ngày đặt đơn: {" "} 
+                            <Text style={styles.textName}>
+                                {getOrder&&getOrder.status == 0||status == 1?formatDate(getOrder.createdAt):formatDate(getOrder.updatedAt)}
+                            </Text>
+                        </Text>
                         <Text style={styles.textInfoUser}>Tổng tiền:  <Text style={styles.textName}>{price(getOrder.tongTien?getOrder.tongTien:"")}</Text></Text>
-                        <Text style={styles.textInfoUser}>Trạng thái đơn hàng:  <Text style={styles.textName}>100000</Text></Text>
+                        <Text style={styles.textInfoUser}>Trạng thái đơn hàng: {" "}  
+                            <Text style={[styles.textName,{color:getOrder&&getOrder.status == 0 ? "#FF9900" : getOrder.status == 1 ? "#0099FF" : getOrder.status == 2 ? "#6A5ACD" : getOrder.status == 3 ? "#006400" :getOrder.status == 4?"#FF6347":"#8B0000"}]}>
+                            {getOrder&&getOrder.status == 0 ? "Đang chờ xử duyệt đơn" : getOrder.status == 1 ? "Đã xác nhận đơn hàng"  : getOrder.status == 2 ? "Đơn của bạn đang được giao " : getOrder.status == 3 ? "Giao thành công"  :getOrder.status == 4?"Đang Chờ xác nhận hủy đơn":"Đã hủy thành công"}
+                            </Text>
+                        </Text>
                 </View>
             </View>
             <View>
                 <Text style={styles.thongtinkhachhnag}>Đơn hàng</Text>
-                <ScrollView>
+                <ScrollView style={{maxHeight:400}}>
                    
                         {list()}
-                    
-
-                </ScrollView>
-                <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
+                        <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
                             
                             <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(idCart)}</Text>
-                            {/* <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(this.state.tongTien)}</Text> </Text> */}
+                            <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(tongTien?tongTien:"")}</Text> </Text>
                             </View>
+
+                </ScrollView>
+                
             </View>
+                        
         </View>
     )
 }

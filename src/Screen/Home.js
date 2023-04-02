@@ -105,13 +105,13 @@ const Home = (props) => {
                         style={{
                             width: 44,
                             height: 44,
-                            backgroundColor: selectTab == 2 ? '#7CFC00' : '#000',
+                            backgroundColor: selectTab == 2 ? '#FF9900' : '#000',
                             borderRadius: 22
                         }}
                         onPress={() => { setSelectetab(2); }}>
                         <Image
                             source={require('../Screen/image/bag.png')}
-                            style={{ width: 24, height: 24, tintColor: '#fff', justifyContent: "center", alignSelf: "center", marginTop: 10 }}
+                            style={{ width: 24, height: 24, tintColor: selectTab == 2 ?'#000033':"#fff", justifyContent: "center", alignSelf: "center", marginTop: 10 }}
                         />
                         {lenght >0&&
                              <View style={{

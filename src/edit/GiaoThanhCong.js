@@ -8,6 +8,7 @@ import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
 const GiaoThanhCong = () => {
+    const navigation = useNavigation()
     const isFocused = useIsFocused()
     const [listDonHang,setListDonHang] = useState([])
     const [listCarts, setListCarts] = useState([])
@@ -197,7 +198,10 @@ const GiaoThanhCong = () => {
         )
     }
    
-    
+    orderDetail = (id)=>{
+        console.log(id)
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
+    } 
     return (
         <ScrollView 
                 refreshControl={
@@ -210,7 +214,7 @@ const GiaoThanhCong = () => {
             {listDonHang.map((item,index)=>{
                 return (
                     
-                    <View key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
+                    <Pressable onPress={()=>{orderDetail(item.id)}}  key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
@@ -231,7 +235,7 @@ const GiaoThanhCong = () => {
                        
                         
                         
-                    </View>
+                    </Pressable>
                 )
             })}
         </ScrollView>

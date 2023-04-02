@@ -7,7 +7,9 @@ import {useDispatch, useSelector} from 'react-redux'
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
+
 const DangGiaoHang = () => {
+    const navigation = useNavigation()
     const isFocused = useIsFocused()
     const [listDonHang,setListDonHang] = useState([])
     const [listCarts, setListCarts] = useState([])
@@ -197,7 +199,10 @@ const DangGiaoHang = () => {
         )
     }
    
-    
+    orderDetail = (id)=>{
+        console.log(id)
+        navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
+    }
     return (
         <ScrollView 
                 refreshControl={
@@ -210,7 +215,7 @@ const DangGiaoHang = () => {
             {listDonHang.map((item,index)=>{
                 return (
                     
-                    <View key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
+                    <Pressable onPress={()=>{orderDetail(item.id)}} key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
@@ -228,7 +233,7 @@ const DangGiaoHang = () => {
                         <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
                         <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
                         </View>
-                    </View>
+                    </Pressable>
                 )
             })}
         </ScrollView>

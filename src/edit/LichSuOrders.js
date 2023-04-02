@@ -50,26 +50,26 @@ const LichSuOrders = (props) => {
     }
     return (
         <View style={[styles.container,{flex:1, backgroundColor:'#DCDCDC'}]} showsVerticalScrollIndicator={false}>
-            <View style={{flexDirection:"row" ,justifyContent:"center",alignItems:"center"}}>
+            <View style={{flexDirection:"row" ,justifyContent:"center",backgroundColor:'#000',padding:2,alignItems:"center",marginLeft:3,marginRight:2, borderRadius:5}}>
                 <Pressable style={[styles.tab,{
-                    backgroundColor: selectTab == 0 ? "#CCC" : "#fff"
+                    backgroundColor: selectTab == 0 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(0)}}>
-                    <Text>Đang xử lý</Text>
+                    <Text style={{fontWeight:"600"}}>Đang xử lý</Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
-                    backgroundColor: selectTab == 1 ? "#CCC" : "#fff"
+                    backgroundColor: selectTab == 1 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(1)}}>
-                    <Text>Đang Giao </Text>
+                    <Text style={{fontWeight:"600"}}>Đang Giao </Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
-                    backgroundColor: selectTab == 2 ? "#CCC" : "#fff"
+                    backgroundColor: selectTab == 2 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(2)}}>
-                    <Text>Đã giao thành công</Text>
+                    <Text style={{fontWeight:"600"}}>Đã giao thành công</Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
-                    backgroundColor: selectTab == 3 ? "#CCC" : "#fff"
+                    backgroundColor: selectTab == 3 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(3)}}>
-                    <Text> Đơn hủy</Text>
+                    <Text style={{fontWeight:"600"}}> Đơn hủy</Text>
                 </Pressable>
             </View>
             <ScrollView>
