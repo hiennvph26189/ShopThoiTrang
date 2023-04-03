@@ -1,21 +1,7 @@
 import {  View,SafeAreaView,TextInput,ScrollView,FlatList,Text,ImageBackground,StyleSheet,Button,Pressable,ImputText, Platform, Image } from "react-native";
 import {React,useState,useEffect} from "react";
-import { ActivityIndicator} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
 import {useDispatch, useSelector} from 'react-redux'
-import { RadioButton } from "react-native-paper";
-import * as ImagePicker from 'expo-image-picker';
-import { format } from 'date-fns'
 import { useNavigation,useIsFocused } from "@react-navigation/native";
-import axios from "axios";
-import Moment from 'moment';
-import vi from "moment/locale/vi";
-import fr from "moment/locale/fr";
-import {PROFILEMEMBER,LichSuOrdersMEMBER} from "../../api";
-import { onChange } from "react-native-reanimated";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import DangXuLy from "./DangXuLy";
 import DangGiaoHang from "./DangGiaoHang";
 import DonHuy from "./DonHuy";

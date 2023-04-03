@@ -242,7 +242,7 @@ const DetailProduct = (props) => {
                     }).catch((err) => {console.log(err)})
                 }else{
                     
-                    Alert.alert('Thông báo', 'bạn chưa chọn số lượng hoặc size', [
+                    return Alert.alert('Thông báo', 'bạn chưa chọn số lượng hoặc size', [
                         {text: 'OK', onPress: () => {
                            
                         }},
@@ -252,7 +252,7 @@ const DetailProduct = (props) => {
                
             }
         }else{
-            Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
+            return Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
                 {text: 'OK', onPress: () => {
                    
                 }},
