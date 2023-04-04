@@ -309,6 +309,7 @@ const DetailProduct = (props) => {
                             }
                         </View>
                     </View>
+                    <View style={{justifyContent:'space-between',flexDirection:"row", alignItems:"center", padding:5}}>
                     {detailProduct&&detailProduct.sale>0?
                     <>
                         <View style={{ flexDirection: 'row', marginLeft:2,alignItems:"center" , paddingTop:10,paddingBottom:10}}>
@@ -344,12 +345,16 @@ const DetailProduct = (props) => {
                         }}>{price(detailProduct.giaSanPham)}</Text>
                         
                     </View>
+
                 }
-                    
+                    <View style={{marginRight:20}}>
+                        <Text >(đã bán: {detailProduct.luotMua})</Text>
+                    </View>
+                    </View>
 
                     <View>
                         
-
+                
                     <View>
                         <Text style={{
                             fontWeight: 'bold',
