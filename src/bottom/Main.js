@@ -9,6 +9,7 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { GETCATEGORIES, GETALLPRODUCTS } from "../../api"
 const Main = (props) => {
+    const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Main = (props) => {
 
             if (res && res.data.errCode === 0) {
                 //console.log(res.data.products,"OK")
-                setTshirtList(res.data.products)
+                setTshirtList(res.data.totalProducts)
 
                 setRefreshing(false)
 
@@ -81,11 +82,15 @@ const Main = (props) => {
             </>
         )
     }
+    danhSachSabPham = (id,name)=>{
+        console.log(name)
+        navigation.navigate('Danh Sách sản phẩm',{id: id,name: name});
+    }
     const litProducts = () => {
         return (
             categoryList.map((item, i) => {
                 return (
-                    <TouchableOpacity key={i} style={{
+                    <TouchableOpacity onPress={()=>{danhSachSabPham(item.id,item.name)}} key={item.id} style={{
                         padding: 10,
                         borderWidth: 1,
                         marginLeft: 20,

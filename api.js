@@ -1,4 +1,4 @@
-export const URL = "http://192.168.1.244:8080"
+export const URL = "http://10.24.54.138:8080"
 //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 //
 export const LOGIN = URL+"/api/login-member"
@@ -8,7 +8,7 @@ export const  EDITPROFILEMEMBER = URL+"/api/edit-profile-member"
 export const  NAPTIENMEMBER = URL+"/api/naptien-members"
 export const  LICHSUNAPTIENMEMBER = URL+"/api/lich-su-naptien-members"
 export const  GETCATEGORIES = URL+"/api/get-all-categories"
-export const  GETALLPRODUCTS = URL+"/api/get-all-product"
+export const  GETALLPRODUCTS = URL+"/api/get-all-total-product"
 export const  GET_ONE_PRODUCT = URL+"/api/get-one-product"
 export const  GETCARTUSER = URL+"/api/user-carts-product"
 export const  POSTCARTUSER = URL+"/api/oders-product"

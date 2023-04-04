@@ -40,7 +40,7 @@ const Cart = (props) => {
     
                 if (res && res.data.errCode === 0) {
                     //console.log(res.data.products,"OK")
-                    setArrProducts(res.data.products)
+                    setArrProducts(res.data.totalProducts)
                     
                     setRefreshing(false)
                 }

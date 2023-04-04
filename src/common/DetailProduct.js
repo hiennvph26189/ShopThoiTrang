@@ -619,11 +619,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     }, dotActive: {
         margin: 3,
-        color: 'white',
+        color: 'grey',
     },
     dot: {
         margin: 3,
-        color: 'grey'
+        color: 'white'
     }
 });
 export default DetailProduct;

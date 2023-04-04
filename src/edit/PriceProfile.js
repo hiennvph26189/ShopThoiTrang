@@ -170,7 +170,7 @@ const PriceProfile = () => {
                         placeholderTextColor="#666666"
                         autoCorrect={false}
                         keyboardType='number-pad'
-                        value={price}
+                        value={price.toString()}
                         onChangeText={(text)=>setPrice(text)}
                         style={styles.textInput}/>
                 </View>

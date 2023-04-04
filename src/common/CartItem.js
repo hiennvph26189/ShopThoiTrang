@@ -22,9 +22,9 @@ const CartItem = (props) => {
 
             if (res && res.data.errCode === 0) {
                 //console.log(res.data.products,"OK")
-                setArrProducts(res.data.products)
-                if(res.data.products){
-                    res.data.products.map((item,index)=>{
+                setArrProducts(res.data.totalProducts)
+                if(res.data.totalProducts){
+                    res.data.totalProducts.map((item,index)=>{
                         if(item.id==props.item1.ipSanPham){
                             setItemProduct(item)  
                         }
