@@ -1,5 +1,6 @@
 import { Image, Text, TouchableOpacity, Pressable,View } from "react-native"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import IconSearch from "react-native-vector-icons/FontAwesome"
 import React, { useState ,useEffect} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
  import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -8,6 +9,10 @@ const Header = ({title,show}) => {
     const navigation = useNavigation()
     const editProfile = ()=>{
         navigation.navigate('EditProfile')
+        
+     }
+    const searchProducts = ()=>{
+        navigation.navigate('Tìm kiếm')
         
      }
      useEffect(()=>{
@@ -37,7 +42,12 @@ const Header = ({title,show}) => {
                 textAlign:'center',
                 }}>{title} </Text>
         
-            <View>
+            <View style={{flexDirection:"row",}}>
+                <Pressable onPress={()=>{searchProducts()}}>
+                        <View style={{ marginTop:5, marginRight:5}}>
+                            <IconSearch name="search" size={25} color="#000" />
+                        </View> 
+                    </Pressable> 
                 {showEditProfile?
                     <Pressable onPress={()=>{editProfile()}}>
                         <View style={{paddingHorizontal:10}}>
@@ -47,6 +57,7 @@ const Header = ({title,show}) => {
                 :
                 null
                 }
+
             </View>
         </View>
     )

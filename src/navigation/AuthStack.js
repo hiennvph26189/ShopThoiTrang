@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ManChao from '../Screen/ManChao';
 import Login from '../Screen/Login';
+import SearchProducts from '../Screen/SearchProducts';
 
 import NewAccount from '../Screen/NewAccount';
 import Home from '../Screen/Home';
@@ -37,6 +38,7 @@ const AuthStack = ()=>{
           <Stack.Screen options={{headerShown: true}} name='Chi tiết sản phẩm' component={DetailProduct}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Danh Sách sản phẩm' component={DanhSachSanPham}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Tin tức' component={NewsDetail}></Stack.Screen>
+          <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen>
         </Stack.Navigator>
     )
 }
