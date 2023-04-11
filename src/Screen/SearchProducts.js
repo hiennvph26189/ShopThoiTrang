@@ -12,7 +12,7 @@ const SearchProducts = () => {
         axios.get(GETALLPRODUCTS).then((res)=>{
             console.log(res)
             if(res.data.errCode ===0){
-                
+              
                 setArrSearch(res.data.totalProducts)
             }
         }).catch((err)=>{console.log(err)})

@@ -318,8 +318,8 @@ const CartItem = (props) => {
 };
 const styles = StyleSheet.create({
    size:{
-    width:36,
-    padding:7,
+   
+    padding:10,
     borderColor:"#000",
     borderWidth:1,
     borderRadius:3,
