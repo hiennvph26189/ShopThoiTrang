@@ -1,9 +1,13 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import Header from "../common/Header";
 const Contact = () => {
     return (
 
         <View>
+            <Header
+            
+            title={'Contact'} />
             <ScrollView>
                 <Image source={require('../Screen/image/shop.jpg')}
                     style={{

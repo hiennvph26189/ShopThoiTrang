@@ -27,6 +27,7 @@ const DangGiaoHang = () => {
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
             
             if(res.data.errCode === 0){
+                console.log(res.data.getCarts,";á;asd;ks")
                 setListDonHang(res.data.getDaDangGiao)
                 setListCarts(res.data.getCarts)
                 setGetAllProducts(res.data.getAllProducts)    
@@ -130,6 +131,7 @@ const DangGiaoHang = () => {
                 }
             })
         })
+        console.log(listCarts,"slkfafka")
         return (
             products.map((item,index)=>{
                 return (

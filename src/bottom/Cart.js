@@ -172,7 +172,7 @@ const Cart = (props) => {
         <View style={{ flex: 1 }}>
              <Header
             
-                    title={'Home'} />
+                    title={'Cart'} />
              <ScrollView
                 refreshControl={
                     <RefreshControl
