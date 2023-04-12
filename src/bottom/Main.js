@@ -104,6 +104,7 @@ const Main = (props) => {
 
     }
     return (
+     
         <ScrollView
             refreshControl={
                 <RefreshControl
@@ -112,7 +113,7 @@ const Main = (props) => {
                 />
             }
             nestedScrollEnabled={true}
-            style={{ flex: 1 }}>
+            style={{ flex: 1, marginBottom:10 }}>
             <View style={{ flex: 1, marginBottom: 40 }}>
                 <Header
                     title={'Home'} />
@@ -155,6 +156,7 @@ const Main = (props) => {
                 </>
             </View>
         </ScrollView>
+        
     )
 }
 export default Main;

@@ -55,7 +55,7 @@ const Home = (props) => {
     return (
         <View style={{ flex: 1 }}>
             {selectTab == 0 ? (<Main addCart={addCart} />) : selectTab == 1 ? (<NewPaper />) : selectTab == 2 ? (<Cart deleteCart={deleteCart} />) : selectTab == 3 ? (<Contact />) : (<Profile />)}
-            <View style={{height:40}}></View>
+            
             <View
                 style={{
                     width: '100%',

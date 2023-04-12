@@ -19,6 +19,7 @@ import { FlatList } from "react-native";
 import {useDispatch, useSelector} from 'react-redux'
 import RenderHtml from 'react-native-render-html';
 import MyProductItem from "./MyProductItem";
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
 import {GETCATEGORIES,POSTCARTUSER,GET_ONE_PRODUCT} from "../../api"
 
@@ -394,100 +395,70 @@ const DetailProduct = (props) => {
                         <View style={{ flexDirection: 'row', paddingLeft:5,marginTop: 10}}>
                         {soLuong >0?
                     <TouchableOpacity onPress={()=>{truSoLuong()}}  style={{
-                        width:25,
-                        height:25,
-                        borderColor: "black",
-                        borderWidth: 1,
                         marginLeft:10,
                         marginRight:10,
-                        position: "relative",
-                        alignContent: "center",
-                        borderRadius:5
+                        flexDirection:"row",
+                        justifyContent:"center",
+                        alignItems: "center",
+                      
                     }}>
-                        <Text style={{
-                            textAlign:"center",
-                            position:"absolute",
-                            top:"-80%",
-                            right:6,
-                            
-                            fontSize:40
-                        }}>-</Text>
+                        <FontAwesome
+                            size={28}
+                            name= "minus-square-o"
+                            />
                     </TouchableOpacity>
                     :
                     <TouchableOpacity  style={{
-                        width:25,
-                        height:25,
-                        borderColor: "black",
-                        borderWidth: 1,
+                       
                         marginLeft:10,
                         marginRight:10,
-                        position: "relative",
-                        alignContent: "center",
+                        flexDirection:"row",
+                        justifyContent:"center",
+                        alignItems: "center",
                         borderRadius:5,
-                        backgroundColor:"#ccc"
+                        
                     }}>
-                        <Text style={{
-                            textAlign:"center",
-                            position:"absolute",
-                            top:"-80%",
-                            right:6,
-                            
-                            fontSize:40
-                        }}>-</Text>
+                       <FontAwesome
+                            size={27}
+                            name= "minus-square"
+                            />
                     </TouchableOpacity>
-                   
                 }
                    <Text>{soLuong}</Text>
                    
                     
                          {soLuong < detailProduct.soLuong?
-                            <TouchableOpacity onPress={()=>{congSoLuong()}} style={{
-                                width:25,
-                                height:25,
-                                borderColor: "black",
-                                borderWidth: 1,
+                             <TouchableOpacity onPress={()=>{congSoLuong()}} style={{
+                               
                                 marginLeft:10,
-                                position: "relative",
+                               
                                 marginRight:10,
-                                justifyContent: "center",
-                                alignContent: "center",
-                                borderRadius:5
+                                flexDirection:"row",
+                                justifyContent:"center",
+                                alignItems: "center",
+                               
                             }}>
-                                <Text
-                                    style={{
-                                        textAlign:"center",
-                                        position:"absolute",
-                                        top:"-40%",
-                                        right:4,
-                                        
-                                        fontSize:28
-                                    }}
-                                >+</Text>
+                                 <FontAwesome
+                                size={28}
+                                name= "plus-square-o"
+                                />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity  style={{
-                                width:25,
-                                height:25,
-                                borderColor: "black",
-                                borderWidth: 1,
+                               
+                               
                                 marginLeft:10,
-                                position: "relative",
+                                flexDirection:"row",
                                 marginRight:10,
-                                justifyContent: "center",
-                                alignContent: "center",
-                                borderRadius:5,
-                                backgroundColor:"#ccc"
+                                justifyContent:"center",
+                                alignItems: "center",
+                              
+                               
                             }}>
-                                <Text
-                                    style={{
-                                        textAlign:"center",
-                                        position:"absolute",
-                                        top:"-40%",
-                                        right:4,
-                                        
-                                        fontSize:28
-                                    }}
-                                >+</Text>
+                                <FontAwesome
+                                size={26}
+                                name= "plus-square"
+                                />
                             </TouchableOpacity>
                          }
                         </View>

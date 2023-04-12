@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown'
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux';
 import { useEffect,useState } from "react";
@@ -193,48 +194,35 @@ const CartItem = (props) => {
                     flexDirection:"row",
                 }}>
                     {soLuong >1?
-                    <Pressable onPress={()=>{truSoLuong(props.item1.id)}}  style={{
-                        width:25,
-                        height:25,
-                        borderColor: "black",
-                        borderWidth: 1,
+                    <TouchableOpacity onPress={()=>{truSoLuong(props.item1.id)}}  style={{
                         marginLeft:10,
                         marginRight:10,
-                        position: "relative",
-                        alignContent: "center",
-                        borderRadius:5
+                        flexDirection:"row",
+                        justifyContent:"center",
+                        alignItems: "center",
+                      
                     }}>
-                        <Text style={{
-                            textAlign:"center",
-                            position:"absolute",
-                            top:"-80%",
-                            right:6,
-                            
-                            fontSize:40
-                        }}>-</Text>
-                    </Pressable>
+                        <FontAwesome
+                            size={28}
+                            name= "minus-square-o"
+                            />
+                    </TouchableOpacity>
                     :
-                    <Pressable  style={{
-                        width:25,
-                        height:25,
-                        borderColor: "black",
-                        borderWidth: 1,
+                    <TouchableOpacity  style={{
+                       
                         marginLeft:10,
                         marginRight:10,
-                        position: "relative",
-                        alignContent: "center",
+                        flexDirection:"row",
+                        justifyContent:"center",
+                        alignItems: "center",
                         borderRadius:5,
-                        backgroundColor:"#ccc"
+                        
                     }}>
-                        <Text style={{
-                            textAlign:"center",
-                            position:"absolute",
-                            top:"-80%",
-                            right:6,
-                            
-                            fontSize:40
-                        }}>-</Text>
-                    </Pressable>
+                       <FontAwesome
+                            size={27}
+                            name= "minus-square"
+                            />
+                    </TouchableOpacity>
                    
                 }
                     
@@ -242,54 +230,38 @@ const CartItem = (props) => {
                         fontSize:17,fontWeight:"600"
                          }}>{soLuong}</Text>
                          {soLuong < itemProduct.soLuong?
-                            <Pressable onPress={()=>{congSoLuong(props.item1.id,itemProduct.soLuong)}} style={{
-                                width:25,
-                                height:25,
-                                borderColor: "black",
-                                borderWidth: 1,
+                            <TouchableOpacity onPress={()=>{congSoLuong(props.item1.id,itemProduct.soLuong)}} style={{
+                               
                                 marginLeft:10,
-                                position: "relative",
+                               
                                 marginRight:10,
-                                justifyContent: "center",
-                                alignContent: "center",
-                                borderRadius:5
+                                flexDirection:"row",
+                                justifyContent:"center",
+                                alignItems: "center",
+                               
                             }}>
-                                <Text
-                                    style={{
-                                        textAlign:"center",
-                                        position:"absolute",
-                                        top:"-40%",
-                                        right:4,
-                                        
-                                        fontSize:28
-                                    }}
-                                >+</Text>
-                            </Pressable>
+                                 <FontAwesome
+                                size={28}
+                                name= "plus-square-o"
+                                />
+                            </TouchableOpacity>
                             :
-                            <Pressable  style={{
-                                width:25,
-                                height:25,
-                                borderColor: "black",
-                                borderWidth: 1,
+                            <TouchableOpacity  style={{
+                               
+                               
                                 marginLeft:10,
-                                position: "relative",
+                                flexDirection:"row",
                                 marginRight:10,
-                                justifyContent: "center",
-                                alignContent: "center",
-                                borderRadius:5,
-                                backgroundColor:"#ccc"
+                                justifyContent:"center",
+                                alignItems: "center",
+                              
+                               
                             }}>
-                                <Text
-                                    style={{
-                                        textAlign:"center",
-                                        position:"absolute",
-                                        top:"-40%",
-                                        right:4,
-                                        
-                                        fontSize:28
-                                    }}
-                                >+</Text>
-                            </Pressable>
+                                <FontAwesome
+                                size={26}
+                                name= "plus-square"
+                                />
+                            </TouchableOpacity>
                          }
                     
                 </View>
