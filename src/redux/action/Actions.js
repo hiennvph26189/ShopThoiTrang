@@ -8,9 +8,10 @@ export const addItemToCart = data =>({
 },()=>{
     // console.log(data)
 });
-export const updateEmail = data =>({
+export const updateEmail = (data,isloading) =>({
     type: CAP_NHAT_EMAIL,
     arrUser: data,
+    isloading:isloading
 });
 export const arrCategories = data =>({
     type: FECTH_CATEGORIES,

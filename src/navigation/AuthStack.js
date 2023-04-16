@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation,useIsFocused } from "@react-navigation/native";
 import ManChao from '../Screen/ManChao';
 import Login from '../Screen/Login';
 import SearchProducts from '../Screen/SearchProducts';
-
+import {GET_ONE_MEMBER} from "../../api"
 import NewAccount from '../Screen/NewAccount';
 import Home from '../Screen/Home';
 import EditProfile from '../edit/EditProfile';
@@ -14,18 +15,30 @@ import OrderDetail from "../edit/OrderDetail";
 import NewsDetail from "../edit/NewsDetail";
 import DetailProduct from "../common/DetailProduct";
 import DanhSachSanPham from "../common/DanhSachSanPham";
+import {useDispatch, useSelector} from 'react-redux'
+import axios from "axios";
 const Stack = createNativeStackNavigator();
-// const HomeScreen = () => {
-//   return(
-//     <AuthDrawer/>
-  
-//   )
-  
-//   }
+
 const AuthStack = ()=>{
+  const isFocused = useIsFocused()
+  const [infoUser,setInfoUser]= useState({})
+  const info = useSelector(state => state.Reducers.arrUser);
+  const isloading = useSelector(state => state.Reducers.isloading);
+const getMember = async()=>{
+ await axios.get(`${GET_ONE_MEMBER}?id=${info.id}`).then((res)=>{
+  if(res.data.errCode === 0){
+    setInfoUser(res.data.member)
+  }
+ }).catch((err)=>{console.log(err)})
+}
+  useEffect(()=>{
+    getMember()
+  },[isFocused])
+  
     return(
+        <>
+        { infoUser.status !==2&&
         <Stack.Navigator  initialRouteName="Login">
-          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
           <Stack.Screen options={{headerShown: false}} name='ManChao' component={ManChao}></Stack.Screen>
           <Stack.Screen options={{headerShown: false}} name='Login' component={Login}></Stack.Screen>
           <Stack.Screen options={{headerShown: false}} name='NewAccount' component={NewAccount}></Stack.Screen>
@@ -38,8 +51,12 @@ const AuthStack = ()=>{
           <Stack.Screen options={{headerShown: true}} name='Chi tiết sản phẩm' component={DetailProduct}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Danh Sách sản phẩm' component={DanhSachSanPham}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Tin tức' component={NewsDetail}></Stack.Screen>
-          <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen>
+          <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen> 
         </Stack.Navigator>
+        
+      }
+        </>
+      
     )
 }
 export default AuthStack

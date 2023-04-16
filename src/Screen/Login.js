@@ -39,18 +39,22 @@ const Login = () => {
                 axios.post(LOGIN,data).then(res=> {
            
                     if(res.data.errCode ===0){
-                        console.log("OK")
+                        if(res.data.user.status !==2){
+                            console.log("OK")
                         setErr(false)
-                        
                         ToastAndroid.showWithGravity(
                             'Chào mừng: ' + res.data.user.tenThanhVien,
                             ToastAndroid.SHORT,
                             ToastAndroid.BOTTOM,  10,100,
                           );
                           
-                          dispatch(updateEmail(res.data.user))
-                         
+                          dispatch(updateEmail(res.data.user,true))
                           navigation.navigate('Home')
+                        }else{
+                            alert("Tài khoản của bạn đã bị khóa")
+                            return;
+                        }
+                        
                        
                      }else{
                          setErrMessage(res.data.message)

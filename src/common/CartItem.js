@@ -6,9 +6,11 @@ import { useNavigation,useIsFocused } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
+
 import {useDispatch, useSelector} from 'react-redux';
 import { useEffect,useState } from "react";
 const CartItem = (props) => {
+    const navigation = useNavigation()
     const [soLuong,setSoLuong] = useState(0)
     const isFocused = useIsFocused()
     const [itemProduct,setItemProduct]= useState([])
@@ -74,6 +76,7 @@ const CartItem = (props) => {
     }
     CheckID = (id)=>{
         props.checkid(id)
+
     }
     const congSoLuong =(id,soLuongSanPham)=>{
         let count = soLuong 
@@ -109,9 +112,12 @@ const CartItem = (props) => {
         setSize("XXL")
         props.updateCart(id,soLuong,"XXL")
     }
+    handleDetailProduct = (id)=>{
+        navigation.navigate('Chi tiết sản phẩm',{id: id});
+    }
     return (
         
-        <TouchableOpacity onPress={()=>{CheckID(props.item1.id)}} style={{
+        <TouchableOpacity onPress={()=>{handleDetailProduct(itemProduct.id)}} style={{
             borderRadius: 20,
             elevation: 5,
             width:'95%',

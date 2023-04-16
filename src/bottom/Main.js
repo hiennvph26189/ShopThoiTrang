@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../common/Header";
 import { products } from "../Screen/Product";
 import MyProductItem from "../common/MyProductItem";
+import ItemLuotMua from "../common/ItemLuotMua";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, addToWishlist, fetchCategoriesStart } from "../redux/action/Actions";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
@@ -15,14 +16,18 @@ const Main = (props) => {
     const dispatch = useDispatch();
     const [categoryList, setCategoryList] = useState([]);
     const [tshirtList, setTshirtList] = useState([]);
+    const [luotMuaNhieu, setArrLuotMuaNhieu] = useState([]);
+    const [hotSale, setHotSale] = useState([]);
     //const arrCategories = useSelector(state => state.Reducers.categoties);
 
     const loadAllProducts = async () => {
         await axios.get(GETALLPRODUCTS).then((res) => {
 
             if (res && res.data.errCode === 0) {
-                //console.log(res.data.products,"OK")
+                
                 setTshirtList(res.data.totalProducts)
+                setArrLuotMuaNhieu(res.data.sanPhamMuaNhieu)
+                setHotSale(res.data.sale)
 
                 setRefreshing(false)
 
@@ -42,8 +47,9 @@ const Main = (props) => {
     }
 
     useEffect(() => {
-        loadCategories()
         loadAllProducts()
+        loadCategories()
+       
     }, [isFocused]);
 
     onRefresh = () => {
@@ -53,9 +59,10 @@ const Main = (props) => {
     }
 
     const addCart = ()=>{
-        console.log("Ok")
+       
         props.addCart()
     }
+
     listDanhSach = (id) => {
         return (
             <>
@@ -83,7 +90,7 @@ const Main = (props) => {
         )
     }
     danhSachSabPham = (id,name)=>{
-        console.log(name)
+       
         navigation.navigate('Danh Sách sản phẩm',{id: id,name: name});
     }
     const litProducts = () => {
@@ -95,8 +102,10 @@ const Main = (props) => {
                         borderWidth: 1,
                         marginLeft: 20,
                         borderRadius: 20,
+                       
                     }}>
                         <Text style={{ color: '#000' }}>{item.name}</Text>
+
                     </TouchableOpacity>
                 )
             })
@@ -104,7 +113,10 @@ const Main = (props) => {
 
     }
     return (
-     
+     <>
+        <Header
+                    title={'Home'} />
+    
         <ScrollView
             refreshControl={
                 <RefreshControl
@@ -115,8 +127,7 @@ const Main = (props) => {
             nestedScrollEnabled={true}
             style={{ flex: 1, marginBottom:10 }}>
             <View style={{ flex: 1, marginBottom: 40 }}>
-                <Header
-                    title={'Home'} />
+                
                 <Image source={require('../imgs/banner.png')}
                     style={{
                         width: '94%',
@@ -129,20 +140,83 @@ const Main = (props) => {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
                     {litProducts()}
                 </ScrollView>
-                <>
+                {hotSale &&
+     
+                    <View style={{ marginTop: 20 }}>
+                        <View style={{marginBottom:10}}>
+                        <Text style={{
+                            marginTop: 20,
+                            marginLeft: 20,
+                            color: '#000',
+                            fontSize: 16,
+                            fontWeight: '600',
+                        }}>
+                            Hot Sale
+                        </Text>
+                        </View>
+                        
+                        <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                {hotSale&&hotSale.map((item)=>{
+                                    return (
+                                        <ItemLuotMua key = {item.id}
+                                        item={item}
+                                        addCart = {addCart}
+                                />
+                                    )
+                                })}
+                        </ScrollView>
+                    </View>
+                    }
+                {luotMuaNhieu &&
+
+             
+                <View style={{ marginTop: 20 }}>
+                    <View style={{marginBottom:10}}>
+                    <Text style={{
+                        marginTop: 20,
+                        marginLeft: 20,
+                        color: '#000',
+                        fontSize: 16,
+                        fontWeight: '600',
+                    }}>
+                        Lượt mua Nhiều nhất
+                    </Text>
+                    </View>
+                    
+                    <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                            {luotMuaNhieu&&luotMuaNhieu.map((item)=>{
+                                return (
+                                    <ItemLuotMua key = {item.id}
+                                     item={item}
+                                    addCart = {addCart}
+                            />
+                                )
+                            })}
+                    </ScrollView>
+                </View>
+                   }
+                    
                     <ScrollView  style={{ marginTop: 20 }}>
                         {categoryList.map((item, index) =>{
                             return(
                                 <View key={index}>
-                                <Text style={{
-                                    marginTop: 20,
-                                    marginLeft: 20,
-                                    color: '#000',
-                                    fontSize: 16,
-                                    fontWeight: '600',
-                                }}>
-                                    {item.name}
-                                </Text>
+                                    <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center"}}>
+                                        <Text style={{
+                                        marginTop: 20,
+                                        marginLeft: 20,
+                                        color: '#000',
+                                        fontSize: 16,
+                                        fontWeight: '600',
+                                    }}>
+                                        {item.name}
+                                    </Text>
+                                 
+
+                                    <TouchableOpacity onPress={()=>{danhSachSabPham(item.id,item.name)}} style={{marginRight:20, marginTop: 20}}>
+                                        <Text style={{ fontSize: 16,fontWeight:"600",textDecorationLine:"underline",fontStyle:"italic",color:"#3399FF"}}>Xem tất cả</Text>
+                                    </TouchableOpacity>
+                                    </View>
+                                
                                 <View style={{ marginTop: 15 }}>
                                     {listDanhSach(item.id)}
                                 </View>
@@ -153,9 +227,10 @@ const Main = (props) => {
                         
 
                     </ScrollView>
-                </>
+               
             </View>
         </ScrollView>
+        </>
         
     )
 }

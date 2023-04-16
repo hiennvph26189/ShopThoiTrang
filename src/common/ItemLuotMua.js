@@ -4,9 +4,9 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import {GETCARTUSER,POSTCARTUSER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
-import { useNavigation,useIsFocused } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Foundation"
-const MyProductItem = (props) => {
+import { useNavigation,useIsFocused } from "@react-navigation/native";
+const ItemLuotMua = (props) => {
     const item = props.item
     const navigation = useNavigation();
     useEffect(()=>{
@@ -121,6 +121,7 @@ const MyProductItem = (props) => {
                         fontSize: 17,
                         fontWeight: '600',
                         color: 'red',
+                        textAlign:'left'
                        
                     }}>
                     
@@ -143,7 +144,11 @@ const MyProductItem = (props) => {
                 </View>
                     
                 }
-               
+               <View>
+                    <Text style={{fontSize:14,fontWeight:"700"}}>
+                        Đã bán: {item.luotMua}
+                    </Text>
+               </View>
                 <TouchableOpacity
                     style={{
                         borderWidth: 1,
@@ -203,4 +208,4 @@ const MyProductItem = (props) => {
     );
 };
 
-export default MyProductItem;
+export default ItemLuotMua;

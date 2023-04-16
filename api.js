@@ -20,5 +20,6 @@ export const  HUY_USER_ORDERS = URL+"/api/huy-don-cart-product"
 export const CHI_TIET_ORDERS = URL+"/api/chi-tiet-don-cart-product"
 export const DELETE_ORDERS = URL+"/api/delete-orders"
 export const GET_ALL_NEWS = URL+"/api/get-all-news"
+export const GET_ONE_MEMBER = URL+"/get/one-member"
 
 

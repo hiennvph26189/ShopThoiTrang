@@ -5,6 +5,7 @@ const initState = {
     arrUser: [],
     arrCart: [],
     categoties: [],
+    isloading:false
 }
 export const Reducers = (state = initState, action) => {
  
@@ -30,7 +31,9 @@ export const Reducers = (state = initState, action) => {
             return {...state}
             
         case CAP_NHAT_EMAIL:
-            state.arrUser= action.arrUser
+            state.arrUser= action.arrUser,
+            state.isloading = action.isloading
+            console.log(state.isloading,"s;fkskf")
             return {...state};
             
         case FECTH_CATEGORIES:
