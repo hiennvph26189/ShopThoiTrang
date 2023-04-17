@@ -27,7 +27,7 @@ const DangGiaoHang = () => {
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
             
             if(res.data.errCode === 0){
-                console.log(res.data.getCarts,";á;asd;ks")
+               
                 setListDonHang(res.data.getDaDangGiao)
                 setListCarts(res.data.getCarts)
                 setGetAllProducts(res.data.getAllProducts)    
@@ -44,7 +44,7 @@ const DangGiaoHang = () => {
     //     })
     //    setGetOrder([...arr])
     // }
-    console.log(listDonHang)
+  
     
     useEffect(()=>{
         
@@ -131,7 +131,7 @@ const DangGiaoHang = () => {
                 }
             })
         })
-        console.log(listCarts,"slkfafka")
+       
         return (
             products.map((item,index)=>{
                 return (
@@ -202,7 +202,7 @@ const DangGiaoHang = () => {
     }
    
     orderDetail = (id)=>{
-        console.log(id)
+      
         navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
     }
     return (

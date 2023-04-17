@@ -12,9 +12,9 @@ export const Reducers = (state = initState, action) => {
     switch (action.type) {
          // let arrCart = [...state.arrCart]
         case ADD_TO_CART:
-            console.log(1222333);
+           
             let arrpayload = action.payload
-            console.log(arrCart,"test arr")
+          
             for(let i = 0; i < arrCart.lenght; i++){
                 if(arrCart[i].id == arrpayload.id){
                     return {
@@ -33,7 +33,7 @@ export const Reducers = (state = initState, action) => {
         case CAP_NHAT_EMAIL:
             state.arrUser= action.arrUser,
             state.isloading = action.isloading
-            console.log(state.isloading,"s;fkskf")
+            
             return {...state};
             
         case FECTH_CATEGORIES:
@@ -42,7 +42,7 @@ export const Reducers = (state = initState, action) => {
        
             
         case REMOVE_FORM_CART:
-            console.log(action.payloads)
+            
             // const deletedArray1 = state.arrCart.filter((item, index) => {
             //     return index !== action.payloads;
             // });

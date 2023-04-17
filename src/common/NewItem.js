@@ -19,7 +19,7 @@ const NewItem = (props) => {
     }
     newsDetail = (item)=>{
         if(item){
-            navigation.navigate('Tin tức',{item: item});
+            navigation.navigate('Chi tiết tin tức',{item: item});
         }
 
     }

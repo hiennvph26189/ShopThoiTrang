@@ -8,7 +8,7 @@ import DonHuy from "./DonHuy";
 import GiaoThanhCong from "./GiaoThanhCong";
 const LichSuOrders = (props) => {
     const navigation = props.navigation;
-    console.log(navigation);
+    
     const isFocused = useIsFocused()
     const [image, setImage] = useState('');
    

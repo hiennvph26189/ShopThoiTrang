@@ -27,7 +27,7 @@ const PriceProfile = () => {
         const data = {
             id: info.id,  
          }
-        console.log(image)
+       
    
     },[isFocused])
     
@@ -112,7 +112,7 @@ const PriceProfile = () => {
             setErrMessage("Vui lòng chọn ảnh vừa giao dịch")
             return
         }
-        console.log(image,"image")
+      
         data = {
             anhCK: image,
             idUser: info.id,
@@ -135,7 +135,7 @@ const PriceProfile = () => {
         
         
    }
-   console.log(image,"image")
+   
     return (
         <ScrollView style={[styles.container,{flex:1}]} showsVerticalScrollIndicator={false}>
             <View style={{marginTop:40}}>

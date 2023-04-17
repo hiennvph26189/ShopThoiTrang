@@ -22,7 +22,7 @@ const Header = ({title,show}) => {
     return(
         <View style={{
             
-            height: 65,
+            height: 70,
             justifyContent: "space-between",
             alignItems:"center",
             flexDirection:"row",
@@ -42,7 +42,7 @@ const Header = ({title,show}) => {
                 textAlign:'center',
                 }}>{title} </Text>
         
-            <View style={{flexDirection:"row",}}>
+            <View style={{flexDirection:"row",marginTop:10,}}>
                 <Pressable onPress={()=>{searchProducts()}}>
                         <View style={{ marginTop:5, marginRight:5}}>
                             <IconSearch name="search" size={25} color="#000" />

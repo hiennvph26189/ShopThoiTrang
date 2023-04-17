@@ -44,7 +44,7 @@ const DonHuy = () => {
     //     })
     //    setGetOrder([...arr])
     // }
-    console.log(listDonHang)
+  
     const handleHuyDon = (id)=>{
         data = {
             id: id,
@@ -252,7 +252,7 @@ const DonHuy = () => {
           ]);
     }
     orderDetail = (id)=>{
-        console.log(id)
+       
         navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
     }
     return (

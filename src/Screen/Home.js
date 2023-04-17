@@ -22,7 +22,7 @@ const Home = (props) => {
     const dispatch = useDispatch();
 
     const arlenght = (item)=>{
-        console.log(item)
+   
     }
     const listCart = async()=>{
         let count = 0

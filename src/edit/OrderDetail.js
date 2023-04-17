@@ -107,9 +107,9 @@ tongSoSanPham =(id)=>{
         let products = []
         if(idCart){
              list = JSON.parse(idCart)
-           console.log(idCart)
+           
         }     
-       console.log(list);
+
             if(listCarts){
                 listCarts.map((item2)=>{
                 list.map((item)=>{

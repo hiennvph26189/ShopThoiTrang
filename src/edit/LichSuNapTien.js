@@ -35,7 +35,7 @@ const LichSuNapTien = () => {
      }
     const getLichSuNapTien = ()=>{
         axios.get(`${LICHSUNAPTIENMEMBER}?id=${data.id}`).then((response)=>{
-            console.log(response.data);
+           
            if(response.data.errCode ===0){
                 setArPrice(response.data.data.reverse())
            }

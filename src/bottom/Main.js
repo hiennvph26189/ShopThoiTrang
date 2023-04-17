@@ -1,11 +1,11 @@
 import { Text, View, Image, FlatList, RefreshControl, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../common/Header";
-import { products } from "../Screen/Product";
+
 import MyProductItem from "../common/MyProductItem";
 import ItemLuotMua from "../common/ItemLuotMua";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart, addToWishlist, fetchCategoriesStart } from "../redux/action/Actions";
+
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { GETCATEGORIES, GETALLPRODUCTS } from "../../api"
@@ -22,19 +22,16 @@ const Main = (props) => {
 
     const loadAllProducts = async () => {
         await axios.get(GETALLPRODUCTS).then((res) => {
-
             if (res && res.data.errCode === 0) {
-                
                 setTshirtList(res.data.totalProducts)
                 setArrLuotMuaNhieu(res.data.sanPhamMuaNhieu)
                 setHotSale(res.data.sale)
-
                 setRefreshing(false)
 
             }
         }).catch((error) => { console.log(error) });
     }
-    const [selectedCategory, setSelectedCategory] = useState(0);
+ 
     const loadCategories = async () => {
         await axios.get(GETCATEGORIES).then((res) => {
 

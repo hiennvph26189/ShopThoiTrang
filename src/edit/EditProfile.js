@@ -34,9 +34,9 @@ const EditProfile = () => {
         const data = {
             id: info.id,  
          }
-        console.log(data.id)
+        
         axios.post(PROFILEMEMBER,data).then((response)=>{
-             console.log(response.data)
+            
             if(response.data.errCode ===0){
                 setImage(response.data.userMember.anhDaiDien)
                 setChecked(response.data.userMember.gioiTinh.toString())
@@ -94,7 +94,7 @@ const EditProfile = () => {
                                 setIsLoadding(true)
                             }
                             setImage(res.data.secure_url)
-                            console.log(res.data.secure_url)
+                            
                         
                     }).catch((err) =>{console.log(err)});
                     
@@ -155,7 +155,7 @@ const EditProfile = () => {
         return
     }
         
-        console.log(image,"image")
+        
         data = {
             id: info.id,
             tenThanhVien: name,

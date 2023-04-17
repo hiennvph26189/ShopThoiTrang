@@ -20,7 +20,7 @@ const Login = () => {
     const dispatch = useDispatch();
     useEffect(()=>{
         setErr(false)
-        console.log(info)
+      
     },[])
     showPass1 = ()=>{
             setShowPass1(!showPassWord1)
@@ -33,14 +33,14 @@ const Login = () => {
             email: email,
             password:password
          }
-         console.log(data)
+        
          if(email||password){
             if(reg.test(email) === true){
                 axios.post(LOGIN,data).then(res=> {
            
                     if(res.data.errCode ===0){
                         if(res.data.user.status !==2){
-                            console.log("OK")
+                            
                         setErr(false)
                         ToastAndroid.showWithGravity(
                             'Chào mừng: ' + res.data.user.tenThanhVien,
@@ -60,7 +60,7 @@ const Login = () => {
                          setErrMessage(res.data.message)
                         
                          setErr(true)
-                         console.log(res.data.message)
+                         
                         
                      }
                 

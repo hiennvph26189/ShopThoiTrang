@@ -131,7 +131,7 @@ const DetailProduct = (props) => {
     const source = {
         html: `${detailProduct.mota}`
       };
-      console.log(props)
+     
     const listSanPhamKhac = ()=>{
         let arrSanPhamKhac = []
         if(ortherProducrs&&detailProduct){

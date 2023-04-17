@@ -27,7 +27,7 @@ const Cart = (props) => {
             id: info.id,
         }
         axios.post(PROFILEMEMBER,data).then((response)=>{
-            console.log(response.data)
+         
            if(response.data.errCode ===0){
                
                setProfile({...response.data.userMember})
@@ -39,7 +39,7 @@ const Cart = (props) => {
             await axios.get(GETALLPRODUCTS).then((res) => {
     
                 if (res && res.data.errCode === 0) {
-                    //console.log(res.data.products,"OK")
+                    
                     setArrProducts(res.data.totalProducts)
                     
                     setRefreshing(false)
@@ -152,7 +152,7 @@ const Cart = (props) => {
                      
                         
                     }else{
-                        console.log(res.data.errCode)
+                       
                         alert(res.data.errMessage)
                     }
                 }).catch(err=>{console.log(err)});
@@ -166,7 +166,7 @@ const Cart = (props) => {
         }
   }
   const deleteCart = ()=>{
-    console.log("OK")
+    
   }
     return (
         <View style={{ flex: 1 }}>

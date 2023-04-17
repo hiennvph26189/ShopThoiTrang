@@ -9,7 +9,7 @@ const NewPaper = () => {
    
     const getAllNew = ()=>{
         axios.get(GET_ALL_NEWS).then((res)=>{
-            console.log(res)
+         
             if(res.data.errCode ===0){
                 setArrNews(res.data.news)
             }

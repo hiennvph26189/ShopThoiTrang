@@ -33,16 +33,8 @@ const GiaoThanhCong = () => {
             }
         }).catch((err)=>{console.log(err)})
     }
-    // const checkStatus = () => {
-    //     let arr = []
-    //     listDonHang.map((item)=>{
-    //         if(item.status===0||item.status===5){
-    //             arr.push(item)
-    //         }
-    //     })
-    //    setGetOrder([...arr])
-    // }
-    console.log(listDonHang)
+   
+ 
     
     useEffect(()=>{
         
@@ -199,7 +191,7 @@ const GiaoThanhCong = () => {
     }
    
     orderDetail = (id)=>{
-        console.log(id)
+      
         navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
     } 
     return (

@@ -45,9 +45,9 @@ const Profile = () => {
      }
     const getProfile = ()=>{
         axios.post(PROFILEMEMBER,data).then((response)=>{
-            console.log(response.data)
+           
            if(response.data.errCode ===0){
-               console.log(response.userMember)
+              
                setProfile({...response.data.userMember})
                setRefreshing(false)
            }
