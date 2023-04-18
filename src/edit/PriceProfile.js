@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import {PROFILEMEMBER,NAPTIENMEMBER} from "../../api";
+import { el } from "date-fns/locale";
 const PriceProfile = () => {
     const navigation = useNavigation()
     const isFocused = useIsFocused()
@@ -135,7 +136,17 @@ const PriceProfile = () => {
         
         
    }
-   
+    const tien =(price)=>{
+        if(price){
+            let x = price;
+            x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+            return  x;
+
+        }else{
+            return  null;
+        }
+       
+    }
     return (
         <ScrollView style={[styles.container,{flex:1}]} showsVerticalScrollIndicator={false}>
             <View style={{marginTop:40}}>
@@ -153,7 +164,11 @@ const PriceProfile = () => {
                         style={{width:300, height:400}}>
                     </Image>
                 </View>
-                
+                <View style={{marginLeft:10,marginTop:10}}>
+                    <Text style={{fontSize:17, fontWeight:"600"}}>
+                        Số tiền nạp: <Text style={{color:"red"}}>  {tien(parseInt(price))}</Text>
+                    </Text>
+                </View>
                 <View style={[styles.action,{
                     justifyContent: 'center',
                     alignItems: 'center',

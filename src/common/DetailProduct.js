@@ -50,7 +50,7 @@ const DetailProduct = (props) => {
     const [ortherProducrs, setOrtherProducrs] = useState([]);
     const [soLuong,setSoLuong] = useState(0);
     const [size,setSize] = useState("");
-    const [xemChiTiet,setXemChiTiet] = useState(false)
+    const [xemChiTiet,setXemChiTiet] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
     onRefresh = () => {
         getAllOrder()
@@ -381,7 +381,7 @@ const DetailProduct = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View>
+                    <View >
                         <Text style={{
                             fontWeight: 'bold',
                             borderColor: 'grey',
@@ -392,7 +392,7 @@ const DetailProduct = (props) => {
                            
                            
                         }}>Số lượng </Text>
-                        <View style={{ flexDirection: 'row', paddingLeft:5,marginTop: 10}}>
+                        <View style={{ flexDirection: 'row', paddingLeft:5,alignItems:"center",marginTop: 10}}>
                         {soLuong >0?
                     <TouchableOpacity onPress={()=>{truSoLuong()}}  style={{
                         marginLeft:10,
@@ -424,7 +424,7 @@ const DetailProduct = (props) => {
                             />
                     </TouchableOpacity>
                 }
-                   <Text>{soLuong}</Text>
+                   <Text style={{fontSize:16}}>{soLuong}</Text>
                    
                     
                          {soLuong < detailProduct.soLuong?

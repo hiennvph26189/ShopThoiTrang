@@ -140,19 +140,24 @@ const Main = (props) => {
                 {hotSale &&
      
                     <View style={{ marginTop: 20 }}>
-                        <View style={{marginBottom:10}}>
+                        <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center", borderBottomColor:"#ccc",borderBottomWidth:1,marginRight:15,paddingBottom:5,
+                        marginLeft: 20,}}>
                         <Text style={{
-                            marginTop: 20,
-                            marginLeft: 20,
-                            color: '#000',
-                            fontSize: 16,
-                            fontWeight: '600',
-                        }}>
-                            Hot Sale
-                        </Text>
-                        </View>
+                        color: '#000',
+                        fontSize: 16,
+                        fontWeight: '600',
                         
-                        <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    }}>
+                       Hot Sale
+                    </Text>
+                    
+
+                    <TouchableOpacity onPress={()=>{danhSachSabPham("hotSale","Hot Sale")}} >
+                        <Text style={{ fontSize: 16,fontWeight:"600",textDecorationLine:"underline",fontStyle:"italic",color:"#3399FF"}}>Xem tất cả</Text>
+                    </TouchableOpacity>
+                    </View>
+                        
+                        <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
                                 {hotSale&&hotSale.map((item)=>{
                                     return (
                                         <ItemLuotMua key = {item.id}
@@ -168,19 +173,24 @@ const Main = (props) => {
 
              
                 <View style={{ marginTop: 20 }}>
-                    <View style={{marginBottom:10}}>
-                    <Text style={{
-                        marginTop: 20,
-                        marginLeft: 20,
+                    <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center", borderBottomColor:"#ccc",borderBottomWidth:1,marginRight:15,paddingBottom:5,
+                        marginLeft: 20,}}>
+                        <Text style={{
                         color: '#000',
                         fontSize: 16,
                         fontWeight: '600',
+                        
                     }}>
-                        Lượt mua Nhiều nhất
+                        Lượt mua nhiều nhất
                     </Text>
+                    
+
+                    <TouchableOpacity onPress={()=>{danhSachSabPham("luotMuaNhieu","Lượt mua nhiều nhất")}} >
+                        <Text style={{ fontSize: 16,fontWeight:"600",textDecorationLine:"underline",fontStyle:"italic",color:"#3399FF"}}>Xem tất cả</Text>
+                    </TouchableOpacity>
                     </View>
                     
-                    <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
                             {luotMuaNhieu&&luotMuaNhieu.map((item)=>{
                                 return (
                                     <ItemLuotMua key = {item.id}
@@ -197,19 +207,19 @@ const Main = (props) => {
                         {categoryList.map((item, index) =>{
                             return(
                                 <View key={index}>
-                                    <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center"}}>
+                                    <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center", borderBottomColor:"#ccc",borderBottomWidth:1,marginRight:15,paddingBottom:5,
+                                        marginLeft: 20,}}>
                                         <Text style={{
-                                        marginTop: 20,
-                                        marginLeft: 20,
                                         color: '#000',
                                         fontSize: 16,
                                         fontWeight: '600',
+                                        
                                     }}>
                                         {item.name}
                                     </Text>
                                  
 
-                                    <TouchableOpacity onPress={()=>{danhSachSabPham(item.id,item.name)}} style={{marginRight:20, marginTop: 20}}>
+                                    <TouchableOpacity onPress={()=>{danhSachSabPham(item.id,item.name)}} >
                                         <Text style={{ fontSize: 16,fontWeight:"600",textDecorationLine:"underline",fontStyle:"italic",color:"#3399FF"}}>Xem tất cả</Text>
                                     </TouchableOpacity>
                                     </View>

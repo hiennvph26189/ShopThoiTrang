@@ -1,4 +1,4 @@
-import {  View,RefreshControl,FlatList,Text,StyleSheet } from "react-native";
+import {  View,RefreshControl,FlatList,Text,StyleSheet,TouchableOpacity,Alert } from "react-native";
 import {React,useState,useEffect} from "react";
 import { ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,7 +13,7 @@ import axios from "axios";
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-import {PROFILEMEMBER,LICHSUNAPTIENMEMBER} from "../../api";
+import {DELETE_TIEN_DA_NAP,LICHSUNAPTIENMEMBER} from "../../api";
 import { onChange } from "react-native-reanimated";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 const LichSuNapTien = () => {
@@ -26,7 +26,7 @@ const LichSuNapTien = () => {
     const info = useSelector((state)=> state.Reducers.arrUser)
     const [refreshing, setRefreshing] = useState(false);
         onRefresh = () => {
-            getProfile()
+            getLichSuNapTien()
             setRefreshing(true)
             
         }
@@ -38,6 +38,7 @@ const LichSuNapTien = () => {
            
            if(response.data.errCode ===0){
                 setArPrice(response.data.data.reverse())
+                setRefreshing(false)
            }
        }).catch((error)=>{console.log(error)});
     }
@@ -62,7 +63,29 @@ const price =(price)=>{
     x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
     return  x;
 } 
+DeleteNapTien = (id)=>{
+    Alert.alert('Delete orders', 'Bạn có chắc muốn xóa hóa đơn này', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: async() => {
+            await axios.delete(`${DELETE_TIEN_DA_NAP}?id=${id}`).then((res) => {
+                if(res.data.errCode == 0){
+                    Alert.alert('Thông báo', 'Đã xóa thành công', [
+                        {text: 'OK', onPress: () => {
+                            getLichSuNapTien()
+                        }},
+                      ]);
+                }else{
+                    alert("Hóa đơn không tồn tại")
+                }
 
+             }).catch((err) => {console.log(err)});
+        }},
+      ]);
+}
   
     return (
         <View style={[styles.container,{flex:1, backgroundColor:'npm#FFFAF0'}]} showsVerticalScrollIndicator={false}>
@@ -81,7 +104,7 @@ const price =(price)=>{
                      data={arrprice} 
                      // item là giao diện trả về sau mỗi vòng lặp 
                      renderItem={({item})=>(
-                         <View style={styles.listView}>
+                         <TouchableOpacity onLongPress={()=>{item.status == 1&&DeleteNapTien(item.id)}} style={styles.listView}>
                              <View style={styles.listView_Text}>
                                 {item.status === 1?
                                     <Text style={{width:'40%',color:'#228B22',fontSize:16,fontWeight:'600'}}> +{price(item.tienNap)}</Text>
@@ -108,7 +131,7 @@ const price =(price)=>{
                             
                              
                              
-                         </View>
+                         </TouchableOpacity>
                      )}
                      // key là giá trị duy nhất trả về sau mỗi vòng lặp
                      keyExtractor={(item) => item.id}

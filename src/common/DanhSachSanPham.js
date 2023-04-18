@@ -1,6 +1,6 @@
 import { Text, View,RefreshControl ,ScrollView} from "react-native";
 import React, { useEffect,useState } from "react";
-import { GETCATEGORIES, GETALLPRODUCTS } from "../../api"
+import { GETCATEGORIES, GET_DANH_SACH_SAN_PHAM_MEMBER } from "../../api"
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import ItemDanhSach from "../common/ItemDanhSach";
@@ -21,23 +21,38 @@ const DanhSachSanPham = (props) => {
     useEffect(()=>{
         loadAllProducts()
     },[isFocused])
+    
     const loadAllProducts = async () => {
-        await axios.get(GETALLPRODUCTS).then((res) => {
+        console.log(id)
+        if(id === "luotMuaNhieu"){
+            await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
 
-            if (res && res.data.errCode === 0) {
-                //console.log(res.data.products,"OK")
-                let arr = []
-                res.data.totalProducts.map((item)=>{
-                    if(id === item.idDanhSach){
-                        arr.push(item)
-                    }
-                })
-                setArrProducts(arr)
-                setRefreshing(false)
-                
+                if (res && res.data.errCode === 0) {
+                    //console.log(res.data.products,"OK")
+                    setArrProducts(res.data.getAllLuotMuaNhieu)
+                    setRefreshing(false)
+                }
+            }).catch((error) => { console.log(error) });
+        }else if(id === "hotSale"){
+            await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
+                if (res && res.data.errCode === 0) {
+                    //console.log(res.data.products,"OK")
+                    setArrProducts(res.data.getHotSaleAll)
+                    setRefreshing(false)
+                }
+            }).catch((error) => { console.log(error) });
+        }else{
+            await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
 
-            }
-        }).catch((error) => { console.log(error) });
+                if (res && res.data.errCode === 0) {
+                    setArrProducts(res.data.products)
+                    setRefreshing(false)
+                    
+    
+                }
+            }).catch((error) => { console.log(error) });
+        }
+        
     }
   
     return (

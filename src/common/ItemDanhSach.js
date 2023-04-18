@@ -1,7 +1,7 @@
 import { View, Text,Alert, Image, TouchableOpacity } from "react-native"
 import React, { useEffect } from "react";
 import axios from "axios";
-
+import Icon from "react-native-vector-icons/Foundation"
 import {GETCARTUSER,POSTCARTUSER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
 import { useNavigation,useIsFocused } from "@react-navigation/native";
@@ -119,7 +119,7 @@ const ItemDanhSach = (props) => {
                     {price(item.giaSanPham) }
                 </Text>
                 :   <View style={{flexDirection:'row',
-                    justifyContent:"center",
+                  
                     alignItems:"center"
                 }}>
                     <Text style={{
@@ -148,7 +148,11 @@ const ItemDanhSach = (props) => {
                 </View>
                     
                 }
-               
+               <View>
+                    <Text style={{fontSize:14,fontWeight:"700"}}>
+                        Đã bán: {item.luotMua}
+                    </Text>
+               </View>
                 <TouchableOpacity
                     style={{
                         borderWidth: 1,
@@ -164,7 +168,46 @@ const ItemDanhSach = (props) => {
                     <Text style={{textAlign:"center"}}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
+            {item.sale>0&&
+            <View
+                style={{
+                    
+                    
+                    borderRadius: 20,
+                   
+                    position: 'absolute',
+                    top: 5,
+                    right: 20,
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start'
+                }}>
+                <View style={{
+                     position: 'relative',
+                     flexDirection: 'row',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                }}>
+                   
+
+                   
+                    <Icon name="burst" title="sadd" size={50}  color={"#DD0000"}/>
+                    <Text style={{ 
+                        color:"#fff",
+                        position: 'absolute',
+                        top: '50%',
+                        transform: [{ translateY: -11 }],
+                        marginLeft: 5,
+                        fontSize: 14,
+                        fontWeight:"700"}}>-{item.sale}% 
+                    </Text>
+                </View>
             
+               
+               
+            </View>
+            }
         </TouchableOpacity>
     );
 };
