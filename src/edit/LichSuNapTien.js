@@ -104,12 +104,12 @@ DeleteNapTien = (id)=>{
                      data={arrprice} 
                      // item là giao diện trả về sau mỗi vòng lặp 
                      renderItem={({item})=>(
-                         <TouchableOpacity onLongPress={()=>{item.status == 1&&DeleteNapTien(item.id)}} style={styles.listView}>
+                         <TouchableOpacity onLongPress={()=>{item.status != 0&&DeleteNapTien(item.id)}} style={styles.listView}>
                              <View style={styles.listView_Text}>
                                 {item.status === 1?
                                     <Text style={{width:'40%',color:'#228B22',fontSize:16,fontWeight:'600'}}> +{price(item.tienNap)}</Text>
                                     :
-                                    <Text style={{width:'40%',color:'#B22222',fontSize:16,fontWeight:'600'}}> {price(item.tienNap)}</Text>
+                                    <Text style={{width:'40%',color:'#B22222',fontSize:16,fontWeight:'600',textDecorationLine:item.status === 2?"line-through":"none"}}> {price(item.tienNap)}</Text>
                                 }
                                
                                <View style={styles.dateTime}>
