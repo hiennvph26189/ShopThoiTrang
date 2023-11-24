@@ -13,7 +13,7 @@ import axios from "axios";
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-import {DELETE_TIEN_DA_NAP,LICHSUNAPTIENMEMBER} from "../../api";
+import {DELETE_TIEN_DA_NAP,LICHSU_NAPTIEN_MEMBER} from "../../api";
 import { onChange } from "react-native-reanimated";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 const LichSuNapTien = () => {
@@ -34,7 +34,7 @@ const LichSuNapTien = () => {
         id: info.id  
      }
     const getLichSuNapTien = ()=>{
-        axios.get(`${LICHSUNAPTIENMEMBER}?id=${data.id}`).then((response)=>{
+        axios.get(`${LICHSU_NAPTIEN_MEMBER}?id=${data.id}`).then((response)=>{
            
            if(response.data.errCode ===0){
                 setArPrice(response.data.data.reverse())

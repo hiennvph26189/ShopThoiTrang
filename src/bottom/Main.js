@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
-import { GETCATEGORIES, GETALLPRODUCTS } from "../../api"
+import { GET_CATEGORIES, GETALLPRODUCTS } from "../../api"
 const Main = (props) => {
     const navigation = useNavigation();
     const isFocused = useIsFocused();
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
     const [categoryList, setCategoryList] = useState([]);
-    const [tshirtList, setTshirtList] = useState([]);
+    const [arrProducts, setArrProducts] = useState([]);
     const [luotMuaNhieu, setArrLuotMuaNhieu] = useState([]);
     const [hotSale, setHotSale] = useState([]);
     //const arrCategories = useSelector(state => state.Reducers.categoties);
@@ -23,7 +23,7 @@ const Main = (props) => {
     const loadAllProducts = async () => {
         await axios.get(GETALLPRODUCTS).then((res) => {
             if (res && res.data.errCode === 0) {
-                setTshirtList(res.data.totalProducts)
+                setArrProducts(res.data.totalProducts)
                 setArrLuotMuaNhieu(res.data.sanPhamMuaNhieu)
                 setHotSale(res.data.sale)
                 setRefreshing(false)
@@ -33,7 +33,7 @@ const Main = (props) => {
     }
  
     const loadCategories = async () => {
-        await axios.get(GETCATEGORIES).then((res) => {
+        await axios.get(GET_CATEGORIES).then((res) => {
 
             if (res && res.data.errCode === 0) {
                 setCategoryList(res.data.data);
@@ -64,7 +64,7 @@ const Main = (props) => {
         return (
             <>
                 <FlatList
-                    data={tshirtList.filter((p) => p.idDanhSach === id)}
+                    data={arrProducts.filter((p) => p.idDanhSach === id)}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
@@ -169,6 +169,7 @@ const Main = (props) => {
                         </ScrollView>
                     </View>
                     }
+                    
                 {luotMuaNhieu &&
 
              

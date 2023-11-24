@@ -1,5 +1,5 @@
 import { ADD_TO_CART, ADD_TO_WISHLIST, REMOVE_FORM_CART, REMOVE_FORM_WISHLIST,CAP_NHAT_EMAIL,FECTH_CATEGORIES } from "../ActionTypes";
-import {GETCATEGORIES} from "../../../api"
+import {GET_CATEGORIES} from "../../../api"
 import actionTypes from './actionTypes';
 import axios from "axios";
 export const addItemToCart = data =>({

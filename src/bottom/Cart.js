@@ -4,7 +4,7 @@ import CartItem from "../common/CartItem";
 import {useDispatch, useSelector} from 'react-redux';
 import { removeFormCart } from "../redux/action/Actions";
 import Header from "../common/Header";
-import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER,UPDATECARTUSER,ORDERCARTUSER,PROFILEMEMBER} from "../../api"
+import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER,UPDATE_CART_USER,ORDER_CART_USER,PROFILE_MEMBER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
@@ -26,7 +26,7 @@ const Cart = (props) => {
         let data = {
             id: info.id,
         }
-        axios.post(PROFILEMEMBER,data).then((response)=>{
+        axios.post(PROFILE_MEMBER,data).then((response)=>{
          
            if(response.data.errCode ===0){
                
@@ -54,7 +54,7 @@ const Cart = (props) => {
     const listCart = async()=>{
         if(info.id){
             let idUser = info.id;
-            await axios.get(`${GETCARTUSER}?id=${idUser}`).then(res=>{
+            await axios.get(`${GET_CART_USER}?id=${idUser}`).then(res=>{
                
                 if(res.data.errCode == 0){
                     setCartList(res.data.Carts)
@@ -78,7 +78,7 @@ const Cart = (props) => {
     // setCartList(cartData);
    const DeleteItemCart = async(id)=>{
   
-           await axios.delete(`${DELETECARTUSER}?id=${id}`).then(res=>{
+           await axios.delete(`${DELETE_CARTU_SER}?id=${id}`).then(res=>{
             if(res.data.errCode === 0){
                 listCart()
                 props.deleteCart()
@@ -107,7 +107,7 @@ const Cart = (props) => {
         }
         
     
-        await axios.put(UPDATECARTUSER,data).then(res=>{
+        await axios.put(UPDATE_CART_USER,data).then(res=>{
         if(res.data.errCode === 0){
             listCart()
         }
@@ -136,7 +136,7 @@ const Cart = (props) => {
                     idUser: info.id,
                     tongTien: tongTiens,
                 }
-                await axios.post(ORDERCARTUSER,data).then(res=>{
+                await axios.post(ORDER_CART_USER,data).then(res=>{
                     if(res.data.errCode === 0){
                         Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
                            

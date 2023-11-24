@@ -2,7 +2,7 @@ import { View, Text,Alert, Image, TouchableOpacity } from "react-native"
 import {Avatar} from "react-native-paper"
 import React, { useEffect } from "react";
 import axios from "axios";
-import {GETCARTUSER,POSTCARTUSER} from "../../api"
+import {GET_CART_USER,POST_CART_USER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
 import Icon from "react-native-vector-icons/Foundation"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
@@ -43,7 +43,7 @@ const ItemLuotMua = (props) => {
                     size: "M",
                     soLuong:1
                 }
-                await axios.post(POSTCARTUSER,data).then(res =>{
+                await axios.post(POST_CART_USER,data).then(res =>{
                     if(res.data.errCode === 0 ){
                         props.addCart()
                     }

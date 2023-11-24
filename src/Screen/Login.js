@@ -11,8 +11,8 @@ import axios from "axios";
 
 const Login = () => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState('Nva@gmail.com');
-    const [password, setPassWord] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [password, setPassWord] = useState('');
     const [err, setErr] = useState(false);
     const info = useSelector((state)=> state.Reducers.arrUser)
     const [showPassWord1,setShowPass1] = useState(true);
@@ -85,16 +85,16 @@ const Login = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <Image
+            {/* <Image
                 source={require('../Screen/image/LogoChao.png')}
                 style={{ width: 60, height: 60, alignSelf: "center", marginTop: 100, borderRadius: 70 }}>
-            </Image>
+            </Image> */}
             <Text
                 style={{ marginTop: 50, alignSelf: "center", fontSize: 24, fontWeight: 600 }}
             >Login</Text>
          <CustomTextInput
             
-          placeholder={"Xin Nhập Tài Email"} icon={require('../Screen/image/email.png')}
+          placeholder={"Xin Nhập Tài Email"} 
           value={email}
           onChangeText = {text =>{setEmail(text);}}
           ></CustomTextInput>

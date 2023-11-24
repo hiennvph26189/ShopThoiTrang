@@ -10,10 +10,10 @@ const ManChao = (props) => {
     },[]);
     return(
         <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-            <Image
+            {/* <Image
             source={require('../Screen/image/LogoChao.png')}
             style={{width:100, height:100, borderRadius:70}}>
-            </Image>
+            </Image> */}
             
         </View>
     );

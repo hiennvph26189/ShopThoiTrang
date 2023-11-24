@@ -4,7 +4,7 @@ import { Text, StyleSheet,View ,ToastAndroid,Image, ScrollView, Pressable} from 
 import CustomButton from "../common/CustomButton";
 import CustomTextInput from "../common/CustomTextInput";
 import { RadioButton } from 'react-native-paper';
-import {ADDMENBER} from "../../api"
+import {ADD_MENBER} from "../../api"
 import axios  from "axios";
 
 const NewAccount = () => {
@@ -115,12 +115,12 @@ const NewAccount = () => {
             tenThanhVien: name,
             gioiTinh: checked,
             soDienThoai: phone,
-            anhDaiDien: '',
-            anhCK: '',
+            anhDaiDien: 'https://tse4.mm.bing.net/th?id=OIP.eImXLrEHmxuAIYAz3_VKhAHaHt&pid=Api&P=0',
+            anhCK: 'https://tse4.mm.bing.net/th?id=OIP.eImXLrEHmxuAIYAz3_VKhAHaHt&pid=Api&P=0',
             diaChi: address,
             matKhau: repassword,
         }
-        axios.post(ADDMENBER,data).then(res=> {
+        axios.post(ADD_MENBER,data).then(res=> {
             if(res.data.errCode ===1){
                 setBadEmail(true)
                 setErrMessage(res.data.errMessage)
@@ -139,10 +139,10 @@ const NewAccount = () => {
     return (
      <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
            <View style={{ flex: 1 }}>
-        <Image
+        {/* <Image
             source={require('../Screen/image/LogoChao.png')}
             style={{ width: 60, height: 60, alignSelf: "center", marginTop: 100, borderRadius: 70 }}>
-        </Image>
+        </Image> */}
         <Text
             style={{ marginTop: 50, alignSelf: "center", fontSize: 24, fontWeight: 600 }}
         >Create New Account</Text>

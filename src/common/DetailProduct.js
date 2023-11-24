@@ -21,7 +21,7 @@ import RenderHtml from 'react-native-render-html';
 import MyProductItem from "./MyProductItem";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
-import {GETCATEGORIES,POSTCARTUSER,GET_ONE_PRODUCT} from "../../api"
+import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT} from "../../api"
 
 // const images = [
 
@@ -72,13 +72,14 @@ const DetailProduct = (props) => {
                     setDetailProduct(res.data.getDetailProduct)
                     setImages(JSON.parse(res.data.getDetailProduct.image))
                     setOrtherProducrs(res.data.arProduct)
+                    console.log(JSON.parse(res.data.getDetailProduct.image))
                 }
             })
         }
     }
    
     const loadCategories = async () => {
-        await axios.get(GETCATEGORIES).then((res) => {
+        await axios.get(GET_CATEGORIES).then((res) => {
 
             if (res && res.data.errCode === 0) {
                 setCategoryList(res.data.data);
@@ -232,7 +233,7 @@ const DetailProduct = (props) => {
                         size: size,
                         soLuong:soLuong
                     }
-                    await axios.post(POSTCARTUSER,data).then(res =>{
+                    await axios.post(POST_CART_USER,data).then(res =>{
                         if(res.data.errCode === 0 ){
                             Alert.alert('Thông báo', 'Đơn hàng đã được thêm vào giỏ hàng', [
                                 {text: 'OK', onPress: () => {
@@ -366,6 +367,8 @@ const DetailProduct = (props) => {
                            
                            
                         }}>Size </Text>
+
+                        
                         <View style={{ flexDirection: 'row', paddingLeft:5,marginTop: 10}}>
                             <TouchableOpacity onPress={()=>{setSize("M")}} style={{ backgroundColor:size=="M"?"#FF6633":"#fff",  marginRight: 20, borderWidth: 1, borderRadius: 5, padding: 7, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ textAlign: 'center' }}>Size: M</Text>

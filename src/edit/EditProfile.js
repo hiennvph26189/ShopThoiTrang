@@ -9,7 +9,7 @@ import { RadioButton } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
-import {PROFILEMEMBER,EDITPROFILEMEMBER} from "../../api";
+import {PROFILE_MEMBER,EDIT_PROFILE_MEMBER} from "../../api";
 import { onChange } from "react-native-reanimated";
 const EditProfile = () => {
     const navigation = useNavigation()
@@ -35,7 +35,7 @@ const EditProfile = () => {
             id: info.id,  
          }
         
-        axios.post(PROFILEMEMBER,data).then((response)=>{
+        axios.post(PROFILE_MEMBER,data).then((response)=>{
             
             if(response.data.errCode ===0){
                 setImage(response.data.userMember.anhDaiDien)
@@ -165,7 +165,7 @@ const EditProfile = () => {
             gioiTinh: checked,
 
         }
-        await axios.put(EDITPROFILEMEMBER,data)
+        await axios.put(EDIT_PROFILE_MEMBER,data)
         .then((response)=>{
             if(response.data.errCode ===0){
                 navigation.goBack()

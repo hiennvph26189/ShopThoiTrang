@@ -9,7 +9,7 @@ import editProfile from "../edit/EditProfile"
 import axios from "axios";
 import Header from "../common/Header";
 
-import {PROFILEMEMBER,GET_ALL_USER_ORDERS} from "../../api";
+import {PROFILE_MEMBER,GET_ALL_USER_ORDERS} from "../../api";
 
 
 const Profile = () => {
@@ -44,7 +44,7 @@ const Profile = () => {
        
      }
     const getProfile = ()=>{
-        axios.post(PROFILEMEMBER,data).then((response)=>{
+        axios.post(PROFILE_MEMBER,data).then((response)=>{
            
            if(response.data.errCode ===0){
               

@@ -6,7 +6,7 @@ import Main from "../bottom/Main";
 import NewPaper from "../bottom/NewPaper";
 import Profile from "../bottom/Profile";
 import CartItem from "../common/CartItem";
-import {GETCARTUSER} from "../../api"
+import {GET_CART_USER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategoriesStart } from "../redux/action/Actions";
@@ -28,7 +28,7 @@ const Home = (props) => {
         let count = 0
         if(info.id){
             let idUser = info.id;
-            await axios.get(`${GETCARTUSER}?id=${idUser}`).then(res=>{
+            await axios.get(`${GET_CART_USER}?id=${idUser}`).then(res=>{
                 if(res.data.errCode == 0){
                     res.data.Carts.map((item)=>{
                         count = count +1

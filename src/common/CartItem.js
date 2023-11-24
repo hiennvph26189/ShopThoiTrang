@@ -1,7 +1,7 @@
     import { View, Text, Image, TouchableOpacity,Pressable,StyleSheet } from "react-native"
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {GETCARTUSER,POSTCARTUSER,GETALLPRODUCTS,DELETECARTUSER} from "../../api"
+import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
@@ -18,7 +18,7 @@ const CartItem = (props) => {
     const [idSP,setIdSp] = useState()
     const info = useSelector(state => state.Reducers.arrUser);
     const [size,setSize] = useState('')
-    const countries = ["Egypt", "Canada", "Australia", "Ireland"]
+    const countries = ["36", "37", "38", "39","40","41","42","43","44","45"]
 
     const loadAllProducts = async (id) => {
         await axios.get(GETALLPRODUCTS).then((res) => {
@@ -66,13 +66,6 @@ const CartItem = (props) => {
    
    const onRemoteItem2 = async(id)=>{
          props.deteleItem(id)
-    //    await axios.delete(`${DELETECARTUSER}?id=${id}`).then(res=>{
-    //         if(res.data.errCode === 0){
-                
-    //             props.onList("OK")
-    //         }
-    //    })
-    // console.log(id)
     }
     CheckID = (id)=>{
         props.checkid(id)
@@ -87,6 +80,7 @@ const CartItem = (props) => {
 
         
     }
+    const defaultIndex = countries.findIndex((item) => item === "40");
     const truSoLuong =(id)=>{
         let count = soLuong 
         count = count -1
@@ -99,6 +93,11 @@ const CartItem = (props) => {
         setSize("M")
        
         props.updateCart(id,soLuong,"M")
+    }
+    const sizeGiay = (id,soSize)=>{
+        setSize(soSize)
+       
+        props.updateCart(id,soLuong,soSize)
     }
     const sizeL = (id)=>{
         setSize("L")
@@ -271,6 +270,34 @@ const CartItem = (props) => {
                          }
                     
                 </View>
+                {itemProduct.idDanhSach == 56?
+                 <View style={{flexDirection:"row",alignItems:"center"}}>
+                    <Text style={{fontWeight:"600",fontSize:15}}>
+                        Size:  
+                    </Text>
+                    <Text> </Text>
+                    <SelectDropdown
+                    buttonStyle={{ width: 70, fontSize: 16,height: 30  }}
+                    data={countries}
+                    dropdownStyle={{ width: 100, fontSize: 16 }}
+                    defaultButtonText={size}
+                    defaultIndex={defaultIndex}
+                    onSelect={(selectedItem, index) => {
+                        
+                        sizeGiay(props.item1.id,selectedItem)
+                        console.log(selectedItem, index)
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        console.log(selectedItem, index)
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        console.log(item, index)
+                        return item
+                    }}
+                />
+                </View>
+                :
                 <View style={{flexDirection:"row"}}>
                       <Pressable onPress={()=>{sizeM(props.item1.id)}}  style={[styles.size,{backgroundColor: size=="M"?"#ccc":"#fff"}]}>
                         <Text style={styles.textSize}>M</Text>
@@ -285,6 +312,8 @@ const CartItem = (props) => {
                         <Text style={styles.textSize}>XXL</Text>
                     </Pressable>
                 </View>
+                 }
+                
                 
             </View>
             

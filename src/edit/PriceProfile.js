@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
-import {PROFILEMEMBER,NAPTIENMEMBER} from "../../api";
+import {PROFILE_MEMBER,NAP_TIEN_MEMBER} from "../../api";
 import { el } from "date-fns/locale";
 const PriceProfile = () => {
     const navigation = useNavigation()
@@ -104,7 +104,15 @@ const PriceProfile = () => {
             setErrMessage("Vui lòng nhập số tiền")
             return
         }else{
-            setErrPrice(false)
+            if(parseInt(price) <= 20000){
+                setErrPrice(true) 
+                setErrMessage("Số tiền phải lớn hơn 20.000 VNĐ")
+                return
+            }else{
+                setErrPrice(false)
+            }
+           
+            
         }
         if(image){
             setErrImage(false)
@@ -122,7 +130,7 @@ const PriceProfile = () => {
             
 
         }
-        await axios.post(NAPTIENMEMBER,data)
+        await axios.post(NAP_TIEN_MEMBER,data)
         .then((response)=>{
             if(response.data.errCode ===0){
                 alert("Tiền của bạn đã đc nạp, bạn hãy chờ để admin xét duyệt")

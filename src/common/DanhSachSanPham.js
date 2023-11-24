@@ -1,6 +1,6 @@
 import { Text, View,RefreshControl ,ScrollView} from "react-native";
 import React, { useEffect,useState } from "react";
-import { GETCATEGORIES, GET_DANH_SACH_SAN_PHAM_MEMBER } from "../../api"
+import { GET_CATEGORIES, GET_DANH_SACH_SAN_PHAM_MEMBER } from "../../api"
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import ItemDanhSach from "../common/ItemDanhSach";

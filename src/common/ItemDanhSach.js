@@ -2,7 +2,7 @@ import { View, Text,Alert, Image, TouchableOpacity } from "react-native"
 import React, { useEffect } from "react";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Foundation"
-import {GETCARTUSER,POSTCARTUSER} from "../../api"
+import {GET_CART_USER,POST_CART_USER} from "../../api"
 import {useDispatch, useSelector} from 'react-redux'
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 const ItemDanhSach = (props) => {
@@ -42,7 +42,7 @@ const ItemDanhSach = (props) => {
                     size: "M",
                     soLuong:1
                 }
-                await axios.post(POSTCARTUSER,data).then(res =>{
+                await axios.post(POST_CART_USER,data).then(res =>{
                     if(res.data.errCode === 0 ){
                         Alert.alert('Thông báo', 'Đặt hàng thành công', [
                             {text: 'OK', onPress: () => {
@@ -50,7 +50,7 @@ const ItemDanhSach = (props) => {
                             }},
                           ]);
                     }
-                })
+                }).catch((err)=>{console.log(err)})
             }else{
                 
                 Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
@@ -68,7 +68,7 @@ const ItemDanhSach = (props) => {
     }
     return (
         <TouchableOpacity  onPress={()=>{handleDetailProduct(item.id)}} style={{
-            width: 200,
+            width: 180,
             height: "auto",
             borderRadius: 10,
             elevation: 5,
