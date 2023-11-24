@@ -14,16 +14,16 @@ const DanhSachSanPham = (props) => {
     const [arrProducts, setArrProducts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     
-        onRefresh = () => {
-            setRefreshing(true)
-            loadAllProducts
-        }
+    onRefresh = () => {
+        setRefreshing(true)
+        loadAllProducts
+    }
     useEffect(()=>{
         loadAllProducts()
     },[isFocused])
     
     const loadAllProducts = async () => {
-        console.log(id)
+
         if(id === "luotMuaNhieu"){
             await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
 
@@ -36,7 +36,7 @@ const DanhSachSanPham = (props) => {
         }else if(id === "hotSale"){
             await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
                 if (res && res.data.errCode === 0) {
-                    //console.log(res.data.products,"OK")
+                    console.log(res.data,"OK")
                     setArrProducts(res.data.getHotSaleAll)
                     setRefreshing(false)
                 }
@@ -68,9 +68,10 @@ const DanhSachSanPham = (props) => {
             />
         }
         >
+          
             <View  style={{flexDirection:"row",flexWrap:"wrap",width:"100%"}}>
                 
-                {
+                {arrProducts&&
                 arrProducts.map((item)=>{
                     return(
                         <View key={item.id} style={{width:"50%"}}>{
