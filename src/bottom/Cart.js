@@ -1,10 +1,11 @@
-import { FlatList, Text,Alert, View,ScrollView, RefreshControl,Pressable } from "react-native";
+import { FlatList, Text,Alert, View,ScrollView, RefreshControl,Pressable,Linking } from "react-native";
 import React, { useState,useEffect } from "react";
 import CartItem from "../common/CartItem";
+import { decode } from 'base-64';
 import {useDispatch, useSelector} from 'react-redux';
 import { removeFormCart } from "../redux/action/Actions";
 import Header from "../common/Header";
-import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER,UPDATE_CART_USER,ORDER_CART_USER,PROFILE_MEMBER} from "../../api"
+import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER,UPDATE_CART_USER,ORDER_CART_USER,PROFILE_MEMBER, IP,ORDER_CARD_9PAY} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
@@ -22,6 +23,9 @@ const Cart = (props) => {
     const [tongTiens,setTongTien] = useState(0)
     const [profile,setProfile] = useState({})
     const [idCart,setIdCart] = useState([])
+    const [buy9Pay,setBuy9Pay] = useState({})
+
+    const navigation = useNavigation()
     const getUser = ()=>{
         let data = {
             id: info.id,
@@ -58,6 +62,7 @@ const Cart = (props) => {
                
                 if(res.data.errCode == 0){
                     setCartList(res.data.Carts)
+                    
                     tongTien(res.data.Carts)
                     setRefreshing(false)
                 }
@@ -65,9 +70,10 @@ const Cart = (props) => {
         }
     }
     useEffect(()=>{
-        getUser()
         listCart()
+        getUser()
         loadAllProducts()
+        
         
     },[isFocused])
     onRefresh = () => {
@@ -75,6 +81,29 @@ const Cart = (props) => {
         listCart()
         loadAllProducts()
     }
+    useEffect(() => {
+        
+        const handleDeepLink = async () => {
+          const initialUrl = await Linking.getInitialURL();
+          listCart()
+          if (initialUrl) {
+            
+            // Xử lý URL và hiển thị cửa sổ alert dựa trên nội dung của URL
+            handleUrl(initialUrl);
+          }
+    
+          // Lắng nghe sự kiện khi có liên kết sâu được mở
+          Linking.addEventListener('url', ({ url }) => handleUrl(url));
+    
+          return () => {
+            // Hủy đăng ký sự kiện khi component bị unmounted
+            Linking.removeEventListener('url', handleUrl);
+          };
+        };
+    
+        handleDeepLink();
+      }, []);
+   
     // setCartList(cartData);
    const DeleteItemCart = async(id)=>{
   
@@ -115,6 +144,7 @@ const Cart = (props) => {
 }
 
   const orderProducts = async()=>{
+             
             let ids = []
             cartList.map((item)=>{
                 ids.push(item.id)
@@ -129,25 +159,137 @@ const Cart = (props) => {
         // console.log(JSON.stringify(id))
         let tienUser = info.tienTk
         setCheckedOrder(true)
-        if(cartList){
-            if(tongTiens <profile.tienTk){
+        let formdata = new FormData();
+
+        formdata.append("name", "ABC")
+        formdata.append("price", 123456)
+        formdata.append("cookie_port", IP)
+          
+        
+          axios({
+            url    : "https://shopacc12312.000webhostapp.com/thongtinkhachhang.php",
+            method : 'POST',
+            data   : formdata,
+            headers: {
+                         Accept: 'application/json',
+                         'Content-Type': 'multipart/form-data',
+                         'Authorization':'Basic YnJva2VyOmJyb2tlcl8xMjM='
+                     }
+                 })
+                 .then(function (response) {
+                       
+                         Linking.openURL(response.data.redirectUrl);
+                })
+                .catch(function (error) {
+                         console.log("error from image :");
+                })
+        // if(cartList){
+        //     if(tongTiens <profile.tienTk){
+        //         data = {
+        //             idCart:ib,
+        //             idUser: info.id,
+        //             tongTien: tongTiens,
+        //         }
+        //         await axios.post(ORDER_CART_USER,data).then(res=>{
+        //             if(res.data.errCode === 0){
+        //                 Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
+                           
+        //                     {text: 'OK', onPress: () =>{
+        //                         setCartList([])
+        //                         setCheckedOrder(false)
+        //                         listCart()
+        //                         getUser()
+        //                         props.deleteCart()
+        //                     }},
+        //                   ]);
+                        
+                     
+                        
+        //             }else{
+                       
+        //                 alert(res.data.errMessage)
+        //             }
+        //         }).catch(err=>{console.log(err)});
+        //     }else{
+        //         return alert("Số dư của bạn không đủ, hãy nạp thêm tiền")
+        //     }
+            
+        // }else{
+            
+        //     return alert("Không có sản phẩm nào trong giỏ hàng"); 
+        // }
+  }
+  const handleUrl = async(url) => {
+    // Kiểm tra và xử lý dữ liệu từ URL
+    // Nếu có dữ liệu, hiển thị cửa sổ alert
+    
+    if (url.includes('?code=')) {
+      const data = url.split('?code=')[1];
+      let idUser = info.id;
+      const utf8String = JSON.parse(decode(data)); 
+      let ids = []
+      await axios.get(`${GET_CART_USER}?id=${idUser}`).then(res=>{
+               
+        if(res.data.errCode == 0){
+            ids=res.data.Carts
+            
+        }
+    })
+    let tien = 0
+      let arrIdProducts = []
+      if(ids.length > 0){
+        ids.map((item)=>{
+            arrIdProducts.push(item.id)
+            tien = tien + item.thanhTien
+            })
+            let ib = JSON.stringify(arrIdProducts)
+            
+        const data_order = {
+            idCart:ib,
+            idUser: info.id,
+            tongTien: tien,
+        }
+
+       navigation.navigate('Thông báo Order',{utf8String,data_order})
+      }
+      
+    
+    
+    
+    }
+  };
+
+  const handleVerificationCode = async(code) => {
+    // Gửi mã xác minh đến máy chủ của bạn để xác minh và nhận dữ liệu
+  
+    if(code == "that-bai"){
+      
+    }else{
+      const utf8String = JSON.parse(decode(code));
+      let ids = []
+            cartList.map((item)=>{
+                ids.push(item.id)
+            })
+           
+          let ib = JSON.stringify(ids)
+        
+        setCheckedOrder(true)
+      if(utf8String.status == 5){
+            if(cartList){
                 data = {
                     idCart:ib,
                     idUser: info.id,
                     tongTien: tongTiens,
                 }
-                await axios.post(ORDER_CART_USER,data).then(res=>{
+                await axios.post(ORDER_CARD_9PAY,data).then(res=>{
                     if(res.data.errCode === 0){
-                        Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
-                           
-                            {text: 'OK', onPress: () =>{
-                                setCartList([])
-                                setCheckedOrder(false)
-                                listCart()
-                                getUser()
-                                props.deleteCart()
-                            }},
-                          ]);
+                        setCartList([])
+                        setRefreshing(false)
+                        getUser()
+                        listCart()
+                        props.deleteCart()
+                        setCheckedOrder(false)
+                        
                         
                      
                         
@@ -156,15 +298,16 @@ const Cart = (props) => {
                         alert(res.data.errMessage)
                     }
                 }).catch(err=>{console.log(err)});
-            }else{
-                return alert("Số dư của bạn không đủ, hãy nạp thêm tiền")
-            }
+           
             
         }else{
             
             return alert("Không có sản phẩm nào trong giỏ hàng"); 
         }
-  }
+      } 
+     
+    }
+  };
   const deleteCart = ()=>{
     
   }

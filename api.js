@@ -1,4 +1,5 @@
-export const URL = "http://192.168.1.62:8080"
+export const IP = '192.168.1.62'
+export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
 export const LOGIN = URL + "/api/login-member"
@@ -36,5 +37,7 @@ export const CHI_TIET_ORDERS = URL + "/api/chi-tiet-don-cart-product"
 export const DELETE_ORDERS = URL + "/api/delete-orders"
 export const GET_ALL_NEWS = URL + "/api/get-all-news"
 export const GET_ONE_MEMBER = URL + "/get/one-member"
-export const GET_DANH_SACH_SAN_PHAM_MEMBER = URL + "/api-app/list-category-in-products"
+export const GET_DANH_SACH_SAN_PHAM_MEMBER = URL + "/api/get-all-catygory-product"
 export const DELETE_TIEN_DA_NAP = URL + "/api/delete-nap-tien-Member"
+export const THANH_TOAN_9PAY = 'https://shopacc12312.000webhostapp.com/thongtinkhachhang.php'
+export const ORDER_CARD_9PAY = URL+ '/api-app/post-order-product-9pay-card'
