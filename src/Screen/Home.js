@@ -20,7 +20,8 @@ const Home = (props) => {
     const data = useSelector(state => state);
     const [lenght,setLenght]= useState(0)
     const dispatch = useDispatch();
-
+    const route = props.route;
+    let stateTab = route.params
     const arlenght = (item)=>{
    
     }
@@ -49,6 +50,9 @@ const Home = (props) => {
     }
     useEffect(() => {
         listCart()
+        if(stateTab!==null){
+            setSelectetab(stateTab)
+        }
     }, [isFocused])
    
   

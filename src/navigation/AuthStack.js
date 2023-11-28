@@ -53,7 +53,7 @@ const getMember = async()=>{
           <Stack.Screen options={{headerShown: true}} name='Danh Sách sản phẩm' component={DanhSachSanPham}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Chi tiết tin tức' component={NewsDetail}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen> 
-          <Stack.Screen options={{headerShown: true}} name='Thông báo Order' component={ThongBaoOrder}></Stack.Screen> 
+          <Stack.Screen options={{headerShown: false}} name='Thông báo Order' component={ThongBaoOrder}></Stack.Screen> 
         </Stack.Navigator>
         
       }

@@ -37,6 +37,7 @@ export const CHI_TIET_ORDERS = URL + "/api/chi-tiet-don-cart-product"
 export const DELETE_ORDERS = URL + "/api/delete-orders"
 export const GET_ALL_NEWS = URL + "/api/get-all-news"
 export const GET_ONE_MEMBER = URL + "/get/one-member"
+export const CONVERT_CODE_SHA = URL + "/api-app/convert-sha"
 export const GET_DANH_SACH_SAN_PHAM_MEMBER = URL + "/api/get-all-catygory-product"
 export const DELETE_TIEN_DA_NAP = URL + "/api/delete-nap-tien-Member"
 export const THANH_TOAN_9PAY = 'https://shopacc12312.000webhostapp.com/thongtinkhachhang.php'
