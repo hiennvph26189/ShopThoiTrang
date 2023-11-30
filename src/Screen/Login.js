@@ -49,7 +49,7 @@ const Login = () => {
                           );
                           
                           dispatch(updateEmail(res.data.user,true))
-                          navigation.navigate('Home')
+                          navigation.navigate('Home',0)
                         }else{
                             alert("Tài khoản của bạn đã bị khóa")
                             return;

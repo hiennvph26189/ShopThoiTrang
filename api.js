@@ -1,4 +1,4 @@
-export const IP = '192.168.1.62'
+export const IP = '192.168.1.61'
 export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
@@ -27,7 +27,7 @@ export const GETALLPRODUCTS = URL + "/api/get-all-total-product"
 export const GET_ONE_PRODUCT = URL + "/api/get-one-product"
 // lấy ra sản phẩm trong giỏ hàng
 export const GET_CART_USER = URL + "/api/user-carts-product"
-export const POST_CART_USER = URL + "/api/oders-product"
+export const POST_CART_USER = URL + "/api-app/add-cart-products-size"
 export const DELETE_CARTU_SER = URL + "/api/delete-cart-product"
 export const UPDATE_CART_USER = URL + "/api/update-cart-product"
 export const ORDER_CART_USER = URL + "/api/orders-cart-product"
@@ -42,3 +42,8 @@ export const GET_DANH_SACH_SAN_PHAM_MEMBER = URL + "/api/get-all-catygory-produc
 export const DELETE_TIEN_DA_NAP = URL + "/api/delete-nap-tien-Member"
 export const THANH_TOAN_9PAY = 'https://shopacc12312.000webhostapp.com/thongtinkhachhang.php'
 export const ORDER_CARD_9PAY = URL+ '/api-app/post-order-product-9pay-card'
+// List size theo product
+export const LIST_SIZE_IN_PRODUCT = URL+ '/api-app/list-products-size'
+// List sản phẩm theo  cart và size
+export const LIST_SIZE_IN_CART_PRODUCT = URL+ '/api-app/list-cart-products-size'
+//

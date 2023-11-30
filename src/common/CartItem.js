@@ -1,7 +1,7 @@
     import { View, Text, Image, TouchableOpacity,Pressable,StyleSheet } from "react-native"
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER} from "../../api"
+import {GET_CART_USER,POST_CART_USER,GETALLPRODUCTS,DELETE_CARTU_SER,LIST_SIZE_IN_CART_PRODUCT} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
@@ -14,13 +14,19 @@ const CartItem = (props) => {
     const [soLuong,setSoLuong] = useState(0)
     const isFocused = useIsFocused()
     const [itemProduct,setItemProduct]= useState([])
+    const [itemProducts,setItemProducts]= useState({})
+    const [itemCarrt,setItemCarrt]= useState({})
+    const [itemSize,setItemSize]= useState({})
     const [arrProducts,setArrProducts]= useState([])
     const [idSP,setIdSp] = useState()
     const info = useSelector(state => state.Reducers.arrUser);
     const [size,setSize] = useState('')
+    const [numberSize,setNumberSize] = useState(0)
+    const [arrSize,setArrSize] = useState([])
     const countries = ["36", "37", "38", "39","40","41","42","43","44","45"]
-
+    let item = props.item1
     const loadAllProducts = async (id) => {
+      
         await axios.get(GETALLPRODUCTS).then((res) => {
 
             if (res && res.data.errCode === 0) {
@@ -36,14 +42,37 @@ const CartItem = (props) => {
             }
         }).catch((error) => { console.log(error) });
     }
+    const loadDataCartItem = async()=>{
+        await axios.get(`${LIST_SIZE_IN_CART_PRODUCT}?id_cart=${item.id}&id_product=${item.ipSanPham}`).then((res) => {
+            console.log(res.data)
+            if (res.data.errCode === 0) {
+                
+                setItemCarrt(res.data.data.carts[0])
+                setItemProducts(res.data.data.products[0])
+                
+                setItemSize(res.data.data.sizes[0].size)
+                
+                const outputArray = Object.entries(res.data.data.sizes[0].size)
+                .filter(([key, value]) => value !== 0)
+                .map(([key]) => key);
+                if ( item.size in res.data.data.sizes[0].size) {
+                    // Nếu có, set state cho numberSize với giá trị của size đó
+                    setNumberSize(res.data.data.sizes[0].size[item.size]);
+                  }
+                
+                setArrSize(outputArray)
+            }
+                
+        }).catch((error) => { console.log(error) });
+    }
     useEffect(()=>{
-        setSoLuong(props.item1.soLuong)
         setSize(props.item1.size)
+        loadDataCartItem()
+        setSoLuong(props.item1.soLuong)
+    
         loadAllProducts()
        
     },[])
-    
-   
     showImage = (image)=>{
         if(image){
            
@@ -72,6 +101,7 @@ const CartItem = (props) => {
 
     }
     const congSoLuong =(id,soLuongSanPham)=>{
+        console.log(size)
         let count = soLuong 
         count = count +1
         setSoLuong(count)
@@ -82,6 +112,7 @@ const CartItem = (props) => {
     }
     const defaultIndex = countries.findIndex((item) => item === "40");
     const truSoLuong =(id)=>{
+        console.log(size)
         let count = soLuong 
         count = count -1
         setSoLuong(count)
@@ -89,34 +120,13 @@ const CartItem = (props) => {
 
         
     }
-    const sizeM = (id)=>{
-        setSize("M")
-       
-        props.updateCart(id,soLuong,"M")
-    }
-    const sizeGiay = (id,soSize)=>{
-        setSize(soSize)
-       
-        props.updateCart(id,soLuong,soSize)
-    }
-    const sizeL = (id)=>{
-        setSize("L")
-        props.updateCart(id,soLuong,"L")
-    }
-    const sizeXL = (id)=>{
-        setSize("XL")
-        props.updateCart(id,soLuong,"XL")
-    }
-    const sizeXXL = (id)=>{
-        setSize("XXL")
-        props.updateCart(id,soLuong,"XXL")
-    }
+  
     handleDetailProduct = (id)=>{
         navigation.navigate('Chi tiết sản phẩm',{id: id});
     }
     return (
         
-        <TouchableOpacity onPress={()=>{handleDetailProduct(itemProduct.id)}} style={{
+        <TouchableOpacity onPress={()=>{}} style={{
             borderRadius: 20,
             elevation: 5,
             width:'95%',
@@ -138,7 +148,7 @@ const CartItem = (props) => {
                        justifyContent:"center",
                        alignItems:"center"
                    }} >
-               <Image source={{uri:showImage(itemProduct.image)}}
+               <Image source={{uri:showImage(itemProducts.image)}}
                    style={{
                        width: 250,
                        height: 200,
@@ -178,7 +188,7 @@ const CartItem = (props) => {
                 fontSize: 16,
                 fontWeight: '600',
             }}>
-                {itemProduct.tenSp}</Text>
+                {itemProducts.tenSp}</Text>
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -227,6 +237,7 @@ const CartItem = (props) => {
                             size={27}
                             name= "minus-square"
                             />
+                           
                     </TouchableOpacity>
                    
                 }
@@ -234,8 +245,8 @@ const CartItem = (props) => {
                     <Text style={{
                         fontSize:17,fontWeight:"600"
                          }}>{soLuong}</Text>
-                         {soLuong < itemProduct.soLuong?
-                            <TouchableOpacity onPress={()=>{congSoLuong(props.item1.id,itemProduct.soLuong)}} style={{
+                         {soLuong < numberSize?
+                            <TouchableOpacity onPress={()=>{congSoLuong(props.item1.id,itemProducts.soLuong)}} style={{
                                
                                 marginLeft:10,
                                
@@ -270,49 +281,40 @@ const CartItem = (props) => {
                          }
                     
                 </View>
-                {itemProduct.idDanhSach == 56?
+               
                  <View style={{flexDirection:"row",alignItems:"center"}}>
                     <Text style={{fontWeight:"600",fontSize:15}}>
                         Size:  
                     </Text>
                     <Text> </Text>
                     <SelectDropdown
-                    buttonStyle={{ width: 70, fontSize: 16,height: 30  }}
-                    data={countries}
-                    dropdownStyle={{ width: 100, fontSize: 16 }}
+                    buttonStyle={{ width: 75, fontSize: 16,height: 30 ,marginLeft:10 }}
+                    data={arrSize}
+                    dropdownStyle={{ width: 100, fontSize: 16,marginRight:20 }}
                     defaultButtonText={size}
                     defaultIndex={defaultIndex}
                     onSelect={(selectedItem, index) => {
+                        props.updateCart(props.item1.id,1,selectedItem)
+                       
+                            // Nếu có, set state cho numberSize với giá trị của size đó
+                            setNumberSize(itemSize[selectedItem]);
+                          
+                          setSoLuong(1)
+                          loadDataCartItem()
+                        setSize(selectedItem)
                         
-                        sizeGiay(props.item1.id,selectedItem)
-                        console.log(selectedItem, index)
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
-                        console.log(selectedItem, index)
+                       
                         return selectedItem
                     }}
                     rowTextForSelection={(item, index) => {
-                        console.log(item, index)
+                       
                         return item
                     }}
                 />
                 </View>
-                :
-                <View style={{flexDirection:"row"}}>
-                      <Pressable onPress={()=>{sizeM(props.item1.id)}}  style={[styles.size,{backgroundColor: size=="M"?"#ccc":"#fff"}]}>
-                        <Text style={styles.textSize}>M</Text>
-                    </Pressable>   
-                    <Pressable  onPress={()=>{sizeL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="L"?"#ccc":"#fff"}]}>
-                        <Text style={styles.textSize}>L</Text>
-                    </Pressable  >
-                    <Pressable  onPress={()=>{sizeXL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="XL"?"#ccc":"#fff"}]}>
-                        <Text style={styles.textSize}>XL</Text>
-                    </Pressable >
-                    <Pressable  onPress={()=>{sizeXXL(props.item1.id)}} style={[styles.size,{backgroundColor: size=="XXL"?"#ccc":"#fff"}]}>
-                        <Text style={styles.textSize}>XXL</Text>
-                    </Pressable>
-                </View>
-                 }
+                
                 
                 
             </View>
