@@ -1,4 +1,4 @@
-export const IP = '192.168.1.61'
+export const IP = '192.168.1.62'
 export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
@@ -46,4 +46,9 @@ export const ORDER_CARD_9PAY = URL+ '/api-app/post-order-product-9pay-card'
 export const LIST_SIZE_IN_PRODUCT = URL+ '/api-app/list-products-size'
 // List sản phẩm theo  cart và size
 export const LIST_SIZE_IN_CART_PRODUCT = URL+ '/api-app/list-cart-products-size'
-//
+// check số lượng sản phẩm theo size và cart
+export const CHECK_SOLUONG_SP_THEOSIZE_TRONG_ODER = URL+ '/api-app/Check-soluong-sanpham-theo-size'
+export const RESET_CART_ORDER = URL+ '/api-app/post-reset-cart'
+// list size products
+export const LIST_SIZE_PRODUCTS = URL+ '/api-app/list-products-size'
+

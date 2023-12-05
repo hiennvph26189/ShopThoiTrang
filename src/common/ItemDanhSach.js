@@ -32,50 +32,54 @@ const ItemDanhSach = (props) => {
         return  x;
 }
    onAddToCart= async(item)=>{
-        let id =  info.id
-        // console.log("Ok")
-        if(id&&item.id){
-            if(item.soLuong > 0){
-                let data = {
-                    idUser: id,
-                    idSP: item.id,
-                    size: "M",
-                    soLuong:1
-                }
-                await axios.post(POST_CART_USER,data).then(res =>{
-                    if(res.data.errCode === 0 ){
-                        Alert.alert('Thông báo', 'Đặt hàng thành công', [
-                            {text: 'OK', onPress: () => {
-                                navigation.navigate('Home');
-                            }},
-                          ]);
-                    }
-                }).catch((err)=>{console.log(err)})
-            }else{
-                
-                Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
-                    {text: 'OK', onPress: () => {
-                       
-                    }},
-                  ]);
-            
+    let id =  info.id
+    // console.log("Ok")
+    if(id&&item.id){
+     
+            let data = {
+                id_member: id,
+                id_product: item.id,
+                soLuong:1,
+                size: ""
             }
-           
-        }
+            await axios.post(POST_CART_USER,data).then(res =>{
+                
+                if(res.data.errCode === 0 ){
+                    
+                   
+                     Alert.alert('Thông báo',res.data.errMessage , [
+                        {text: 'OK', onPress: () => {
+                            navigation.navigate('Home',2);
+                        }},
+                      ]);
+                    
+
+                }else{
+                    return Alert.alert('Thông báo',res.data.errMessage , [
+                        {text: 'OK', onPress: () => {
+                           
+                        }},
+                      ]);
+                }
+            })
+       
+       
+    }
     }
     handleDetailProduct = (id)=>{
         navigation.navigate('Chi tiết sản phẩm',{id: id},{handleDetailProduct:{handleDetailProduct}});
     }
     return (
-        <TouchableOpacity  onPress={()=>{handleDetailProduct(item.id)}} style={{
+        <TouchableOpacity key={props.i} onPress={()=>{handleDetailProduct(item.id)}} style={{
             width: 180,
             height: "auto",
             borderRadius: 10,
             elevation: 5,
             backgroundColor: '#fff',
-            marginLeft: 1,
+            marginLeft: 10,
             marginBottom: 10,
-            marginTop:10
+            marginTop:10,
+
         }}>
             <View style={{
                        
@@ -90,7 +94,8 @@ const ItemDanhSach = (props) => {
                         borderTopRightRadius: 10,
                         justifyContent:"center",
                         alignItems:"center",
-                        marginTop:10
+                        marginTop:10,
+                        objectFit:"cover"
                     }} />
             </View>
             
@@ -123,10 +128,10 @@ const ItemDanhSach = (props) => {
                     alignItems:"center"
                 }}>
                     <Text style={{
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: '600',
                         color: 'red',
-                       
+                        
                     }}>
                     
                     {price(item.giaSanPham-(item.giaSanPham *(item. sale/100)) ) }
@@ -137,7 +142,7 @@ const ItemDanhSach = (props) => {
                     marginRight:2
                 }}>-</Text>
                 <Text style={{
-                        fontSize: 15,
+                        fontSize: 12,
                         fontWeight: '600',
                         color: '#696969',
                         textDecorationLine:'line-through'

@@ -36,16 +36,16 @@ const LichSuOrders = (props) => {
     }
     return (
         <View style={[styles.container,{flex:1, backgroundColor:'#DCDCDC'}]} showsVerticalScrollIndicator={false}>
-            <View style={{flexDirection:"row" ,justifyContent:"center",backgroundColor:'#000',padding:2,alignItems:"center",marginLeft:3,marginRight:2, borderRadius:5}}>
+            <ScrollView  horizontal={true} showsHorizontalScrollIndicator={false} style={{flexDirection:"row",backgroundColor:'#000',padding:2, borderRadius:5,maxHeight:55 }}>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 0 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(0)}}>
-                    <Text style={{fontWeight:"600"}}>Đang xử lý</Text>
+                    <Text style={{fontWeight:"600"}}>Đơn đang xử lý</Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 1 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(1)}}>
-                    <Text style={{fontWeight:"600"}}>Đang Giao </Text>
+                    <Text style={{fontWeight:"600"}}>Đơn đang Giao </Text>
                 </Pressable>
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 2 ? "#FF9900" : "#fff"
@@ -55,9 +55,9 @@ const LichSuOrders = (props) => {
                 <Pressable style={[styles.tab,{
                     backgroundColor: selectTab == 3 ? "#FF9900" : "#fff"
                 }]} onPress={()=>{setSelectetab(3)}}>
-                    <Text style={{fontWeight:"600"}}> Đơn hủy</Text>
+                    <Text style={{fontWeight:"600"}}> Đơn đã hủy</Text>
                 </Pressable>
-            </View>
+            </ScrollView>
             <ScrollView>
             {selectTab == 0 ? (<DangXuLy orderDetails={orderDetails} />) : selectTab == 1 ? (<DangGiaoHang orderDetail={orderDetails} />) : selectTab == 2 ? (<GiaoThanhCong orderDetails={orderDetails}/>) :  (<DonHuy />) }
             </ScrollView>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-        
+        height:40,
         borderRadius:5,
     }
    

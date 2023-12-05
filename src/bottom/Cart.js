@@ -5,10 +5,12 @@ import { decode } from 'base-64';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFormCart } from "../redux/action/Actions";
 import Header from "../common/Header";
-import { GET_CART_USER, POST_CART_USER, GETALLPRODUCTS, DELETE_CARTU_SER, UPDATE_CART_USER, ORDER_CART_USER, PROFILE_MEMBER, IP, ORDER_CARD_9PAY, CONVERT_CODE_SHA } from "../../api"
+import { GET_CART_USER, POST_CART_USER, GETALLPRODUCTS, DELETE_CARTU_SER, UPDATE_CART_USER, ORDER_CART_USER, PROFILE_MEMBER, IP, ORDER_CARD_9PAY, CONVERT_CODE_SHA,CHECK_SOLUONG_SP_THEOSIZE_TRONG_ODER } from "../../api"
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import CryptoJS from 'crypto-js';
+import { measure } from "react-native-reanimated";
+import { el } from "date-fns/locale";
 const Cart = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused()
@@ -18,6 +20,7 @@ const Cart = (props) => {
     const dispacth = useDispatch();
     const [checkOrder, setCheckedOrder] = useState(false)
     const [load, setIsLoadding] = useState(false)
+    const [loaditemChill, setLoaditemChill] = useState(false)
     const [arrProducts, setArrProducts] = useState()
     const [tongTiens, setTongTien] = useState(0)
     const [profile, setProfile] = useState({})
@@ -63,7 +66,7 @@ const Cart = (props) => {
 
                 if (res.data.errCode == 0) {
                     setCartList(res.data.Carts)
-
+                   
                     tongTien(res.data.Carts)
                     setRefreshing(false)
                 }
@@ -143,33 +146,7 @@ const Cart = (props) => {
             }
         }).catch(err => { console.log(err) });
     }
-
-    const orderProducts = async () => {
-
-        let ids = []
-        let tongTien = 0
-        let arrTenSp = ""
-        let id_sp = []
-        cartList.map((item) => {
-            ids.push(item.id)
-            tongTien = tongTien + item.thanhTien
-            arrProducts.map((product, index) => {
-                if (item.ipSanPham === product.id) {
-                    arrTenSp += product.tenSp + ' (x' + item.soLuong + " size: " + item.size + ")" + "\n"
-                }
-            })
-        })
-
-        let ib = JSON.stringify(ids)
-
-        // for(let i=0; i<cartList.length; i){
-        //     id.push(cartList[i].id)
-        // }
-
-        // console.log(JSON.stringify(id))
-        console.log(arrTenSp)
-        let tienUser = info.tienTk
-        setCheckedOrder(true)
+    const post9Pay = (arrTenSp,tongTiens,IP) =>{
         let formdata = new FormData();
 
         formdata.append("name", `${arrTenSp}`)
@@ -194,6 +171,43 @@ const Cart = (props) => {
             .catch(function (error) {
                 console.log("error from image :", error);
             })
+    }
+    const orderProducts = async () => {
+
+        let ids = []
+        let tongTien = 0
+        let arrTenSp = ""
+        let id_sp = []
+        cartList.map((item) => {
+            ids.push(item.id)
+            tongTien = tongTien + item.thanhTien
+            arrProducts.map((product, index) => {
+                if (item.ipSanPham === product.id) {
+                    arrTenSp += product.tenSp + ' (x' + item.soLuong + " size: " + item.size + ")" + "\n"
+                }
+            })
+        })
+        let postData = {
+            cartList: JSON.stringify(cartList)
+        }
+        await axios.post(CHECK_SOLUONG_SP_THEOSIZE_TRONG_ODER,postData).then(res => {
+          
+            if (res.data.success == true) {
+                    post9Pay(arrTenSp,tongTiens,IP)
+                    listCart()
+                    setLoaditemChill(!loaditemChill)
+                   
+            }else{
+                listCart()
+                alert(res.data.message)
+                setLoaditemChill(!loaditemChill)
+                
+                
+              
+
+            }
+        }).catch(err => { console.log(err) });
+       
         // if(cartList){
         //     if(tongTiens <profile.tienTk){
         //         data = {
@@ -230,6 +244,9 @@ const Cart = (props) => {
         //     return alert("Không có sản phẩm nào trong giỏ hàng"); 
         // }
     }
+    const loadDataCartItem = () => {
+       
+    }
     const handleUrl = async (url) => {
         // Kiểm tra và xử lý dữ liệu từ URL
         // Nếu có dữ liệu, hiển thị cửa sổ alert
@@ -237,6 +254,7 @@ const Cart = (props) => {
         if (url.includes('?code=')) {
             const data = url.split('?code=')[1];
             let utf8String = ""
+            console.log(data)
             await axios.get(`${CONVERT_CODE_SHA}?data=${data}`).then(res => {
 
                 utf8String = res.data
@@ -311,7 +329,7 @@ const Cart = (props) => {
             >
                 {cartList.map((item, index) => {
                     return (
-                        <CartItem key={item.id} item1={item} deteleItem={DeleteItemCart} checkid={checkId} tongTien={tongTiens} updateCart={updateCart}
+                        <CartItem key={item.id} item1={item} deteleItem={DeleteItemCart} checkid={checkId} tongTien={tongTiens} updateCart={updateCart}  loaditemChill={loaditemChill}
 
                         />
                     )

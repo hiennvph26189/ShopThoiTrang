@@ -2,7 +2,7 @@ import { Image, TextInput, View, Alert,Text,} from "react-native";
 import {Avatar, Title,Caption,TouchableRipple} from "react-native-paper"
 import React, { useState,useEffect } from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
-import { ORDER_CARD_9PAY } from "../../api";
+import { ORDER_CARD_9PAY,RESET_CART_ORDER } from "../../api";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import axios from "axios";
 import CryptoJS from 'crypto-js';
@@ -37,8 +37,19 @@ const ThongBaoOrder = (props) => {
             data_9pay:data_9pay
         }
         await axios.post(ORDER_CARD_9PAY,post_data).then(res=>{
-          
+        console.log("SA:DKS:KD:S")
         }).catch(err=>{console.log(err)});
+       }else{
+        
+          let post_data = {
+            data2:data2,
+            arrTenSp:arrTenSp,
+          
+        }
+        console.log(post_data)
+          await axios.post(RESET_CART_ORDER,post_data).then(res=>{
+
+          }).catch(err=>{console.log(err)});
        }
     }
    

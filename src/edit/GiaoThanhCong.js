@@ -1,4 +1,4 @@
-import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable} from "react-native";
+import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,TouchableOpacity,Image ,Pressable} from "react-native";
 import axios from "axios";
 import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS} from "../../api"
 import {React,useState,useEffect} from "react";
@@ -103,7 +103,7 @@ const GiaoThanhCong = () => {
         })
         return count
     }
-     list = (id)=>{
+     list = (id,tongtien,id_donhang)=>{
         let list = JSON.parse(id)
        let IdSP = []
        let products = []
@@ -114,18 +114,27 @@ const GiaoThanhCong = () => {
                 }
             }) 
         })
+    
         IdSP.map((item)=>{
             getAllProducts.map((product)=>{
                 if(item.ipSanPham == product.id){
-                    products.push(product) 
+                    products.push({
+                        ...product,
+                       id_cart: item.id
+                    }) 
                 }
             })
         })
+        getDanhGia = (id_sp,id_donhang,id_cart)=>{
+            let id_member = info.id
+            console.log(id_cart);
+        }
+        
         return (
             products.map((item,index)=>{
                 return (
-                    <View key={index}>
-                        <View style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                    <View key={index} style={{borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                        <View style={{flexDirection:"row",margin:5, }}>
                             <Image
                                source={{uri:showImage(item.image)}} 
                                style={{width:50,height:50}}
@@ -179,7 +188,12 @@ const GiaoThanhCong = () => {
                               
                             </View>
                         </View>
-                        
+                        <View style={{flexDirection:"row",justifyContent:"flex-end",marginTop:5, marginBottom:5}}>
+                        <TouchableOpacity onPress={()=>{getDanhGia(item.id,id_donhang,item.id_cart)}} key={index} style={{  padding:10,backgroundColor:"red", borderRadius:10}}>
+                            <Text style={{color:"#fff", fontWeight:500}}>Đánh giá</Text>
+                        </TouchableOpacity>
+                        </View>
+                       
                     </View>
                     
                        
@@ -212,7 +226,7 @@ const GiaoThanhCong = () => {
                             <View></View>
                             <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
                         </View>
-                        {list(item.idCart,item.tongTien)}
+                        {list(item.idCart,item.tongTien,item.id)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
                             <Text style={{fontWeight:"600",color:item.status === 3?"#006400":"#993333"}}>{item.status === 3?"Đã giao thành công":""} </Text>
@@ -221,10 +235,10 @@ const GiaoThanhCong = () => {
                         </View>
                         <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
                             
-                        <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
+                        <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart,item.id)}</Text>
                         <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
                         </View>
-                       
+                        
                         
                         
                     </Pressable>

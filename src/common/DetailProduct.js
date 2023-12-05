@@ -21,15 +21,8 @@ import RenderHtml from 'react-native-render-html';
 import MyProductItem from "./MyProductItem";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
-import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT} from "../../api"
+import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS} from "../../api"
 
-// const images = [
-
-//     'https://loveincorporated.blob.core.windows.net/contentimages/gallery/6a985aaa-8a95-4382-97a9-91cdf96f43d3-Moraine_Lake_Dennis_Frates_Alamy_Stock_Photo.jpg',
-//     'https://www.eventstodayz.com/wp-content/uploads/2017/03/winter-wallpapers-2017.jpg',
-//     'https://images.ctfassets.net/wqkd101r9z5s/6F7zAoiaaiKCVEVlcgtvWs/99a68388fe179c5effa9f7fc6a37bbb9/Paris-1.jpg?w=1365&q=95'
-
-// ]
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -48,8 +41,12 @@ const DetailProduct = (props) => {
     const [images,setImages] = useState([])
     const [categoryList, setCategoryList] = useState([]);
     const [ortherProducrs, setOrtherProducrs] = useState([]);
+    const [arrSizes, setArrSizes] = useState([]);
     const [soLuong,setSoLuong] = useState(0);
     const [size,setSize] = useState("");
+    const [totalSoLuongSize,setTotalSoLuongSize] = useState(0);
+
+
     const [xemChiTiet,setXemChiTiet] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
     onRefresh = () => {
@@ -72,12 +69,25 @@ const DetailProduct = (props) => {
                     setDetailProduct(res.data.getDetailProduct)
                     setImages(JSON.parse(res.data.getDetailProduct.image))
                     setOrtherProducrs(res.data.arProduct)
-                    console.log(JSON.parse(res.data.getDetailProduct.image))
+                    
                 }
             })
         }
     }
-   
+    const getArrSizesroduct = async() =>{
+        if(idProduct){
+            await axios.get(`${LIST_SIZE_PRODUCTS}?id=${idProduct}`).then((res)=>{
+                console.log(res.data)
+                if(res.data.errCode === 0){
+                  
+                   let arr = Object.entries(res.data.data).map(([key, value]) => ({ key, value }));
+                   
+                    setArrSizes(arr)
+                    
+                }
+            })
+        }
+    }
     const loadCategories = async () => {
         await axios.get(GET_CATEGORIES).then((res) => {
 
@@ -89,6 +99,7 @@ const DetailProduct = (props) => {
         }).catch((error) => { console.log(error) });
     }
     useEffect(()=>{
+        getArrSizesroduct()
         getDetailProduct()
         loadCategories()
     },
@@ -123,9 +134,23 @@ const DetailProduct = (props) => {
                 setDetailProduct(res.data.getDetailProduct)
                 setImages(JSON.parse(res.data.getDetailProduct.image))
                 setOrtherProducrs(res.data.arProduct)
+              
                 
             }
         })
+        if(id){
+            await axios.get(`${LIST_SIZE_PRODUCTS}?id=${id}`).then((res)=>{
+                console.log(res.data)
+                if(res.data.errCode === 0){
+                  
+                   let arr = Object.entries(res.data.data).map(([key, value]) => ({ key, value }));
+                    setArrSizes(arr)
+                    console.log(res.data.data);
+                    
+                }
+            })
+        }
+        console.log(arrSizes,"sdlf'sd")
         setSoLuong(0)
         setSize("")
     }
@@ -139,9 +164,11 @@ const DetailProduct = (props) => {
             ortherProducrs.map((item)=>{
                 if(item.id !== detailProduct.id){
                     arrSanPhamKhac.push(item)
+                    
                 }
             })
         }
+        
         return arrSanPhamKhac.map((item)=>{
             return (
                 <TouchableOpacity onPress={()=>{orProduct(item.id)}}  key={item.id}>
@@ -223,27 +250,32 @@ const DetailProduct = (props) => {
     onAddToCart= async()=>{
         
         let id =  info.id
-        // console.log("Ok")
-        if(detailProduct.soLuong >0){
-            if(id&&idProduct){
+        console.log(id,"ads;fkads;")
+        if(arrSizes&&arrSizes.length >0){
+            if(idProduct){
                 if(soLuong > 0&& size !== ""){
                     let data = {
-                        idUser: id,
-                        idSP: idProduct,
+                        id_member: info.id,
+                        id_product: idProduct,
                         size: size,
                         soLuong:soLuong
                     }
                     await axios.post(POST_CART_USER,data).then(res =>{
+                        
                         if(res.data.errCode === 0 ){
+                            
                             Alert.alert('Thông báo', 'Đơn hàng đã được thêm vào giỏ hàng', [
                                 {text: 'OK', onPress: () => {
-                                    navigation.navigate('Home');
+                                    navigation.navigate('Home',0);
                                 }},
                               ]);
+                        }else{
+                            alert(res.data.errMessage)
+                            return
                         }
                     }).catch((err) => {console.log(err)})
                 }else{
-                    
+
                     return Alert.alert('Thông báo', 'bạn chưa chọn số lượng hoặc size', [
                         {text: 'OK', onPress: () => {
                            
@@ -263,7 +295,7 @@ const DetailProduct = (props) => {
         
     }
     return (
-        <View style={{backgroundColor:"#fff"}}>
+        <View style={{backgroundColor:"#fff"}} key={detailProduct.id}>
             <ScrollView>
                 <SafeAreaView>
                     <View>
@@ -370,19 +402,24 @@ const DetailProduct = (props) => {
 
                         
                         <View style={{ flexDirection: 'row', paddingLeft:5,marginTop: 10}}>
-                            <TouchableOpacity onPress={()=>{setSize("M")}} style={{ backgroundColor:size=="M"?"#FF6633":"#fff",  marginRight: 20, borderWidth: 1, borderRadius: 5, padding: 7, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ textAlign: 'center' }}>Size: M</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>{setSize("L")}} style={{backgroundColor:size=="L"?"#FF6633":"#fff",  marginRight: 20, borderWidth: 1, borderRadius: 5, padding: 7, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ textAlign: 'center' }}>Size: L</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>{setSize("XL")}} style={{backgroundColor:size=="XL"?"#FF6633":"#fff",  marginRight: 20, borderWidth: 1, borderRadius: 5, padding: 7, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ textAlign: 'center' }}>Size: XL</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>{setSize("XXL")}} style={{ backgroundColor:size=="XXL"?"#FF6633":"#fff", marginRight: 20, borderWidth: 1, borderRadius: 5, padding: 7, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ textAlign: 'center' }}>Size: XXL</Text>
-                            </TouchableOpacity>
+                            {arrSizes.length >0 ? arrSizes.map((tiem, i) =>{
+                                return (
+                                    <>
+                                    <TouchableOpacity key={i} onPress={()=>{setSize(tiem.key); setTotalSoLuongSize(tiem.value);setSoLuong(1)}} style={{   marginRight: 20,  }}>
+                                        <Text  style={{ textAlign: 'center',borderWidth: 1, borderRadius: 5, padding: 7,backgroundColor:size==tiem.key?"#FF6633":"#fff" }}>Size: {tiem.key}</Text>
+                                        <Text  style={{ textAlign: 'center', marginTop:2 }}> (SL: {tiem.value})</Text>
+                                        
+                                        
+                                    </TouchableOpacity>
+                                    </>
+                                )
+                            }):
+                            <Text style={{ textAlign: 'center' }}>Xin lỗi sản phẩm đã hết hàng</Text> 
+                            }
+                            
+                           
                         </View>
+                        
                     </View>
                     <View >
                         <Text style={{
@@ -430,7 +467,7 @@ const DetailProduct = (props) => {
                    <Text style={{fontSize:16}}>{soLuong}</Text>
                    
                     
-                         {soLuong < detailProduct.soLuong?
+                         {soLuong < totalSoLuongSize?
                              <TouchableOpacity onPress={()=>{congSoLuong()}} style={{
                                
                                 marginLeft:10,

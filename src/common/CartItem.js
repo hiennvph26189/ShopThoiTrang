@@ -25,6 +25,7 @@ const CartItem = (props) => {
     const [arrSize,setArrSize] = useState([])
     const countries = ["36", "37", "38", "39","40","41","42","43","44","45"]
     let item = props.item1
+    let loaditemChill = props.loaditemChill
     const loadAllProducts = async (id) => {
       
         await axios.get(GETALLPRODUCTS).then((res) => {
@@ -55,10 +56,11 @@ const CartItem = (props) => {
                 const outputArray = Object.entries(res.data.data.sizes[0].size)
                 .filter(([key, value]) => value !== 0)
                 .map(([key]) => key);
-                if ( item.size in res.data.data.sizes[0].size) {
+         
                     // Nếu có, set state cho numberSize với giá trị của size đó
                     setNumberSize(res.data.data.sizes[0].size[item.size]);
-                  }
+                    
+                  
                 
                 setArrSize(outputArray)
             }
@@ -66,13 +68,29 @@ const CartItem = (props) => {
         }).catch((error) => { console.log(error) });
     }
     useEffect(()=>{
+        if(loaditemChill){
+            setSize(props.item1.size)
+            console.log(props.item1.size)
+            loadDataCartItem()
+            setSoLuong(props.item1.soLuong)
+    
+            loadAllProducts()
+        }else{
+            setSize(props.item1.size)
+        loadDataCartItem()
+        setSoLuong(props.item1.soLuong)
+    
+        loadAllProducts()
+        }
+        
         setSize(props.item1.size)
         loadDataCartItem()
         setSoLuong(props.item1.soLuong)
     
         loadAllProducts()
        
-    },[])
+    },[loaditemChill])
+
     showImage = (image)=>{
         if(image){
            
@@ -92,10 +110,17 @@ const CartItem = (props) => {
         x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return  x;
     }
-   
+    const loadDataCartItem2 = async()=>{
+        props.loadDataCartItem()
+   }
    const onRemoteItem2 = async(id)=>{
+  
          props.deteleItem(id)
     }
+    const loadItem = async(id)=>{
+        props.loadDataCartItem()
+       console.log("caskd;a")
+   }
     CheckID = (id)=>{
         props.checkid(id)
 
@@ -297,10 +322,11 @@ const CartItem = (props) => {
                         props.updateCart(props.item1.id,1,selectedItem)
                        
                             // Nếu có, set state cho numberSize với giá trị của size đó
+                            console.log(itemSize[selectedItem])
                             setNumberSize(itemSize[selectedItem]);
                           
                           setSoLuong(1)
-                          loadDataCartItem()
+                          
                         setSize(selectedItem)
                         
                     }}

@@ -28,7 +28,7 @@ const DanhSachSanPham = (props) => {
             await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
 
                 if (res && res.data.errCode === 0) {
-                    //console.log(res.data.products,"OK")
+                   
                     setArrProducts(res.data.getAllLuotMuaNhieu)
                     setRefreshing(false)
                 }
@@ -36,7 +36,7 @@ const DanhSachSanPham = (props) => {
         }else if(id === "hotSale"){
             await axios.get(`${GET_DANH_SACH_SAN_PHAM_MEMBER}?id=${id}`).then((res) => {
                 if (res && res.data.errCode === 0) {
-                    console.log(res.data,"OK")
+                   
                     setArrProducts(res.data.getHotSaleAll)
                     setRefreshing(false)
                 }
@@ -72,16 +72,20 @@ const DanhSachSanPham = (props) => {
             <View  style={{flexDirection:"row",flexWrap:"wrap",width:"100%"}}>
                 
                 {arrProducts&&
-                arrProducts.map((item)=>{
+                arrProducts.map((item,i)=>{
                     return(
-                        <View key={item.id} style={{width:"50%"}}>{
-                            <ItemDanhSach 
-                            
-                            item={item}
-                               
-                        // addCart = {addCart}
-                        />
-                            }</View>
+                        <>
+                            {item.status == 0 &&
+                                 <View key={item.id} style={{width:"50%"}}>{
+                                    <ItemDanhSach 
+                                        key={i}
+                                        item={ item}
+                                    />
+                                    }
+                                    </View>
+                            }
+                        </>
+                       
                        
                     )
                 })
