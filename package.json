@@ -40,6 +40,7 @@
     "react-native-select-dropdown": "^3.3.2",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-socket.io-client": "^1.4.8",
+    "react-native-star-rating": "^1.1.0",
     "react-native-svg": "13.9.0",
     "react-native-vector-icons": "^9.2.0",
     "react-navigation": "^5.0.0",

@@ -1,12 +1,13 @@
 import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,TouchableOpacity,Image ,Pressable} from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS} from "../../api"
+import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS,CHECK_STAR_PRODUCT} from "../../api"
 import {React,useState,useEffect} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
+import ButtonVote from "../common/ButtonVote";
 const GiaoThanhCong = () => {
     const navigation = useNavigation()
     const isFocused = useIsFocused()
@@ -79,7 +80,7 @@ const GiaoThanhCong = () => {
             size
         )
     }
-     getSoLuong = (arr,id)=>{
+     getSoLuong =(arr,id)=>{
         let soLuong = 0
         arr.map((item)=>{
             if(item.ipSanPham === id){
@@ -91,6 +92,7 @@ const GiaoThanhCong = () => {
             soLuong
         )
     }
+ 
     tongSoSanPham =(id)=>{
         let list = JSON.parse(id)
       let count = 0
@@ -101,7 +103,7 @@ const GiaoThanhCong = () => {
                 }
             }) 
         })
-        return count
+        return id
     }
      list = (id,tongtien,id_donhang)=>{
         let list = JSON.parse(id)
@@ -125,11 +127,11 @@ const GiaoThanhCong = () => {
                 }
             })
         })
-        getDanhGia = (id_sp,id_donhang,id_cart)=>{
-            let id_member = info.id
-            console.log(id_cart);
+        getDanhGia = (id_member,id_sp,id_donhang,id_cart)=>{
+            navigation.navigate('Đánh giá sản phẩm',{id_member: id_member,id_sp: id_sp,id_donhang: id_donhang,id_cart: id_cart});
+            
         }
-        
+       
         return (
             products.map((item,index)=>{
                 return (
@@ -189,11 +191,18 @@ const GiaoThanhCong = () => {
                             </View>
                         </View>
                         <View style={{flexDirection:"row",justifyContent:"flex-end",marginTop:5, marginBottom:5}}>
-                        <TouchableOpacity onPress={()=>{getDanhGia(item.id,id_donhang,item.id_cart)}} key={index} style={{  padding:10,backgroundColor:"red", borderRadius:10}}>
-                            <Text style={{color:"#fff", fontWeight:500}}>Đánh giá</Text>
-                        </TouchableOpacity>
+                        <ButtonVote
+                            key={index}
+                            id_member={info.id}
+                            id_sp={item.id}
+                            id_donhang={id_donhang}
+                            id_cart={item.id_cart}
+                        />
+                        {/* <TouchableOpacity onPress={()=>{getDanhGia(info.id,item.id,id_donhang,item.id_cart)}} key={index} style={{  padding:10,backgroundColor:"red", borderRadius:10}}>
+                            <Text  style={{color:"#fff", fontWeight:500}}>Đánh giá   </Text>
+                        </TouchableOpacity> */}
                         </View>
-                       
+                        
                     </View>
                     
                        

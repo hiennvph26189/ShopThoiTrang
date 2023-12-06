@@ -51,4 +51,11 @@ export const CHECK_SOLUONG_SP_THEOSIZE_TRONG_ODER = URL+ '/api-app/Check-soluong
 export const RESET_CART_ORDER = URL+ '/api-app/post-reset-cart'
 // list size products
 export const LIST_SIZE_PRODUCTS = URL+ '/api-app/list-products-size'
-
+// get one product in cart vote star
+export const GET_ONE_PRODUCT_IN_CART_VOTE_START = URL+ '/api-app/get-product-cart-vote-star'
+// post vote star
+export const POST_VOTE_START = URL+ '/api-app/post-vote-star-product'
+// check star product
+export const CHECK_STAR_PRODUCT = URL+ '/api-app/check-vote-star'
+//
+export const GET_TOTAL_STAR_TB_STAR_PRODUCT = URL+ '/api-app/get-total-star-product'

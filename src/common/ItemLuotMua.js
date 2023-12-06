@@ -1,18 +1,34 @@
 import { View, Text,Alert, Image, TouchableOpacity } from "react-native"
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import axios from "axios";
-import {GET_CART_USER,POST_CART_USER} from "../../api"
+import {GET_CART_USER,POST_CART_USER,GET_TOTAL_STAR_TB_STAR_PRODUCT} from "../../api"
 import {Avatar, Title,Caption,TouchableRipple} from "react-native-paper"
 import {useDispatch, useSelector} from 'react-redux'
 import Icon from "react-native-vector-icons/Foundation"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
+import StarRating from 'react-native-star-rating';
 const ItemLuotMua = (props) => {
     const item = props.item
     const navigation = useNavigation();
-    useEffect(()=>{
-        
-    })
+    const [rating, setRating] = useState(0);
+    const [totalStar, setTotalStar] = useState(0);
+  
     const info = useSelector(state => state.Reducers.arrUser);
+    const getTotalStarProduct = async() =>{
+        if(item.id){
+            await axios.get(`${GET_TOTAL_STAR_TB_STAR_PRODUCT}?id=${item.id}`).then((res)=>{
+                
+                if(res.data.errCode === 0){
+                   
+                    setRating(res.data.tbStar)
+                    setTotalStar(res.data.totalStar)
+                }
+            })
+        }
+    }
+    useEffect(()=>{
+        getTotalStarProduct()
+    })
     showImage = (image)=>{
         if(image){
            
@@ -147,10 +163,28 @@ const ItemLuotMua = (props) => {
                         </View>
                             
                         }
-                       <View>
+                       <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
                             <Text style={{fontSize:14,fontWeight:"700"}}>
                                 Đã bán: {item.luotMua}
                             </Text>
+                            {
+                            totalStar>0 &&
+                            <View style={{flexDirection:"row", alignItems: 'center', padding:5, alignItems:"center"}}>
+                            <StarRating
+                                disabled={false}
+                                maxStars={5}
+                                rating={rating}
+                                fullStarColor="#FFA500"
+                                emptyStarColor="#FFA500"
+                                halfStarColor="#FFA500"
+                                starSize={15}
+                                
+                                
+                            />
+                            
+
+                            </View>
+                        }
                        </View>
                         <TouchableRipple
                             style={{

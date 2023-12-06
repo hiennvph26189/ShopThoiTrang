@@ -16,6 +16,7 @@ import NewsDetail from "../edit/NewsDetail";
 import DetailProduct from "../common/DetailProduct";
 import DanhSachSanPham from "../common/DanhSachSanPham";
 import ThongBaoOrder from "../common/ThongBaoOrder";
+import DanhGiaSanPham from "../common/ItemVote";
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
 const Stack = createNativeStackNavigator();
@@ -54,6 +55,7 @@ const getMember = async()=>{
           <Stack.Screen options={{headerShown: true}} name='Chi tiết tin tức' component={NewsDetail}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen> 
           <Stack.Screen options={{headerShown: false}} name='Thông báo Order' component={ThongBaoOrder}></Stack.Screen> 
+          <Stack.Screen options={{headerShown: true}} name='Đánh giá sản phẩm' component={DanhGiaSanPham}></Stack.Screen> 
         </Stack.Navigator>
         
       }

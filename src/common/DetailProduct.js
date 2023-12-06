@@ -21,14 +21,19 @@ import RenderHtml from 'react-native-render-html';
 import MyProductItem from "./MyProductItem";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import axios from "axios";
-import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS} from "../../api"
-
+import Moment from 'moment';
+import vi from "moment/locale/vi";
+import fr from "moment/locale/fr";
+import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS,GET_TOTAL_STAR_TB_STAR_PRODUCT} from "../../api"
+import StarRating from 'react-native-star-rating';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 
+
 const DetailProduct = (props) => {
+
     const isFocused = useIsFocused();
     const navigation = useNavigation()
     const route = props.route;
@@ -45,7 +50,9 @@ const DetailProduct = (props) => {
     const [soLuong,setSoLuong] = useState(0);
     const [size,setSize] = useState("");
     const [totalSoLuongSize,setTotalSoLuongSize] = useState(0);
-
+    const [rating, setRating] = useState(0);
+    const [totalStar, setTotalStar] = useState(0);
+    const [arrVoteStar, setArrVoteStar] = useState([]);
 
     const [xemChiTiet,setXemChiTiet] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
@@ -54,6 +61,7 @@ const DetailProduct = (props) => {
         setRefreshing(true)
         
     }
+    
     const onchange = (nativeEvent) => {
         if (nativeEvent) {
             const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
@@ -61,6 +69,10 @@ const DetailProduct = (props) => {
                 setImgActive(slide);
             }
         }
+    }
+    const formatDate= (date)=>{
+        const newFr = Moment(date).locale("vi", fr).format("DD/MM/YYYY  HH:mm:ss");
+        return newFr
     }
     const getDetailProduct = async() =>{
         if(idProduct){
@@ -70,6 +82,19 @@ const DetailProduct = (props) => {
                     setImages(JSON.parse(res.data.getDetailProduct.image))
                     setOrtherProducrs(res.data.arProduct)
                     
+                }
+            })
+        }
+    }
+    const getTotalStarProduct = async() =>{
+        if(idProduct){
+            await axios.get(`${GET_TOTAL_STAR_TB_STAR_PRODUCT}?id=${idProduct}`).then((res)=>{
+                console.log(res.data)
+                if(res.data.errCode === 0){
+                    setArrVoteStar(res.data.data)
+                    console.log(res.data.data)
+                    setRating(res.data.tbStar)
+                    setTotalStar(res.data.totalStar)
                 }
             })
         }
@@ -100,6 +125,7 @@ const DetailProduct = (props) => {
     }
     useEffect(()=>{
         getArrSizesroduct()
+        getTotalStarProduct()
         getDetailProduct()
         loadCategories()
     },
@@ -140,7 +166,7 @@ const DetailProduct = (props) => {
         })
         if(id){
             await axios.get(`${LIST_SIZE_PRODUCTS}?id=${id}`).then((res)=>{
-                console.log(res.data)
+                
                 if(res.data.errCode === 0){
                   
                    let arr = Object.entries(res.data.data).map(([key, value]) => ({ key, value }));
@@ -150,7 +176,18 @@ const DetailProduct = (props) => {
                 }
             })
         }
-        console.log(arrSizes,"sdlf'sd")
+
+        if(id){
+            await axios.get(`${GET_TOTAL_STAR_TB_STAR_PRODUCT}?id=${id}`).then((res)=>{
+                console.log(res.data)
+                if(res.data.errCode === 0){
+                    setArrVoteStar(res.data.data)
+                    console.log(res.data.data)
+                    setRating(res.data.tbStar)
+                    setTotalStar(res.data.totalStar)
+                }
+            })
+        }
         setSoLuong(0)
         setSize("")
     }
@@ -295,7 +332,7 @@ const DetailProduct = (props) => {
         
     }
     return (
-        <View style={{backgroundColor:"#fff"}} key={detailProduct.id}>
+        <View style={{backgroundColor:"#fff"}}>
             <ScrollView>
                 <SafeAreaView>
                     <View>
@@ -315,8 +352,27 @@ const DetailProduct = (props) => {
                                 fontWeight: 'bold',
                                 fontSize: 16,
                             }}>{detailProduct?detailProduct.tenSp:""}</Text>
-                           
+                            
                         </View>
+                        {
+                            totalStar>0 &&
+                            <View style={{flexDirection:"row", alignItems: 'center', padding:5, alignItems:"center"}}>
+                            <StarRating
+                                disabled={false}
+                                maxStars={5}
+                                rating={rating}
+                                fullStarColor="#FFA500"
+                                emptyStarColor="#FFA500"
+                                halfStarColor="#FFA500"
+                                starSize={20}
+                                
+                                
+                            />
+                            <Text style={{marginLeft:5, fontSize:16, fontWeight:500}}>{rating}</Text>
+
+                            </View>
+                        }
+                        
                         <ScrollView
                             onScroll={({ nativeEvent }) => onchange(nativeEvent)}
                             showsHorizontalScrollIndicator={false}
@@ -587,7 +643,104 @@ const DetailProduct = (props) => {
                        
                     </View>
                     </View>
-                    
+                    {
+                        totalStar>0 &&
+                            <View>
+                                
+                                <Text style={{
+                                    fontWeight: 'bold',
+                                    borderWidth: 1,
+                                    textAlign: 'left',
+                                    backgroundColor: 'black',
+                                    color: 'white',
+                                    padding: 12,
+                            
+                                    
+                                }}>Đánh giá sản phẩm</Text>
+                            
+                                <View style={{
+                                    width: '100%',
+                                    padding:7,
+                                    paddingBottom:10,
+                                    height:"auto"
+                                }}>
+                                    <View>
+                                        <View style={{flexDirection:"row", alignItems: 'center', padding:5, alignItems:"center", borderBottomWidth:.5,justifyContent:"space-between"}}>
+                                            <View style={{flexDirection:"row", alignItems: 'center'}}>
+                                                <StarRating
+                                                    disabled={false}
+                                                    maxStars={5}
+                                                    rating={rating}
+                                                    fullStarColor="#FFA500"
+                                                    emptyStarColor="#FFA500"
+                                                    halfStarColor="#FFA500"
+                                                    starSize={22}
+                                                    
+                                                    
+                                                />
+                                                <Text style={{marginLeft:5, fontSize:16, fontWeight:500, color:"red"}}>{rating}/5</Text>
+                                                <Text> ({totalStar} Đánh giá)</Text>
+
+                                            </View>
+                                            <View>
+                                            <Text style={{color:"blue"}}> Xem tất cả </Text>
+
+                                            </View>
+                                        </View>
+                                    </View>
+                                
+                                    <View>
+                                            {arrVoteStar.length >0 && arrVoteStar.map((item,index)=>{
+                                                return(
+                                                    <View key={index} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#ccc"}}>
+                                                        <View  style={{flexDirection:"row", marginTop:10, marginBottom:10, alignItems:"center"}}>
+                                                            <View >
+                                                            <Image
+                                                                source={{uri:item.anhDaiDien}} 
+                                                                style={{width:35,height:35, borderRadius:50}}
+                                                                />
+                                                            </View>
+                                                            <View style={{marginLeft:6}}>
+                                                                <Text>{item.hoten}</Text>
+                                                                <View style={{width:"35%", marginTop:5}}>
+                                                                    <StarRating
+                                                                            disabled={false}
+                                                                            maxStars={5}
+                                                                            rating={item.vote}
+                                                                            fullStarColor="#FFA500"
+                                                                            emptyStarColor="#FFA500"
+                                                                            halfStarColor="#FFA500"
+                                                                            starSize={15}
+                                                                        
+                                                                        
+                                                                    />
+                                                                </View>
+                                                                <Text>Size: {item.size}</Text>
+                                                                
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        {item.comment !=""&&
+                                                            <View style={{paddingLeft:40}}>
+                                                            <Text>
+                                                                {item.comment}
+                                                            </Text>
+                                                        </View>
+                                                        }
+                                                        
+                                                        <View style={{paddingLeft:40, marginTop:5}}>
+                                                            <Text style={{ color:"#A9A9A9"}}>{formatDate(item.createdAt)}</Text>    
+                                                        </View>  
+                                                    </View>
+                                                )
+                                            })}
+                                    </View>
+                                </View>
+
+                            
+                            
+                            </View>
+                    }
                     <View style={{
                         width: '100%',
                         
@@ -640,6 +793,13 @@ const styles = StyleSheet.create({
     dot: {
         margin: 3,
         color: 'white'
-    }
+    },
+      halfStarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center', 
+      },
+      halfStar: {
+        marginRight: -15, 
+      },
 });
 export default DetailProduct;
