@@ -36,6 +36,9 @@ const Profile = () => {
     const lichSuNapTien = ()=>{
         navigation.navigate('LichSuNapTien')
     }
+    const getAdress = ()=>{
+        navigation.navigate('Địa chỉ')
+    }
     const handleLichSuMuaHang = ()=>{
         navigation.navigate('Lịch Sử Mua Hàng')
     }
@@ -63,6 +66,9 @@ const Profile = () => {
             }
         }).catch((err)=>{console.log(err)})
     }
+    const rePasswd = () => {
+        navigation.navigate('Đổi mật khẩu');
+    }
     useEffect(()=>{
         getAllOrder()
         getProfile()
@@ -84,7 +90,7 @@ const Profile = () => {
         return count;
     }
     return (
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.container}>
             <Header
                 title={'Profile'}
                 show={true}
@@ -194,11 +200,11 @@ const Profile = () => {
                     </View>
                    
                 </TouchableRipple> 
-                <TouchableRipple>
+                <TouchableRipple onPress={()=>{getAdress()}}> 
                     <View style={styles.menuItem}>
                         <Icon name="account-check-outline" color="#000" size={25}/>
                         <Text style={styles.menuItemText}>
-                           Hỗ trợ
+                           Địa chỉ nhận hàng
                         </Text>
                     </View>
                    
@@ -212,7 +218,16 @@ const Profile = () => {
                     </View>
                    
                 </TouchableRipple>
-                <TouchableRipple onPress={()=>{singOut()}}>
+                <TouchableRipple onPress={() => { rePasswd() }}>
+                                <View style={styles.menuItem}>
+                                    <Icon name="lock" color="#000" size={25} />
+                                    <Text style={styles.menuItemText}>
+                                        Đổi mật khẩu
+                                    </Text>
+                                </View>
+
+                            </TouchableRipple>
+                <TouchableRipple onPress={()=>{singOut()}} style={{marginBottom:70}}>
                     <View style={styles.menuItem}>
                         <Icon name="logout" color="#000" size={25}/>
                         <Text style={styles.menuItemText}>
@@ -223,7 +238,7 @@ const Profile = () => {
                 </TouchableRipple>
             </View>
             </ScrollView>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 

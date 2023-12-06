@@ -7,6 +7,7 @@ import SearchProducts from '../Screen/SearchProducts';
 import {GET_ONE_MEMBER} from "../../api"
 import NewAccount from '../Screen/NewAccount';
 import Home from '../Screen/Home';
+import RePass from '../edit/RePass';
 import EditProfile from '../edit/EditProfile';
 import PriceProfile from "../edit/PriceProfile";
 import LichSuNapTien from "../edit/LichSuNapTien";
@@ -17,6 +18,9 @@ import DetailProduct from "../common/DetailProduct";
 import DanhSachSanPham from "../common/DanhSachSanPham";
 import ThongBaoOrder from "../common/ThongBaoOrder";
 import DanhGiaSanPham from "../common/ItemVote";
+import ListAddress from '../common/ListAddress';
+import NewAddress from '../edit/NewAddress';
+import EditAddress from '../edit/EditAddress';
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
 const Stack = createNativeStackNavigator();
@@ -56,6 +60,10 @@ const getMember = async()=>{
           <Stack.Screen options={{headerShown: true}} name='Tìm kiếm' component={SearchProducts}></Stack.Screen> 
           <Stack.Screen options={{headerShown: false}} name='Thông báo Order' component={ThongBaoOrder}></Stack.Screen> 
           <Stack.Screen options={{headerShown: true}} name='Đánh giá sản phẩm' component={DanhGiaSanPham}></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Đổi mật khẩu' component={RePass} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Địa chỉ' component={ListAddress} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Thêm mới địa chỉ' component={NewAddress} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Sửa địa chỉ' component={EditAddress} ></Stack.Screen> 
         </Stack.Navigator>
         
       }

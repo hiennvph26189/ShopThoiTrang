@@ -21,6 +21,8 @@ export const LICHSU_NAPTIEN_MEMBER = URL + "/api/lich-su-naptien-members"
 export const LIST_PRODUCTS_IN_CATEGORIES = URL + "/api-app/list-category-in-products"
 // get danh mục sản phẩm
 export const GET_CATEGORIES = URL + "/api/get-all-categories"
+//Phản hồi
+export const FEED_BACK = URL+"/api-app/lienhe-member";
 // get tất cả các sản phẩm trong trang chủ
 export const GETALLPRODUCTS = URL + "/api/get-all-total-product"
 // get one productr
@@ -57,5 +59,21 @@ export const GET_ONE_PRODUCT_IN_CART_VOTE_START = URL+ '/api-app/get-product-car
 export const POST_VOTE_START = URL+ '/api-app/post-vote-star-product'
 // check star product
 export const CHECK_STAR_PRODUCT = URL+ '/api-app/check-vote-star'
-//
+//  
 export const GET_TOTAL_STAR_TB_STAR_PRODUCT = URL+ '/api-app/get-total-star-product'
+//
+export const GET_TINH_THANH = URL +'/api-app/tinhThanh';
+//get quận huyện
+export const GET_QUAN = URL+'/api-app/quan';
+//get xã phường hị trấn
+export const GET_XA = URL+'/api-app/xa'
+//thêm địa chỉ nhận hàng
+export const POST_ADDRESS_MEMBERS= URL+'/api-app/address-member'
+//get Địa chỉ
+export const GET_ADDRESS_MEMBERS = URL+'/api-app/get-address-member'
+//sửa địa chỉ
+export const UPDATE_ADDRESS_MEMBERS = URL+'/api-app/put-address-member'
+//xóa địa chỉ
+export const DELETE_ADDRESS_MEMBERS = URL+'/api-app/delete-address-member'
+//suawr
+export const UPDATE_STATUS_ADDRESS_MEMBERS=URL+'/api-app/edit-status-address-member'

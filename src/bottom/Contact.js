@@ -1,159 +1,237 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { Button, Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import MapView, { Marker } from "react-native-maps";
+import CustomTextInput from "../common/CustomTextInput";
+import CommonButton from "../common/CommonButton";
+import { useDispatch, useSelector } from 'react-redux'
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import axios from "axios";
+import { FEED_BACK } from "../../api";
 import Header from "../common/Header";
+
 const Contact = () => {
-    return (
+  const WIDTH = Dimensions.get('window').width;
+  const [feedBack, setFeedBack] = useState('');
 
-        <View>
-            <Header
-            
-            title={'Contact'} />
-            <ScrollView>
-                <Image source={require('../Screen/image/shop.jpg')}
-                    style={{
-                        width: '94%',
-                        height: 200,
-                        borderRadius: 10,
-                        alignSelf: 'center',
-                        marginTop: 10,
-                    }} />
+  const info = useSelector(state => state.Reducers.arrUser);
 
-                <View style={{
-                    paddingHorizontal: 16,
-                    marginTop: 6
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [contact, setContact] = useState('');
 
-                }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <Image source={require('../Screen/image/shopping.png')} style={{ width: 24, height: 24 }}></Image>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '400',
-                            marginLeft: 20
-                        }}>Shopping Fashion Men</Text>
+  const onFeedBack = async() => {
 
-                    </View>
-                    <View style={{
-                        flexDirection: 'row',
-                        marginVertical: 4,
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Text style={{
-                            fontSize: 24,
-                            fontWeight: '600',
-                            letterSpacing: 0.5,
-                            marginVertical: 4,
-                            maxWidth: '84%'
-                        }}>Liên Hệ Với Chúng Tôi</Text>
-                        <Image source={require('../Screen/image/link.png')} style={{ width: 30, height: 30, marginLeft: 50, borderRadius: 100, backgroundColor: '#4da6ff' }}></Image>
-                    </View>
+    const data = {
+      name: name,
+      email: email,
+      contact: contact
+    }
+    
+   await axios.post(FEED_BACK, data).then((res) => {
 
-                    <Text style={{ fontSize: 12, fontWeight: '400', letterSpacing: 1, opacity: 0.5, lineHeight: 20, maxWidth: '85%', maxHeight: 44, marginBottom: 18 }}>
-                        Khi Bạn Gặp Bất Cứ Sự Cố gì hãy liên hệ với Chúng tôi Qua các phương thức bên dưới
+      if (res.data.errCode === 1) {
+        Alert.alert(
+          'Thông báo',
+          `${res.data.errMessage}`,
+          [{ text: 'OK', onPress: () => console.log(res.data.errMessage) }],
+          { cancelable: false }
+        );
+        setName('');
+        setEmail('');
+        setContact('');
+      }else{
+        alert(res.data.errMessage);
+      }
+    }).catch((err) => { console.log(err) })
+  }
+  useEffect(() => {
+    if (info) {
+      setEmail(info.email);
+      setName(info.tenThanhVien);
+    }
+   
+  }, [])
 
-                    </Text>
-                    <View style={{
-                        padding: 10,
-                        borderRadius: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginVertical: 14,
-                        borderBottomWidth: 1,
-                        backgroundColor: '#e6e6e6'
-                    }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            width: '80%',
-                            alignItems: 'center'
-                        }}>
-                                <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#D3D3D3' }}>
-                                <Image source={require('../Screen/image/diachi.png')} style={{ width: 24, height: 24 }}></Image>
-                            </View>
-                            <Text>số 81 - Ngõ 32 - Đỗ Đức Dục - Nam Từ Liêm - Hà Nội</Text>
-
-                        </View>
-                        <Image source={require('../Screen/image/next.png')} style={{ width: 12, height: 12 }}></Image>
-                    </View>
-                    <View style={{
-                        padding: 10,
-                        borderRadius: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginVertical: 14,
-                        borderBottomWidth: 1,
-                        backgroundColor: '#e6e6e6'
-                    }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            width: '80%',
-                            alignItems: 'center'
-                        }}>
-                            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#D3D3D3' }}>
-                                <Image source={require('../Screen/image/phone.png')} style={{ width: 24, height: 24 }}></Image>
-                            </View>
-                            <Text>0377125775</Text>
-
-                        </View>
-                        <Image source={require('../Screen/image/next.png')} style={{ width: 12, height: 12 }}></Image>
-                    </View>
-                    <View style={{
-                        padding: 10,
-                        borderRadius: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginVertical: 14,
-                        borderBottomWidth: 1,
-                        backgroundColor: '#e6e6e6'
-                    }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            width: '80%',
-                            alignItems: 'center'
-                        }}>
-                            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#D3D3D3' }}>
-                                <Image source={require('../Screen/image/mail.png')} style={{ width: 24, height: 24 }}></Image>
-                            </View>
-                            <Text>Nguyenntph26125@gmail.com</Text>
-
-                        </View>
-                        <Image source={require('../Screen/image/next.png')} style={{ width: 12, height: 12 }}></Image>
-</View>
-
-                    <View style={{
-                        paddingHorizontal: 16
-                    }}>
-                        <Text style={{
-                            fontSize: 18,
-                            fontWeight: '500',
-                            marginBottom: 4
-                        }}>
-                            Cảm Ơn Bạn Đã Tin Tưởng Chúng Tôi
-                        </Text>
-                        <Text>
-                            - Đội Ngũ Shop
-                        </Text>
-                    </View>
-                </View>
-            </ScrollView>
-            <View style={{ backgroundColor: '#555555', height: 100, padding: 20, borderRadius:20,marginTop:50 }}>
-                <View style={{flex:1,flexDirection:'row'}}>
-                    <Image source={require('../Screen/image/fb.png')} style={{ width: 50, height: 50 }}>
-                    </Image>
-                    <Text style={{color:'#fff', marginLeft:10,fontSize:15,fontWeight:'600', marginTop:17}}>Fashion Men</Text>
-                    <Image source={require('../Screen/image/instagram.png')} style={{ width: 50, height: 50,marginLeft:40 }}>
-                    </Image>
-                    <Text style={{color:'#fff', marginLeft:10,fontSize:15,fontWeight:'600', marginTop:17}}>@Thenguyen9603</Text>
-                </View>
-
+  return (
+    <>
+    <Header 
+    title={'Contact'}
+    />
+    <ScrollView style={{ flexGrow: 1, flex: 1, marginBottom: 10 }}>
+      <View style={{ height: 300, padding: 6, WIDTH }}>
+        <MapView style={{ flex: 1, height: 200 }}
+          initialRegion={{
+            latitude: 20.9999531,
+            longitude: 105.8046858,
+            latitudeDelta: 0.03,
+            longitudeDelta: 0.03,
+          }}>
+          <Marker
+            coordinate={{ latitude: 20.9999531, longitude: 105.8046858 }}
+            title="Marker Title"
+            description="Marker Description"
+          />
+        </MapView>
+      </View>
+      <View style={{ marginBottom: 50, marginTop: 10, marginHorizontal: 8 }}>
+        <Image
+          source={require('../images/logo.png')}
+          style={{ width: 150, height: 100 }}
+        />
+        <Text style={{
+          alignContent: 'center',
+          fontSize: 17,
+          marginTop: 10,
+          marginBottom: 10,
+          alignSelf: 'center'
+        }}>
+          Sapo được thành lập với niềm đam mê và khát vọng thành công trong lĩnh vực Thương mại điện tử. Chúng tôi đã và đang khẳng định được vị trí hàng đầu bằng những sản phẩm.
+        </Text>
+        <View style={{
+          padding: 8,
+          borderRadius: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginVertical: 4,
+          borderBottomWidth: 1,
+          backgroundColor: '#e6e6e6',
+          marginHorizontal: 2,
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            width: '80%',
+            alignItems: 'center'
+          }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#66a182' }}>
+              <Icon name="map-marker" size={25} color='#fff' />
             </View>
+            <Text>Tầng 6 266 Đội Cấn - Ba Đình - Hà Nội, Hà Nội</Text>
 
+          </View>
         </View>
-    )
-}
+        <View style={{
+          padding: 8,
+          borderRadius: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginVertical: 4,
+          borderBottomWidth: 1,
+          backgroundColor: '#e6e6e6',
+          marginHorizontal: 2,
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            width: '80%',
+            alignItems: 'center'
+          }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#66a182' }}>
+              <Icon name="phone-classic" size={25} color='#fff' />
+            </View>
+            <Text>1900 6750</Text>
+          </View>
+        </View>
+        <View style={{
+          padding: 8,
+          borderRadius: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginVertical: 4,
+          justifyContent: 'space-between',
+          borderBottomWidth: 1,
+          backgroundColor: '#e6e6e6',
+          marginHorizontal: 2,
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            width: '80%',
+            alignItems: 'center'
+          }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 100, marginRight: 10, backgroundColor: '#66a182' }}>
+              <Icon name="email-outline" size={25} color='#fff' />
+            </View>
+            <Text>Hellocafein@gmail.com</Text>
+          </View>
+        </View>
+        <View>
+          <Text style={{ fontSize: 25, fontWeight: '700', marginTop: 10 }}>
+            LIÊN HỆ
+          </Text>
+          <View style={{ marginHorizontal: 4, backgroundColor: '#e6e6e6', marginTop: 10 }}>
+            <TextInput
+              multiline={true}
+              placeholder="Họ và tên"
+               style={{
+                height: 60,
+                fontSize: 18,
+                padding: 8,
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                backgroundColor: '#e6e6e6',
+                borderRadius: 20,
+              }}
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={{ marginHorizontal: 4, backgroundColor: '#e6e6e6', marginTop: 10 }}>
+            <TextInput
+            placeholder="Email"
+              multiline={true} style={{
+                height: 60,
+                fontSize: 18,
+                padding: 8,
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                backgroundColor: '#e6e6e6',
+                borderRadius: 20,
+              }}
+              value={email}
+              onChangeText={(text) => setEmail(text)} />
+          </View>
+          <View style={{ marginHorizontal: 4, backgroundColor: '#e6e6e6', marginTop: 10 }}>
+        
+            <TextInput
+                placeholder="Nhập nội dung cần gửi..."
+                numberOfLines={10} // Số lượng dòng xuất hiện mặc định
+                textAlignVertical="top" 
+              multiline={true} 
+              style={{
+                padding:5,
+                fontSize: 16,
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                backgroundColor: '#e6e6e6',
+                borderRadius: 20,
+              }}
+              value={contact}
+              onChangeText={(text) => setContact(text)}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() => { onFeedBack() }}
+            style={{
+              backgroundColor: 'black',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '85%',
+              height: 50,
+              borderRadius: 20,
+              alignSelf: 'center',
+              marginTop: 10,
+              marginBottom:30
+            }}>
+            <Text style={{
+              color: 'white',
+              fontWeight: '700'
+            }}>Gửi phản hồi</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+    </ScrollView>
+    </>
+  );
+};
 export default Contact;
