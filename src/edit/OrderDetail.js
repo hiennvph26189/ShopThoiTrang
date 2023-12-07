@@ -1,6 +1,6 @@
 import { View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable } from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS} from "../../api"
+import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS,ITEM_ADDRESS_ORDER_DETAIL} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
 import {React,useState,useEffect} from "react";
@@ -14,6 +14,7 @@ const OrderDetail = (props) => {
     const [getOrder, setOrder] = useState({})
     const [idCart,setIdCart] = useState("")
     const [IdSP,setIdSP] = useState([])
+    const [itemAddress,setItemAddress] = useState({})
     const [tongTien, setTongTien] = useState(0)
     const [status, setStatus] = useState(0)
     const route = props.route;
@@ -41,7 +42,16 @@ const OrderDetail = (props) => {
                 setIdCart(res.data.detailOrder.idCart)
                 setTongTien(res.data.detailOrder.tongTien)
                 setStatus(res.data.detailOrder.status)
-
+                getItemAddressMember(res.data.detailOrder.id_address)
+            }
+        }).catch((err)=>{console.log(err)})
+    }
+    const getItemAddressMember = async(id) =>{
+        await axios.get(`${ITEM_ADDRESS_ORDER_DETAIL}?id_address=${id}`).then((res)=>{
+            console.log(res.data);
+            if(res.data.errCode === 0){
+                setItemAddress(res.data.itemAddress)
+               
             }
         }).catch((err)=>{console.log(err)})
     }
@@ -205,9 +215,9 @@ tongSoSanPham =(id)=>{
             <View style={{marginBottom:10,marginTop:5}}>
                 <Text style={styles.thongtinkhachhnag}>Thông tin khách hàng</Text>
                 <View style={styles.infoUser}>
-                        <Text style={styles.textInfoUser}>Họ và tên:  <Text style={styles.textName}>{info.tenThanhVien}</Text></Text>
-                        <Text style={styles.textInfoUser}>Số Điện thoại:  <Text style={styles.textName}>{info.soDienThoai}</Text></Text>
-                        <Text style={styles.textInfoUser}>Địa chỉ nhận hàng:  <Text style={styles.textName}>{info.diaChi}</Text></Text>
+                        <Text style={styles.textInfoUser}>Họ và tên:  <Text style={styles.textName}>{itemAddress? itemAddress.hoTen:""}</Text></Text>
+                        <Text style={styles.textInfoUser}>Số Điện thoại:  <Text style={styles.textName}>{itemAddress? itemAddress.soDienThoai:""}</Text></Text>
+                        <Text style={styles.textInfoUser}>Địa chỉ nhận hàng:  <Text style={styles.textName}>{itemAddress? itemAddress.diaChi:""}</Text></Text>
                         <Text style={styles.textInfoUser}>Ngày đặt đơn: {" "} 
                             <Text style={styles.textName}>
                                 {getOrder&&getOrder.status == 0||status == 1?formatDate(getOrder.createdAt):formatDate(getOrder.updatedAt)}

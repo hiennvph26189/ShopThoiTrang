@@ -42,6 +42,9 @@ const Home = (props) => {
         
         
     }
+    const updateLenht = ()=>{
+        setLenght(0)
+    }
     const deleteCart = ()=>{
         listCart()
     }
@@ -49,16 +52,15 @@ const Home = (props) => {
         listCart()
     }
     useEffect(() => {
-        listCart()
-        if(stateTab!==null){
-            setSelectetab(stateTab)
-        }
-    }, [isFocused])
+        if(info.id){
+            listCart()
+        }  
+    }, [isFocused,selectTab])
    
   
     return (
         <View style={{ flex: 1 }}>
-            {selectTab == 0 ? (<Main addCart={addCart} />) : selectTab == 1 ? (<NewPaper />) : selectTab == 2 ? (<Cart deleteCart={deleteCart} />) : selectTab == 3 ? (<Contact />) : (<Profile />)}
+            {selectTab == 0 ? <Main addCart={addCart} /> : selectTab == 1 ? <NewPaper /> : selectTab == 2 ? <Cart deleteCart={deleteCart} /> : selectTab == 3 ? <Contact /> : selectTab == 4 &&<Profile updateLenht={updateLenht}/>}
             
             <View
                 style={{

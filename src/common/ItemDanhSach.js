@@ -64,6 +64,8 @@ const ItemDanhSach = (props) => {
             })
        
        
+    }else{
+        return alert("Bạn chưa đăng nhập")
     }
     }
     handleDetailProduct = (id)=>{

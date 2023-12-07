@@ -322,7 +322,7 @@ const NewAddress = () => {
                         onSelect={(selectedItem, index) => {
 
                             choiceXa(IdTinh, IdQuan)
-                            setTenXa(selectedItem._name)
+                            setTenXa(selectedItem._prefix +" "+selectedItem._name)
                             console.log(selectedItem._name);
                             setCheckXa(false)
 

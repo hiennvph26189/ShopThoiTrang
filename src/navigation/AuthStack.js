@@ -21,6 +21,7 @@ import DanhGiaSanPham from "../common/ItemVote";
 import ListAddress from '../common/ListAddress';
 import NewAddress from '../edit/NewAddress';
 import EditAddress from '../edit/EditAddress';
+import ChiTietDonHangThanhToan from '../common/ChiTietDonHangThanhToan';
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
 const Stack = createNativeStackNavigator();
@@ -44,16 +45,17 @@ const getMember = async()=>{
     return(
         <>
         { infoUser.status !==2&&
-        <Stack.Navigator  initialRouteName="Login">
+        <Stack.Navigator  initialRouteName="Home">
           <Stack.Screen options={{headerShown: false}} name='ManChao' component={ManChao}></Stack.Screen>
-          <Stack.Screen options={{headerShown: false}} name='Login' component={Login}></Stack.Screen>
+          <Stack.Screen options={{headerShown: true}} name='Login' component={Login}></Stack.Screen>
           <Stack.Screen options={{headerShown: false}} name='NewAccount' component={NewAccount}></Stack.Screen>
-          <Stack.Screen options={{headerShown: false}} name='Home' component={Home}></Stack.Screen>
+          <Stack.Screen options={{headerShown: false}} name='Home'  component={Home}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='EditProfile' component={EditProfile}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='PriceProfile' component={PriceProfile}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='LichSuNapTien' component={LichSuNapTien}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Lịch Sử Mua Hàng' component={LichSuOrders}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Chi tiết đơn hàng' component={OrderDetail}></Stack.Screen>
+          <Stack.Screen options={{headerShown: false}} name='Chi tiết đơn hàng thanh toán' component={ChiTietDonHangThanhToan}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Chi tiết sản phẩm' component={DetailProduct}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Danh Sách sản phẩm' component={DanhSachSanPham}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Chi tiết tin tức' component={NewsDetail}></Stack.Screen>

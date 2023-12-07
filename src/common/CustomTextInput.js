@@ -7,14 +7,29 @@ const CustomTextInput = ({value, onChangeText, placeholder, icon, type}) => {
         borderRadius: 10, alignSelf: "center", marginTop: 20,
          flexDirection: "row", alignItems: "center",paddingLeft:20,paddingRight:20}}>
             <Image source={icon} style={{ width: 24, height: 24 }}></Image>
-        <TextInput 
-        value={value}
-        onChangeText={text => {
-            onChangeText(text);
-        }}
-        placeholder={placeholder}
-        secureTextEntry={type == 'password' ? true : false}
-        style={{marginLeft:10}}></TextInput>
+            {type == "number-pad" ?
+                 <TextInput 
+                 value={value}
+                 onChangeText={text => {
+                     onChangeText(text);
+                 }}
+                 
+                 placeholder={placeholder}
+                 keyboardType="number-pad"
+                 style={{marginLeft:10}}></TextInput>
+            
+            :
+                <TextInput 
+                value={value}
+                onChangeText={text => {
+                    onChangeText(text);
+                }}
+                
+                placeholder={placeholder}
+                secureTextEntry={type == 'password' ? true : false}
+                style={{marginLeft:10}}></TextInput>
+            }
+       
         
         </View>
     )

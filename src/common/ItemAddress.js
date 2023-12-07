@@ -34,7 +34,7 @@ const ItemAddress = (props) => {
     }
 
     const deleteItem = async () => {
-        await axios.delete(`${DELETE_ADDRESS_MEMBERS}?id=${id}&id_member=${info.id}`).then((res) => {
+        await axios.put(`${DELETE_ADDRESS_MEMBERS}?id=${id}&id_member=${info.id}`).then((res) => {
             if (res.data.errCode == 0) {
                 ToastAndroid.showWithGravity(
                     'Xóa địa chỉ thành công',

@@ -8,11 +8,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import editProfile from "../edit/EditProfile"
 import axios from "axios";
 import Header from "../common/Header";
-
+import {updateEmail} from "../redux/action/Actions";
 import {PROFILE_MEMBER,GET_ALL_USER_ORDERS} from "../../api";
 
 
-const Profile = () => {
+const Profile = (props) => {
     const [image,setImage] = useState('')
     const isFocused = useIsFocused()
     const navigation = useNavigation()
@@ -20,6 +20,7 @@ const Profile = () => {
     const [profile,setProfile] = useState({})
     const [refreshing, setRefreshing] = useState(false);
     const [getAllOrders,setGetAllOrders]= useState([]);
+    const dispatch = useDispatch();
         onRefresh = () => {
             setRefreshing(true)
             getProfile()
@@ -27,7 +28,8 @@ const Profile = () => {
         }
     
     const singOut = ()=>{
-       navigation.navigate('Login')
+        props.updateLenht()
+        dispatch(updateEmail({},false))
        
     }
     const priceProfile = ()=>{
@@ -90,155 +92,170 @@ const Profile = () => {
         return count;
     }
     return (
-        <ScrollView style={styles.container}>
-            <Header
-                title={'Profile'}
-                show={true}
-            />
-            <ScrollView  refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={() => { onRefresh() }}
+        <>
+            {
+                info.id && info.id> 0 ?  <ScrollView style={styles.container}>
+                <Header
+                    title={'Profile'}
+                    show={true}
                 />
-            } >
-            <View style={styles.userInfoSectiom}>
-                <View style = {{flexDirection:'row'}}>
-                    <Avatar.Image
-                        source={{
-                            uri: profile.anhDaiDien? profile.anhDaiDien:'https://tse4.mm.bing.net/th?id=OIP.eImXLrEHmxuAIYAz3_VKhAHaHt&pid=Api&P=0'
-                           
-                        }}
-                        size = {100}
+                <ScrollView  refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => { onRefresh() }}
                     />
-                    <View style={{marginLeft: 20}}>
-                        <View style={[styles.row,{
-                            justifyContent:'center',
-                            alignItems: 'center',
-                        }]}>
-                            <Title  style={[styles.title,{
-                                marginTop: 15,
-                                marginBottom: 5 
-
+                } >
+                <View style={styles.userInfoSectiom}>
+                    <View style = {{flexDirection:'row'}}>
+                        <Avatar.Image
+                            source={{
+                                uri: profile.anhDaiDien? profile.anhDaiDien:'https://tse4.mm.bing.net/th?id=OIP.eImXLrEHmxuAIYAz3_VKhAHaHt&pid=Api&P=0'
+                               
+                            }}
+                            size = {100}
+                        />
+                        <View style={{marginLeft: 20}}>
+                            <View style={[styles.row,{
+                                justifyContent:'center',
+                                alignItems: 'center',
                             }]}>
-                               {profile.tenThanhVien?profile.tenThanhVien:''}
-                            </Title>
-                           
+                                <Title  style={[styles.title,{
+                                    marginTop: 15,
+                                    marginBottom: 5 
+    
+                                }]}>
+                                   {profile.tenThanhVien?profile.tenThanhVien:''}
+                                </Title>
+                               
+                            </View>
+                           {profile.gioiTinh ==1  &&
+                                <Caption  style={styles.caption}>
+                                    Giới tính: Nam
+                                </Caption>
+                           }
+                           {profile.gioiTinh ==2  &&
+                                <Caption  style={styles.caption}>
+                                    Giới tính: Nữ
+                                </Caption>
+                           }
+                        {profile.gioiTinh ==3  &&
+                                <Caption  style={styles.caption}>
+                                    Giới tính: Khác
+                                </Caption>
+                           }
                         </View>
-                       {profile.gioiTinh ==1  &&
-                            <Caption  style={styles.caption}>
-                                Giới tính: Nam
-                            </Caption>
-                       }
-                       {profile.gioiTinh ==2  &&
-                            <Caption  style={styles.caption}>
-                                Giới tính: Nữ
-                            </Caption>
-                       }
-                    {profile.gioiTinh ==3  &&
-                            <Caption  style={styles.caption}>
-                                Giới tính: Khác
-                            </Caption>
-                       }
-                    </View>
-                </View>
-                
-            </View>
-            <View style={styles.userInfoSectiom}>
-                    <View style={styles.row}>
-                        <Icon name="map-marker-radius" size={20} color='#777777'/>
-                        <Text style={{color:'#777777',marginLeft:20}}>{profile.diaChi?profile.diaChi:''}</Text>
-                    </View> 
-                    <View style={styles.row}>
-                        <Icon name="phone" size={20} color='#777777'/>
-                        <Text style={{color:'#777777',marginLeft:20}}>{profile.soDienThoai?profile.soDienThoai:''}</Text>
-                    </View>
-                     <View style={styles.row}>
-                        <Icon name="email" size={20} color='#777777'/>
-                        <Text style={{color:'#777777',marginLeft:20}}>{profile.email?profile.email:''}</Text>
                     </View>
                     
-            </View>
-            <View style={[styles.infoBoxWrapper,]}>
-                <View style={[styles.infoBox,{
-                borderRightColor: '#dddddd',
-                borderRightWidth: 1
-                
-            }]}>
-                    <Title style={styles.title}>{price(profile.tienTk?profile.tienTk:0)}  </Title>
-                    <Caption>Wallet</Caption>
-                </View> 
-                <View style={styles.infoBox}>
-                    <Title style={styles.title}>{countAllOrders()}</Title>
-                    <Caption>Orders</Caption>
                 </View>
-            </View>
-            <View style={styles.menuWrapper}>
-                <TouchableRipple>
-                    <View style={styles.menuItem}>
-                        <Icon name="heart-outline" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                            Sản phẩm yêu thích
-                        </Text>
+                <View style={styles.userInfoSectiom}>
+                        <View style={styles.row}>
+                            <Icon name="map-marker-radius" size={20} color='#777777'/>
+                            <Text style={{color:'#777777',marginLeft:20}}>{profile.diaChi?profile.diaChi:''}</Text>
+                        </View> 
+                        <View style={styles.row}>
+                            <Icon name="phone" size={20} color='#777777'/>
+                            <Text style={{color:'#777777',marginLeft:20}}>{profile.soDienThoai?profile.soDienThoai:''}</Text>
+                        </View>
+                         <View style={styles.row}>
+                            <Icon name="email" size={20} color='#777777'/>
+                            <Text style={{color:'#777777',marginLeft:20}}>{profile.email?profile.email:''}</Text>
+                        </View>
+                        
+                </View>
+                <View style={[styles.infoBoxWrapper,]}>
+                    <View style={[styles.infoBox,{
+                    borderRightColor: '#dddddd',
+                    borderRightWidth: 1
+                    
+                }]}>
+                        <Title style={styles.title}>{price(profile.tienTk?profile.tienTk:0)}  </Title>
+                        <Caption>Wallet</Caption>
+                    </View> 
+                    <View style={styles.infoBox}>
+                        <Title style={styles.title}>{countAllOrders()}</Title>
+                        <Caption>Orders</Caption>
                     </View>
-                   
-                </TouchableRipple>
-                <TouchableRipple onPress={()=>{priceProfile()}}>
-                    <View style={styles.menuItem}>
-                        <Icon name="credit-card" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                            Nạp tiền
-                        </Text>
-                    </View>
-                   
-                </TouchableRipple>
-                <TouchableRipple onPress={()=>{lichSuNapTien()}}>
-                    <View style={styles.menuItem}>
-                        <Icon name="history" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                            Lịch sử nạp tiền
-                        </Text>
-                    </View>
-                   
-                </TouchableRipple> 
-                <TouchableRipple onPress={()=>{getAdress()}}> 
-                    <View style={styles.menuItem}>
-                        <Icon name="account-check-outline" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                           Địa chỉ nhận hàng
-                        </Text>
-                    </View>
-                   
-                </TouchableRipple>
-                <TouchableRipple onPress={()=>{handleLichSuMuaHang()}}>
-                    <View style={styles.menuItem}>
-                        <Icon name="book" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                            Lịch sử mua hàng
-                        </Text>
-                    </View>
-                   
-                </TouchableRipple>
-                <TouchableRipple onPress={() => { rePasswd() }}>
-                                <View style={styles.menuItem}>
-                                    <Icon name="lock" color="#000" size={25} />
-                                    <Text style={styles.menuItemText}>
-                                        Đổi mật khẩu
-                                    </Text>
-                                </View>
-
-                            </TouchableRipple>
-                <TouchableRipple onPress={()=>{singOut()}} style={{marginBottom:70}}>
-                    <View style={styles.menuItem}>
-                        <Icon name="logout" color="#000" size={25}/>
-                        <Text style={styles.menuItemText}>
-                           Đăng xuất
-                        </Text>
-                    </View>
-                   
-                </TouchableRipple>
-            </View>
+                </View>
+                <View style={styles.menuWrapper}>
+                    <TouchableRipple>
+                        <View style={styles.menuItem}>
+                            <Icon name="heart-outline" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                                Sản phẩm yêu thích
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple>
+                    <TouchableRipple onPress={()=>{priceProfile()}}>
+                        <View style={styles.menuItem}>
+                            <Icon name="credit-card" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                                Nạp tiền
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple>
+                    <TouchableRipple onPress={()=>{lichSuNapTien()}}>
+                        <View style={styles.menuItem}>
+                            <Icon name="history" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                                Lịch sử nạp tiền
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple> 
+                    <TouchableRipple onPress={()=>{getAdress()}}> 
+                        <View style={styles.menuItem}>
+                            <Icon name="account-check-outline" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                               Địa chỉ nhận hàng
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple>
+                    <TouchableRipple onPress={()=>{handleLichSuMuaHang()}}>
+                        <View style={styles.menuItem}>
+                            <Icon name="book" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                                Lịch sử mua hàng
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple>
+                    <TouchableRipple onPress={() => { rePasswd() }}>
+                                    <View style={styles.menuItem}>
+                                        <Icon name="lock" color="#000" size={25} />
+                                        <Text style={styles.menuItemText}>
+                                            Đổi mật khẩu
+                                        </Text>
+                                    </View>
+    
+                                </TouchableRipple>
+                    <TouchableRipple onPress={()=>{singOut()}} style={{marginBottom:70}}>
+                        <View style={styles.menuItem}>
+                            <Icon name="logout" color="#000" size={25}/>
+                            <Text style={styles.menuItemText}>
+                               Đăng xuất
+                            </Text>
+                        </View>
+                       
+                    </TouchableRipple>
+                </View>
+                </ScrollView>
             </ScrollView>
-        </ScrollView>
+            :
+                <View style={{width:"100%", height:"100%", flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
+                    <Button
+                        title="Đăng nhập"
+                        onPress={()=>{
+                            navigation.navigate("Login")
+                        }}
+                    />
+                </View>
+
+            }
+        </>
+       
     )
 }
 

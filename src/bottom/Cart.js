@@ -85,28 +85,28 @@ const Cart = (props) => {
         listCart()
         loadAllProducts()
     }
-    useEffect(() => {
+    // useEffect(() => {
 
-        const handleDeepLink = async () => {
-            const initialUrl = await Linking.getInitialURL();
-            listCart()
-            if (initialUrl) {
+    //     const handleDeepLink = async () => {
+    //         const initialUrl = await Linking.getInitialURL();
+    //         listCart()
+    //         if (initialUrl) {
 
-                // Xử lý URL và hiển thị cửa sổ alert dựa trên nội dung của URL
-                handleUrl(initialUrl);
-            }
+    //             // Xử lý URL và hiển thị cửa sổ alert dựa trên nội dung của URL
+    //             handleUrl(initialUrl);
+    //         }
 
-            // Lắng nghe sự kiện khi có liên kết sâu được mở
-            Linking.addEventListener('url', ({ url }) => handleUrl(url));
+    //         // Lắng nghe sự kiện khi có liên kết sâu được mở
+    //         Linking.addEventListener('url', ({ url }) => handleUrl(url));
 
-            return () => {
-                // Hủy đăng ký sự kiện khi component bị unmounted
-                Linking.removeEventListener('url', handleUrl);
-            };
-        };
+    //         return () => {
+    //             // Hủy đăng ký sự kiện khi component bị unmounted
+    //             Linking.removeEventListener('url', handleUrl);
+    //         };
+    //     };
 
-        handleDeepLink();
-    }, [isFocused]);
+    //     handleDeepLink();
+    // }, [isFocused]);
 
     // setCartList(cartData);
     const DeleteItemCart = async (id) => {
@@ -146,34 +146,15 @@ const Cart = (props) => {
             }
         }).catch(err => { console.log(err) });
     }
-    const post9Pay = (arrTenSp,tongTiens,IP) =>{
-        let formdata = new FormData();
-
-        formdata.append("name", `${arrTenSp}`)
-        formdata.append("price", `${tongTiens}`)
-        formdata.append("cookie_port", IP)
-
-
-        axios({
-            url: "https://shopacc12312.000webhostapp.com/thongtinkhachhang.php",
-            method: 'POST',
-            data: formdata,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Basic YnJva2VyOmJyb2tlcl8xMjM='
-            }
+    
+    const orderProducts = async (cartList) => {
+        let checkLeng = 0
+        cartList.map((item,index) => {
+            checkLeng = checkLeng +1
         })
-            .then(function (response) {
-
-                Linking.openURL(response.data.redirectUrl);
-            })
-            .catch(function (error) {
-                console.log("error from image :", error);
-            })
-    }
-    const orderProducts = async () => {
-
+        console.log( checkLeng);
+        if(checkLeng>0){
+          
         let ids = []
         let tongTien = 0
         let arrTenSp = ""
@@ -191,124 +172,30 @@ const Cart = (props) => {
             cartList: JSON.stringify(cartList)
         }
         await axios.post(CHECK_SOLUONG_SP_THEOSIZE_TRONG_ODER,postData).then(res => {
-          
+              
             if (res.data.success == true) {
-                    post9Pay(arrTenSp,tongTiens,IP)
-                    listCart()
-                    setLoaditemChill(!loaditemChill)
+                navigation.navigate("Chi tiết đơn hàng thanh toán",{postData:postData,arrTenSp:arrTenSp,tongTiens:tongTiens,IP:IP})
+                   
                    
             }else{
-                listCart()
+             
                 alert(res.data.message)
-                setLoaditemChill(!loaditemChill)
-                
-                
-              
 
             }
         }).catch(err => { console.log(err) });
+         
+        }else{
+            alert("Vui lòng chọn sản phẩm")
+        }
+        
        
-        // if(cartList){
-        //     if(tongTiens <profile.tienTk){
-        //         data = {
-        //             idCart:ib,
-        //             idUser: info.id,
-        //             tongTien: tongTiens,
-        //         }
-        //         await axios.post(ORDER_CART_USER,data).then(res=>{
-        //             if(res.data.errCode === 0){
-        //                 Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
-
-        //                     {text: 'OK', onPress: () =>{
-        //                         setCartList([])
-        //                         setCheckedOrder(false)
-        //                         listCart()
-        //                         getUser()
-        //                         props.deleteCart()
-        //                     }},
-        //                   ]);
-
-
-
-        //             }else{
-
-        //                 alert(res.data.errMessage)
-        //             }
-        //         }).catch(err=>{console.log(err)});
-        //     }else{
-        //         return alert("Số dư của bạn không đủ, hãy nạp thêm tiền")
-        //     }
-
-        // }else{
-
-        //     return alert("Không có sản phẩm nào trong giỏ hàng"); 
-        // }
+       
+        
     }
     const loadDataCartItem = () => {
        
     }
-    const handleUrl = async (url) => {
-        // Kiểm tra và xử lý dữ liệu từ URL
-        // Nếu có dữ liệu, hiển thị cửa sổ alert
-
-        if (url.includes('?code=')) {
-            const data = url.split('?code=')[1];
-            let utf8String = ""
-            console.log(data)
-            await axios.get(`${CONVERT_CODE_SHA}?data=${data}`).then(res => {
-
-                utf8String = res.data
-            }).catch((error) => { console.log(error.message) });
-
-
-            let idUser = info.id;
-            let ids = []
-            let arrProducts2 = []
-            await axios.get(`${GET_CART_USER}?id=${idUser}`).then(res => {
-
-                if (res.data.errCode == 0) {
-                    ids = res.data.Carts
-
-                }
-            }).catch((error) => { console.log(error.message) });
-            await axios.get(GETALLPRODUCTS).then((res) => {
-
-                if (res && res.data.errCode === 0) {
-
-                    arrProducts2 = res.data.totalProducts
-
-
-                }
-            }).catch((error) => { console.log(error.message) });
-            let tien = 0
-            let arrIdProducts = []
-            let arrTenSp = ""
-
-            if (ids.length > 0) {
-                ids.map((item) => {
-                    arrIdProducts.push(item.id)
-                    tien = tien + item.thanhTien
-
-                    arrProducts2.map((product, index) => {
-                        if (item.ipSanPham === product.id) {
-                            arrTenSp += product.tenSp + ' (x' + item.soLuong + " size: " + item.size + ")" + "\n"
-                        }
-                    })
-
-                })
-                let ib = JSON.stringify(arrIdProducts)
-
-                const data_order = {
-                    idCart: ib,
-                    idUser: info.id,
-                    tongTien: tien,
-                }
-
-                navigation.navigate('Thông báo Order', { utf8String, data_order, arrTenSp })
-            }
-
-        }
-    };
+   
 
 
     const deleteCart = () => {
@@ -367,7 +254,7 @@ const Cart = (props) => {
                     >{price(tongTiens)}</Text>
                 </View>
                 <View>
-                    <Pressable onPress={() => { orderProducts() }} style={{
+                    <Pressable onPress={() => { orderProducts(cartList) }} style={{
                         borderColor: "#000",
                         borderWidth: 1,
                         height: 50,

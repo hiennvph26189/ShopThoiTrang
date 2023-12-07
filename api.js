@@ -77,3 +77,9 @@ export const UPDATE_ADDRESS_MEMBERS = URL+'/api-app/put-address-member'
 export const DELETE_ADDRESS_MEMBERS = URL+'/api-app/delete-address-member'
 //suawr
 export const UPDATE_STATUS_ADDRESS_MEMBERS=URL+'/api-app/edit-status-address-member'
+// 
+export const GET_PRODUCT_CART_MEMBER=URL+'/api-app/get-cart-product-in-idmember'
+// get item address menber 
+export const ITEM_ADDRESS_MEMBER=URL+'/api-app/get-item-address-in-idmember'
+// item address order detail
+export const ITEM_ADDRESS_ORDER_DETAIL=URL+'/api-app/get-item-address-order-detail'

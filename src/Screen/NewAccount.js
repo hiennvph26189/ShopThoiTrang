@@ -148,6 +148,7 @@ const NewAccount = () => {
         >Create New Account</Text>
      <CustomTextInput
         value={phone}
+        type = "number-pad"
         onChangeText= {text => {setPhone(text);}} 
       placeholder={"Xin Nhập Số Điện Thoại"} icon={require('../Screen/image/phone.png')}>
       </CustomTextInput>
@@ -160,7 +161,7 @@ const NewAccount = () => {
       onChangeText= {text => {setEmail(text);}} 
       placeholder={"Xin Nhập Email"} icon={require('../Screen/image/email.png')}>
       </CustomTextInput>
-      {
+        {
             BadEmail==true && (<Text style={{marginTop:10,marginLeft:40,color:'red'}}>{errMessage}</Text>)
           }
       <CustomTextInput
