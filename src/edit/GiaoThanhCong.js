@@ -94,16 +94,10 @@ const GiaoThanhCong = () => {
     }
  
     tongSoSanPham =(id)=>{
+        
         let list = JSON.parse(id)
-      let count = 0
-        list.map((item)=>{
-            listCarts.map((item2,inbiex)=>{
-                if(item === item2.id){
-                    count = count+1
-                }
-            }) 
-        })
-        return id
+      
+        return list.length 
     }
      list = (id,tongtien,id_donhang)=>{
         let list = JSON.parse(id)

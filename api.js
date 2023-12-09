@@ -83,3 +83,6 @@ export const GET_PRODUCT_CART_MEMBER=URL+'/api-app/get-cart-product-in-idmember'
 export const ITEM_ADDRESS_MEMBER=URL+'/api-app/get-item-address-in-idmember'
 // item address order detail
 export const ITEM_ADDRESS_ORDER_DETAIL=URL+'/api-app/get-item-address-order-detail'
+// get thanh toán order
+export const GET_METHUD_THANH_TOAN_ORDER = URL+'/api-app/get-method-thanh-toan'
+

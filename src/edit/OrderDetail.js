@@ -1,6 +1,6 @@
 import { View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable } from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS,ITEM_ADDRESS_ORDER_DETAIL} from "../../api"
+import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS,ITEM_ADDRESS_ORDER_DETAIL,GET_METHUD_THANH_TOAN_ORDER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
 import {React,useState,useEffect} from "react";
@@ -15,6 +15,7 @@ const OrderDetail = (props) => {
     const [idCart,setIdCart] = useState("")
     const [IdSP,setIdSP] = useState([])
     const [itemAddress,setItemAddress] = useState({})
+    const [itemThanhToan,setItemThanhToan] = useState({})
     const [tongTien, setTongTien] = useState(0)
     const [status, setStatus] = useState(0)
     const route = props.route;
@@ -46,11 +47,22 @@ const OrderDetail = (props) => {
             }
         }).catch((err)=>{console.log(err)})
     }
-    const getItemAddressMember = async(id) =>{
-        await axios.get(`${ITEM_ADDRESS_ORDER_DETAIL}?id_address=${id}`).then((res)=>{
-            console.log(res.data);
+    const getItemAddressMember = async(idOder) =>{
+        await axios.get(`${ITEM_ADDRESS_ORDER_DETAIL}?id_address=${idOder}`).then((res)=>{
+            
             if(res.data.errCode === 0){
                 setItemAddress(res.data.itemAddress)
+               
+            }
+        }).catch((err)=>{console.log(err)})
+    }
+    const getItemThanhToanOrder = async() =>{
+        console.log(idOder, ":DAKS:D:S");
+        await axios.get(`${GET_METHUD_THANH_TOAN_ORDER}?id_order=${idOder}`).then((res)=>{
+         
+            if(res.data.errCode === 0){
+                console.log(res.data.selectThanhToan);
+                setItemThanhToan(res.data.selectThanhToan)
                
             }
         }).catch((err)=>{console.log(err)})
@@ -59,6 +71,7 @@ const OrderDetail = (props) => {
         
         getOrderDetails()
         getAllOrder()
+        getItemThanhToanOrder()
         
 
     },[isFocused])
@@ -215,6 +228,7 @@ tongSoSanPham =(id)=>{
             <View style={{marginBottom:10,marginTop:5}}>
                 <Text style={styles.thongtinkhachhnag}>Thông tin khách hàng</Text>
                 <View style={styles.infoUser}>
+                        
                         <Text style={styles.textInfoUser}>Họ và tên:  <Text style={styles.textName}>{itemAddress? itemAddress.hoTen:""}</Text></Text>
                         <Text style={styles.textInfoUser}>Số Điện thoại:  <Text style={styles.textName}>{itemAddress? itemAddress.soDienThoai:""}</Text></Text>
                         <Text style={styles.textInfoUser}>Địa chỉ nhận hàng:  <Text style={styles.textName}>{itemAddress? itemAddress.diaChi:""}</Text></Text>
@@ -224,6 +238,7 @@ tongSoSanPham =(id)=>{
                             </Text>
                         </Text>
                         <Text style={styles.textInfoUser}>Tổng tiền:  <Text style={styles.textName}>{price(getOrder.tongTien?getOrder.tongTien:"")}</Text></Text>
+                        <Text style={styles.textInfoUser}>Phương thức thanh toán:  <Text style={styles.textName}>{itemThanhToan.method == "TK"?"Tiền trong tài khoản": "Ví 9Pay"}</Text></Text>
                         <Text style={styles.textInfoUser}>Trạng thái đơn hàng: {" "}  
                             <Text style={[styles.textName,{color:getOrder&&getOrder.status == 0 ? "#FF9900" : getOrder.status == 1 ? "#0099FF" : getOrder.status == 2 ? "#6A5ACD" : getOrder.status == 3 ? "#006400" :getOrder.status == 4?"#FF6347":"#8B0000"}]}>
                             {getOrder&&getOrder.status == 0 ? "Đang chờ xử duyệt đơn" : getOrder.status == 1 ? "Đã xác nhận đơn hàng"  : getOrder.status == 2 ? "Đơn của bạn đang được giao " : getOrder.status == 3 ? "Giao thành công"  :getOrder.status == 4?"Đang Chờ xác nhận hủy đơn":"Đã hủy thành công"}

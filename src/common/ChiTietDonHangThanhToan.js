@@ -2,7 +2,7 @@ import { Text, TouchableOpacity ,View,Linking,ScrollView,Image,BackHandler ,Aler
 import React, {useRef, useState,useEffect } from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
-import { GET_PRODUCT_CART_MEMBER,ITEM_ADDRESS_MEMBER,RESET_CART_ORDER,CONVERT_CODE_SHA,GET_CART_USER ,GETALLPRODUCTS} from "../../api";
+import { GET_PRODUCT_CART_MEMBER,ITEM_ADDRESS_MEMBER,RESET_CART_ORDER,CONVERT_CODE_SHA,GET_CART_USER ,GETALLPRODUCTS,ORDER_CART_USER} from "../../api";
 import axios from "axios";
 import { onPress } from "deprecated-react-native-prop-types/DeprecatedTextPropTypes";
 const ChiTietDonHangThanhToan = (props) => {
@@ -183,9 +183,16 @@ const ChiTietDonHangThanhToan = (props) => {
                
            }else if(loaiThanhToan == "TK"){
                 if(postData){
-                    if(tongTiens <profile.tienTk){
+                    let arrCart = JSON.parse(postData.cartList)
+                let arrIdCart = []
+                arrCart.map((item,index)=>{
+                    arrIdCart.push(item.id)
+                })
+               
+                    if(tongTiens <info.tienTk){
+                        console.log(postData);
                         data = {
-                            idCart:ib,
+                            idCart:JSON.stringify(arrIdCart),
                             idUser: info.id,
                             tongTien: tongTiens,
                         }
@@ -194,7 +201,7 @@ const ChiTietDonHangThanhToan = (props) => {
                                 Alert.alert('Đặt Đơn thành công', 'Đơn hàng của bạn đã được đặt, hãy chờ bên shop xét duyệt', [
     
                                     {text: 'OK', onPress: () =>{
-                                        
+                                        navigation.navigate("Home")
                                     }},
                                   ]);
     
