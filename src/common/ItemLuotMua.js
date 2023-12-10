@@ -9,7 +9,7 @@ import { useNavigation,useIsFocused } from "@react-navigation/native";
 import StarRating from 'react-native-star-rating';
 const ItemLuotMua = (props) => {
     const item = props.item
-    const keyItem = props.keyItem
+
     const navigation = useNavigation();
     const [rating, setRating] = useState(0.0);
     const [totalStar, setTotalStar] = useState(0);
@@ -87,7 +87,7 @@ const ItemLuotMua = (props) => {
     return (
         <>
             {item.status == 0 &&
-                 <TouchableOpacity key={keyItem}  onPress={()=>{handleDetailProduct(item.id)}} style={{
+                 <TouchableOpacity  onPress={()=>{handleDetailProduct(item.id)}} style={{
                     width: 250,
                     height: "auto",
                     borderRadius: 10,

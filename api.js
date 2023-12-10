@@ -93,4 +93,8 @@ export const POST_KEY_CODE_EMAIL = URL + "/api-app/quen-mat-khau"
 export const POST_MA_XAC_MINH = URL + "/api-app/xac-minh-email"
 // post Mật khẩu
 export const POST_PASSWORD_MEMBER = URL + "/api-app/lay-mat-khau-member"
+//nạp tiền tài khoản bằng 9Pay
+export const POST_PRICE_9PAY = URL + "/api-app/nap-tien-tk"
+//
+export const GET_ONE_THANHTOAN_9PAY = URL + "/api-app/detail-nap-tien-tk"
 

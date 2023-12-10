@@ -15,10 +15,12 @@ import EditProfile from '../edit/EditProfile';
 import PriceProfile from "../edit/PriceProfile";
 import LichSuNapTien from "../edit/LichSuNapTien";
 import LichSuOrders from "../edit/LichSuOrders";
+import PriceDetail from "../edit/PriceDetail";
 import OrderDetail from "../edit/OrderDetail";
 import NewsDetail from "../edit/NewsDetail";
 import DetailProduct from "../common/DetailProduct";
 import DanhSachSanPham from "../common/DanhSachSanPham";
+import ThongBaoNapTien from "../common/ThongBaoNapTien";
 import ThongBaoOrder from "../common/ThongBaoOrder";
 import DanhGiaSanPham from "../common/ItemVote";
 import ListAddress from '../common/ListAddress';
@@ -48,7 +50,7 @@ const getMember = async()=>{
     return(
         <>
         { infoUser.status !==2&&
-        <Stack.Navigator  initialRouteName="Lấy lại mật khẩu">
+        <Stack.Navigator  initialRouteName="Home">
           <Stack.Screen options={{headerShown: false}} name='ManChao' component={ManChao}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Login' component={Login}></Stack.Screen>
           <Stack.Screen options={{headerShown: false}} name='NewAccount' component={NewAccount}></Stack.Screen>
@@ -72,6 +74,8 @@ const getMember = async()=>{
           <Stack.Screen options={{ headerShown: true }} name='Lấy lại mật khẩu' component={QuenMatKhau} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Xác nhận Email' component={XacNhanEmail} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Lấy lại mật khẩu của bạn' component={LayLaiMatKhau} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Thông báo nạp tiền' component={ThongBaoNapTien} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Chi tiết nạp tiền' component={PriceDetail} ></Stack.Screen> 
         </Stack.Navigator>
         
       }

@@ -72,7 +72,7 @@ const ItemDanhSach = (props) => {
         navigation.navigate('Chi tiết sản phẩm',{id: id},{handleDetailProduct:{handleDetailProduct}});
     }
     return (
-        <TouchableOpacity key={props.i} onPress={()=>{handleDetailProduct(item.id)}} style={{
+        <TouchableOpacity  onPress={()=>{handleDetailProduct(item.id)}} style={{
             width: 180,
             height: "auto",
             borderRadius: 10,

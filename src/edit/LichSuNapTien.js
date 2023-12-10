@@ -63,28 +63,8 @@ const price =(price)=>{
     x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
     return  x;
 } 
-DeleteNapTien = (id)=>{
-    Alert.alert('Delete orders', 'Bạn có chắc muốn xóa hóa đơn này', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: async() => {
-            await axios.delete(`${DELETE_TIEN_DA_NAP}?id=${id}`).then((res) => {
-                if(res.data.errCode == 0){
-                    Alert.alert('Thông báo', 'Đã xóa thành công', [
-                        {text: 'OK', onPress: () => {
-                            getLichSuNapTien()
-                        }},
-                      ]);
-                }else{
-                    alert("Hóa đơn không tồn tại")
-                }
-
-             }).catch((err) => {console.log(err)});
-        }},
-      ]);
+const detailPrice = (item)=>{
+    navigation.navigate('Chi tiết nạp tiền', {data_price : item})
 }
   
     return (
@@ -104,7 +84,7 @@ DeleteNapTien = (id)=>{
                      data={arrprice} 
                      // item là giao diện trả về sau mỗi vòng lặp 
                      renderItem={({item})=>(
-                         <TouchableOpacity onLongPress={()=>{item.status != 0&&DeleteNapTien(item.id)}} style={styles.listView}>
+                         <TouchableOpacity onPress={()=>detailPrice(item)} >
                              <View style={styles.listView_Text}>
                                 {item.status === 1?
                                     <Text style={{width:'40%',color:'#228B22',fontSize:16,fontWeight:'600'}}> +{price(item.tienNap)}</Text>

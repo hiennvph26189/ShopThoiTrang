@@ -177,12 +177,14 @@ const Main = (props) => {
                             <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
                                 {hotSale && hotSale.map((item,index) => {
                                     return (
-                                        <ItemLuotMua 
-                                            keyItem={index}
-                                           
+                                        <View key={index}>
+                                             <ItemLuotMua 
+                                            
                                             item={item}
                                             addCart={addCart}
                                         />
+                                        </View>
+                                       
                                     )
                                 })}
                             </ScrollView>
@@ -215,11 +217,14 @@ const Main = (props) => {
                             <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
                                 {luotMuaNhieu && luotMuaNhieu.map((item,index) => {
                                     return (
-                                        <ItemLuotMua 
-                                            keyItem={index}
+                                        <View key={index}>
+                                            <ItemLuotMua 
+                                           
                                             item={item}
                                             addCart={addCart}
                                         />
+                                        </View>
+                                        
                                     )
                                 })}
                             </ScrollView>
@@ -253,11 +258,13 @@ const Main = (props) => {
                                         {item.products && item.products.map((item2,index2) => {
                                            
                                             return (
-                                                <ItemLuotMua 
-                                                    keyItem={index}
+                                                <View key={index2}>
+                                                     <ItemLuotMua 
                                                     item={item2}
                                                     addCart={addCart}
                                                 />
+                                                </View>
+                                               
                                             )
                                         })}
                                     </ScrollView>

@@ -31,7 +31,7 @@ const ChiTietDonHangThanhToan = (props) => {
 
     useEffect(() => {
       const handleAppStateChange = (nextAppState) => {
-        console.log(appState.current);
+       
         if (appState.current === 'active' && nextAppState === 'background') {
           // App chuyển từ trạng thái active sang background
           // Chặn thoát ứng dụng
@@ -204,9 +204,6 @@ const ChiTietDonHangThanhToan = (props) => {
                                         navigation.navigate("Home")
                                     }},
                                   ]);
-    
-    
-    
                             }else{
     
                                 alert(res.data.errMessage)

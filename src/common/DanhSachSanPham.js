@@ -76,9 +76,9 @@ const DanhSachSanPham = (props) => {
                     return(
                         <>
                             {item.status == 0 &&
-                                 <View key={item.id} style={{width:"50%"}}>{
+                                 <View key={i} style={{width:"50%"}}>{
                                     <ItemDanhSach 
-                                        key={i}
+                                        
                                         item={ item}
                                     />
                                     }

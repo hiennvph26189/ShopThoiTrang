@@ -1,11 +1,12 @@
-import {  View,SafeAreaView,TextInput,ScrollView,Text,ImageBackground,StyleSheet,Button,Pressable,ImputText, Platform, Image } from "react-native";
+import {  View,SafeAreaView,TextInput,ScrollView,Text,Linking,StyleSheet,Button,ImputText, Platform, Image } from "react-native";
+import {Avatar, Title,Caption,TouchableRipple} from "react-native-paper"
 import {React,useState,useEffect} from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {useDispatch, useSelector} from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
-import {PROFILE_MEMBER,NAP_TIEN_MEMBER} from "../../api";
+import {PROFILE_MEMBER,NAP_TIEN_MEMBER,IP,CONVERT_CODE_SHA} from "../../api";
 import { el } from "date-fns/locale";
 const PriceProfile = () => {
     const navigation = useNavigation()
@@ -21,9 +22,30 @@ const PriceProfile = () => {
    
     const [errMessage , setErrMessage] = useState('')
    
-     useEffect(() => {
+    useEffect(() => {
        
-      }, []);
+        const handleDeepLink = async () => {
+            const initialUrl = await Linking.getInitialURL();
+            if (initialUrl) {
+
+                // Xử lý URL và hiển thị cửa sổ alert dựa trên nội dung của URL
+                handleUrl(initialUrl);
+            }else{
+                console.log("Đã hủy giao dịch")
+            }
+           
+            // Lắng nghe sự kiện khi có liên kết sâu được mở
+            Linking.addEventListener('url', ({ url }) => handleUrl(url));
+
+            return () => {
+                // Hủy đăng ký sự kiện khi component bị unmounted
+              
+                Linking.removeEventListener('url', handleUrl);
+            };
+        };
+        
+        handleDeepLink();
+    }, [isFocused]);
       useEffect(()=>{
         const data = {
             id: info.id,  
@@ -32,73 +54,37 @@ const PriceProfile = () => {
    
     },[isFocused])
     
-       handleImage =async ()=>{
-        let _image = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-           
-            quality: 1,
-          },{
-            "cancelled":false,
-            "width":1080,
-            "type":"image",
-            "uri":"file:///data/user/0/host.exp.exponent/cache/ExperienceData/UNVERIFIED-192.168.1.5-react-expo-image-picker-guide/ImagePicker/a590d059-f144-45fe-ba8e-fc26b3c40aee.jpg",
-            "height":810
-         });
-         
-        if (!_image.cancelled) {
-            let newFile={
-                uri: _image.uri,
-                type: `test/${_image.uri.split('.')[1]}`,
-                name: `test.${_image.uri.split('.')[1]}`,
+   
+  
+    const post9Pay = (price,IP) =>{
+        let formdata = new FormData();
+
+        formdata.append("name", 'Nạp tiền vào tài khoản')
+        formdata.append("price", `${price}`)
+        formdata.append("cookie_port", IP)
+
+
+        axios({
+            url: "https://shopacc12312.000webhostapp.com/thongtinkhachhang.php",
+            method: 'POST',
+            data: formdata,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Basic YnJva2VyOmJyb2tlcl8xMjM='
             }
-            
-           
-            if(newFile){
-                const COUND_NAME = 'djh5ubzth'
-                const PRESET_NAME = 'b6oxas4h'
-                const url = ''
-                const FOLDER_NAME = 'UploadFileMember'
-                const api = `https://api.cloudinary.com/v1_1/${COUND_NAME}/image/upload`
-                const fromData = new FormData();
-                        fromData.append('upload_preset',PRESET_NAME)
-                        fromData.append("folder",FOLDER_NAME)
-                        fromData.append('file',newFile)
-                    
-                        await axios.post(api,fromData,{
-                            headers:{
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }).then((res) =>{
-                            if(res.data.secure_url){
-                               
-                            }else{
-                               
-                            }
-                            setImage(res.data.secure_url)
-                         
-                        
-                    }).catch((err) =>{console.log(err)});
-                    
-    
-                }
-        }
-        
-        
-        
-        }
+        })
+            .then(function (response) {
+
+                Linking.openURL(response.data.redirectUrl);
+            })
+            .catch(function (error) {
+                console.log("error from image :", error);
+            })
+    }
+
   
-  
-      const  checkForCameraRollPermission=async()=>{
-        const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert("Please grant camera roll permissions inside your system's settings");
-        }else{
-          console.log('Media Permissions are granted')
-        }
-  }
-  
-   const submit = async()=>{
+   const submit = async(IP)=>{
         if(price <= 0){
             setErrPrice(true) 
             setErrMessage("Vui lòng nhập số tiền")
@@ -110,38 +96,10 @@ const PriceProfile = () => {
                 return
             }else{
                 setErrPrice(false)
-            }
-           
-            
+            }   
         }
-        if(image){
-            setErrImage(false)
-        }else{
-            setErrImage(true);
-            setErrMessage("Vui lòng chọn ảnh vừa giao dịch")
-            return
-        }
-      
-        data = {
-            anhCK: image,
-            idUser: info.id,
-            tienNap: price,
-            status: 0
-            
-
-        }
-        await axios.post(NAP_TIEN_MEMBER,data)
-        .then((response)=>{
-            if(response.data.errCode ===0){
-                alert("Tiền của bạn đã đc nạp, bạn hãy chờ để admin xét duyệt")
-                navigation.goBack()
-            }
-        
-        })
-        .catch((error)=>console.log(error))
-           
-       
-        
+        console.log(parseInt(price));
+        post9Pay(parseInt(price),IP)
         
    }
     const tien =(price)=>{
@@ -155,6 +113,26 @@ const PriceProfile = () => {
         }
        
     }
+    const handleUrl = async (url) => {
+        // Kiểm tra và xử lý dữ liệu từ URL
+        // Nếu có dữ liệu, hiển thị cửa sổ alert
+
+        if (url.includes('?code=')) {
+            const data = url.split('?code=')[1];
+            let utf8String = ""
+         
+            await axios.get(`${CONVERT_CODE_SHA}?data=${data}`).then(res => {
+
+                utf8String = res.data
+            }).catch((error) => { console.log(error.message) });
+     
+            navigation.navigate('Thông báo nạp tiền', {data_price:utf8String})
+           
+
+        }else{
+            console.log("Thất bại");
+        }
+    };
     return (
         <ScrollView style={[styles.container,{flex:1}]} showsVerticalScrollIndicator={false}>
             <View style={{marginTop:40}}>
@@ -163,14 +141,7 @@ const PriceProfile = () => {
                         Bạn hãy chuyển khoản số tiền cần nạp vào tài khoản ngân hàng dưới đây
 
                     </Text>
-                    <Text>
-                        TPBANK: 
-                    </Text>
-
-                    <Image
-                        source={require('../Screen/image/tpBank.png')}
-                        style={{width:300, height:400}}>
-                    </Image>
+                   
                 </View>
                 <View style={{marginLeft:10,marginTop:10}}>
                     <Text style={{fontSize:17, fontWeight:"600"}}>
@@ -200,51 +171,14 @@ const PriceProfile = () => {
                 {
                     errPrice==true && (<Text style={{marginTop:10,marginLeft:40,color:'red'}}>{errMessage}</Text>)
                 }
-                <View style={{padding: 10}}>
-                    <Text style={{fontSize: 17, fontWeight:'600'}}>
-                        Chọn ảnh xác minh giao dịch vừa chuyển khoản
-                    </Text>
-                </View>
-                <Pressable onPress={()=>{handleImage()}} style={{width:"30%",flexDirection:'row', marginTop:15,marginLeft:10,
-                       padding:10,borderColor:'#000',borderWidth:1,justifyContent:'center',alignItems:'center',borderRadius:5, backgroundColor:"#ccccccc"}}>
-                    
-                        <>
-                            <Text style={{marginRight:5}}>Chọn ảnh</Text>
-                        </>
-                        <FontAwesome 
-                        name="download" size={21}  style={{
-                            
-                        }}
-                    />
-                  
-                </Pressable>
-                {
-                    errImage==true && (<Text style={{marginTop:10,marginLeft:40,color:'red'}}>{errMessage}</Text>)
-                }
-                {image ?
-                    <View style={[styles.action,{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        padding:10
-                    }]}>
-                        <ImageBackground
-                               source={{ uri: image }}
-                                style={{
-                                    width:400,height:400
-                                    
-                                }}
-                                imageStyle={{borderRadius:15,backgroundColor:'#000',borderColor:'#000',borderWidth:.5,}}
-                            />
-                    </View>
-                    :null
-                }
                 
                 
                 
                 
-                <Pressable style={styles.commandButton} onPress={()=>{submit()}}>
+                
+                <TouchableRipple style={styles.commandButton} onPress={()=>{submit(IP)}}>
                         <Text style={styles.panelButtonTitle}>Submit</Text>
-                </Pressable>
+                </TouchableRipple>
             </View>
         </ScrollView>
     )
