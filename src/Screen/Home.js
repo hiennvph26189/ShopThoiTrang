@@ -52,6 +52,9 @@ const Home = (props) => {
         listCart()
     }
     useEffect(() => {
+        if(info.id == undefined){
+            setLenght(0)
+        }
         if(info.id){
             listCart()
         }  

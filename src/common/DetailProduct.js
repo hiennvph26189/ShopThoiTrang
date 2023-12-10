@@ -124,6 +124,7 @@ const DetailProduct = (props) => {
         }).catch((error) => { console.log(error) });
     }
     useEffect(()=>{
+        console.log(info, "LSKJDLSJLA");
         getArrSizesroduct()
         getTotalStarProduct()
         getDetailProduct()
@@ -206,9 +207,9 @@ const DetailProduct = (props) => {
             })
         }
         
-        return arrSanPhamKhac.map((item)=>{
+        return arrSanPhamKhac.map((item,index)=>{
             return (
-                <TouchableOpacity onPress={()=>{orProduct(item.id)}}  key={item.id}>
+                <TouchableOpacity onPress={()=>{orProduct(item.id)}}  key={index}>
                         <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
                             <Image
                                source={{uri:showImage(item.image)}} 
@@ -284,51 +285,56 @@ const DetailProduct = (props) => {
 
         
     }
-    onAddToCart= async()=>{
+    onAddToCart= async(id)=>{
         
-        let id =  info.id
-        console.log(id,"ads;fkads;")
-        if(arrSizes&&arrSizes.length >0){
-            if(idProduct){
-                if(soLuong > 0&& size !== ""){
-                    let data = {
-                        id_member: info.id,
-                        id_product: idProduct,
-                        size: size,
-                        soLuong:soLuong
-                    }
-                    await axios.post(POST_CART_USER,data).then(res =>{
-                        
-                        if(res.data.errCode === 0 ){
-                            
-                            Alert.alert('Thông báo', 'Đơn hàng đã được thêm vào giỏ hàng', [
-                                {text: 'OK', onPress: () => {
-                                    navigation.navigate('Home',0);
-                                }},
-                              ]);
-                        }else{
-                            alert(res.data.errMessage)
-                            return
+        console.log("SAK:DAKS:k");
+        console.log(id,"test ID")
+        if(id !== undefined){
+            if(arrSizes&&arrSizes.length >0){
+                if(idProduct){
+                    if(soLuong > 0&& size !== ""){
+                        let data = {
+                            id_member: info.id,
+                            id_product: idProduct,
+                            size: size,
+                            soLuong:soLuong
                         }
-                    }).catch((err) => {console.log(err)})
-                }else{
-
-                    return Alert.alert('Thông báo', 'bạn chưa chọn số lượng hoặc size', [
-                        {text: 'OK', onPress: () => {
-                           
-                        }},
-                      ]);
-                
+                        await axios.post(POST_CART_USER,data).then(res =>{
+                            
+                            if(res.data.errCode === 0 ){
+                                
+                                Alert.alert('Thông báo', 'Đơn hàng đã được thêm vào giỏ hàng', [
+                                    {text: 'OK', onPress: () => {
+                                        navigation.navigate('Home');
+                                    }},
+                                  ]);
+                            }else{
+                                alert(res.data.errMessage)
+                                return
+                            }
+                        }).catch((err) => {console.log(err)})
+                    }else{
+    
+                        return Alert.alert('Thông báo', 'bạn chưa chọn số lượng hoặc size', [
+                            {text: 'OK', onPress: () => {
+                               
+                            }},
+                          ]);
+                    
+                    }
+                   
                 }
-               
+            }else{
+                return Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
+                    {text: 'OK', onPress: () => {
+                       
+                    }},
+                  ]);
             }
         }else{
-            return Alert.alert('Thông báo', 'Xin lỗi quý khách vì sản phẩm đã không còn hàng, chúng tôi sẽ cố gắng nhập hàng sớm nhất có thể', [
-                {text: 'OK', onPress: () => {
-                   
-                }},
-              ]);
+            return alert("Bạn chưa đăng nhập")
         }
+      
         
     }
     return (
@@ -360,7 +366,7 @@ const DetailProduct = (props) => {
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
-                                rating={rating}
+                                rating={parseFloat(rating)}
                                 fullStarColor="#FFA500"
                                 emptyStarColor="#FFA500"
                                 halfStarColor="#FFA500"
@@ -579,12 +585,14 @@ const DetailProduct = (props) => {
                     </View>
                    
                     <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10, marginBottom:20 }}>
-                        <TouchableOpacity style={{ marginTop: 10, marginRight: 20, borderWidth: 1, borderRadius: 7, padding: 10, width: 150, flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: '#5d83db', borderColor:'#5d83db' }}>
-                            <Text style={{ textAlign: 'center',fontSize:17, textTransform: 'uppercase', fontWeight: 'bold', color: 'white' }}>Liên Hệ</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{onAddToCart()}} style={{ marginTop: 10, marginLeft: 20, borderColor:'orange', borderRadius: 7, padding: 10, width: 150, flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: 'orange', }}>
-                            <Text style={{ textAlign: 'center',fontSize:17, textTransform: 'uppercase', fontWeight: 'bold', color: 'white' }}>Giỏ Hàng</Text>
-                        </TouchableOpacity>
+                       
+                        {arrSizes.length > 0 &&
+                         <TouchableOpacity onPress={()=>{onAddToCart(info.id)}} style={{ marginTop: 10, marginLeft: 20, borderColor:'orange', borderRadius: 7, padding: 10, width: 150, flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: 'orange', }}>
+                         <Text style={{ textAlign: 'center',fontSize:17, textTransform: 'uppercase', fontWeight: 'bold', color: 'white' }}>Giỏ Hàng</Text>
+                     </TouchableOpacity>
+
+                        }
+                       
                     </View>
                    
                     </View>

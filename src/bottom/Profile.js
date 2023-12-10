@@ -48,15 +48,15 @@ const Profile = (props) => {
         id: info.id,
        
      }
-    const getProfile = ()=>{
-        axios.post(PROFILE_MEMBER,data).then((response)=>{
+    const getProfile = async()=>{
+       await axios.post(PROFILE_MEMBER,data).then((response)=>{
            
            if(response.data.errCode ===0){
               
                setProfile({...response.data.userMember})
                setRefreshing(false)
            }
-       })
+       }).catch((err)=>{console.log(err);})
     }
     const getAllOrder = async()=>{
         let arr = []

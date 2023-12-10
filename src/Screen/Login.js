@@ -134,7 +134,9 @@ const Login = () => {
 
           
           <Text style={{fontSize:18,fontWeight:'800',alignSelf:"center",marginTop:20,textDecorationLine:"underline"}}
-           onPress={() => { navigation.navigate('NewAccount')}} > Create New Account</Text>
+           onPress={() => { navigation.navigate('NewAccount')}} > Tạo mới tài khoản</Text>
+          <Text style={{fontSize:18,fontWeight:'800',alignSelf:"center",marginTop:20,textDecorationLine:"underline"}}
+           onPress={() => { navigation.navigate('Lấy lại mật khẩu')}} > Quên mật khẩu?</Text>
         </View>
     )
 }

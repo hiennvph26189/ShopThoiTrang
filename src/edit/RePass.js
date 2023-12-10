@@ -5,15 +5,16 @@ import CustomTextInput from '../common/CustomTextInput';
 import CommonButton from '../common/CommonButton';
 import { Avatar, Title } from 'react-native-paper';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { PROFILEMEMBER, CHANGE_PASSWD } from '../../api';
-
+import { PROFILE_MEMBER, CHANGE_PASSWD } from '../../api';
+import { updateEmail } from '../redux/action/Actions';
 
 
 const RePass = () => {
+    const dispatch = useDispatch();
     //show password
     const [showPassWord, setShowPass] = useState(true)
     const [showPassWord2, setShowPass2] = useState(true);
@@ -35,10 +36,11 @@ const RePass = () => {
     const [profile, setProfile] = useState({});
     const navigation = useNavigation();
 
-    const data = {
-        id: info.id,
+    const singOut = ()=>{
+     
+        dispatch(updateEmail({},false))
+        navigation.navigate('Login')
     }
-
     showPass = () => {
         setShowPass(!showPassWord)
 
@@ -52,7 +54,8 @@ const RePass = () => {
         setShowPass2(!showPassWord2)
 
     }
-    const changePasswd = () => {
+
+    const changePasswd = async() => {
         if (password) {
             setBadPasswd(false)
         } else {
@@ -86,12 +89,14 @@ const RePass = () => {
             passwordNew: passwordNew,
             re_password:re_password,
         }
-        axios.put(CHANGE_PASSWD, data1).then(res=>{
+        console.log(CHANGE_PASSWD);
+      await  axios.put(CHANGE_PASSWD, data1).then(res=>{
+       
             if (res.data.errCode==1) {
                 Alert.alert(
                     'Thông báo',
                     `Bạn đã đổi mật khẩu thành công`,
-                    [{ text: 'OK', onPress: () => navigation.navigate('Login') }],
+                    [{ text: 'OK', onPress: () =>  singOut() }],
                     { cancelable: false }
                   );
             }else{
@@ -102,14 +107,18 @@ const RePass = () => {
                     { cancelable: false }
                   );
             }
-        })
+        }).catch((err) => {console.log(err);})
     }
 
 
     /// get dữ liệu người dùng
-    const getProfile = () => {
-        axios.post(PROFILEMEMBER, data).then((response) => {
-
+    const getProfile = async() => {
+        const data = {
+            id: info.id,
+        }
+    
+      await axios.post(PROFILE_MEMBER, data).then((response) => {
+            console.log(response.data,"kdsa;dk");
             if (response.data.errCode === 0) {
 
                 setProfile({ ...response.data.userMember })

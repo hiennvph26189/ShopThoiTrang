@@ -85,4 +85,12 @@ export const ITEM_ADDRESS_MEMBER=URL+'/api-app/get-item-address-in-idmember'
 export const ITEM_ADDRESS_ORDER_DETAIL=URL+'/api-app/get-item-address-order-detail'
 // get thanh toán order
 export const GET_METHUD_THANH_TOAN_ORDER = URL+'/api-app/get-method-thanh-toan'
+//Đổi mật khẩu
+export const CHANGE_PASSWD = URL+"/api-app/changepass-member"
+// post key_Code email
+export const POST_KEY_CODE_EMAIL = URL + "/api-app/quen-mat-khau"
+// gửi mã xác minh
+export const POST_MA_XAC_MINH = URL + "/api-app/xac-minh-email"
+// post Mật khẩu
+export const POST_PASSWORD_MEMBER = URL + "/api-app/lay-mat-khau-member"
 

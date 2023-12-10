@@ -100,32 +100,7 @@ const Main = (props) => {
         props.addCart()
     }
 
-    listDanhSach = (id) => {
-        return (
-            <>
-                <FlatList
-                    data={arrProducts.filter((p) => p.idDanhSach === id)}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item, index) => index.toString()}
-                    extraData={id}
-
-                    renderItem={({ item }) => {
-                        return (
-                            <MyProductItem
-                                item={item}
-
-                                addCart={addCart}
-                            />
-                        );
-                    }
-                    }
-
-                />
-
-            </>
-        )
-    }
+    
     danhSachSabPham = (id, name) => {
 
         navigation.navigate('Danh Sách sản phẩm', { id: id, name: name });
@@ -200,9 +175,11 @@ const Main = (props) => {
                             </View>
 
                             <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
-                                {hotSale && hotSale.map((item) => {
+                                {hotSale && hotSale.map((item,index) => {
                                     return (
-                                        <ItemLuotMua key={item.id}
+                                        <ItemLuotMua 
+                                            keyItem={index}
+                                           
                                             item={item}
                                             addCart={addCart}
                                         />
@@ -236,9 +213,10 @@ const Main = (props) => {
                             </View>
 
                             <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
-                                {luotMuaNhieu && luotMuaNhieu.map((item) => {
+                                {luotMuaNhieu && luotMuaNhieu.map((item,index) => {
                                     return (
-                                        <ItemLuotMua key={item.id}
+                                        <ItemLuotMua 
+                                            keyItem={index}
                                             item={item}
                                             addCart={addCart}
                                         />
@@ -248,7 +226,7 @@ const Main = (props) => {
                         </View>
                     }
 
-                    <ScrollView style={{ marginTop: 20 }}>
+                    <View style={{ marginTop: 20 }}>
                         {productsInCategory&&productsInCategory.map((item, index) => {
                             return (
                                 <View key={index}>
@@ -272,10 +250,11 @@ const Main = (props) => {
                                     </View>
 
                                     <ScrollView ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 20 }}>
-                                        {item.products && item.products.map((item2) => {
+                                        {item.products && item.products.map((item2,index2) => {
                                            
                                             return (
-                                                <ItemLuotMua key={item2.id}
+                                                <ItemLuotMua 
+                                                    keyItem={index}
                                                     item={item2}
                                                     addCart={addCart}
                                                 />
@@ -288,7 +267,7 @@ const Main = (props) => {
                         })}
 
 
-                    </ScrollView>
+                    </View>
 
                 </View>
             </ScrollView>

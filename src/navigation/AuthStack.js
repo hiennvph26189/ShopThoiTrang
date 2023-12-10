@@ -4,8 +4,11 @@ import { useNavigation,useIsFocused } from "@react-navigation/native";
 import ManChao from '../Screen/ManChao';
 import Login from '../Screen/Login';
 import SearchProducts from '../Screen/SearchProducts';
+import XacNhanEmail from '../Screen/XacNhanEmail';
+import LayLaiMatKhau from '../Screen/LayLaiMatKhau';
 import {GET_ONE_MEMBER} from "../../api"
 import NewAccount from '../Screen/NewAccount';
+import QuenMatKhau from '../Screen/QuenMatKhau';
 import Home from '../Screen/Home';
 import RePass from '../edit/RePass';
 import EditProfile from '../edit/EditProfile';
@@ -45,7 +48,7 @@ const getMember = async()=>{
     return(
         <>
         { infoUser.status !==2&&
-        <Stack.Navigator  initialRouteName="Home">
+        <Stack.Navigator  initialRouteName="Lấy lại mật khẩu">
           <Stack.Screen options={{headerShown: false}} name='ManChao' component={ManChao}></Stack.Screen>
           <Stack.Screen options={{headerShown: true}} name='Login' component={Login}></Stack.Screen>
           <Stack.Screen options={{headerShown: false}} name='NewAccount' component={NewAccount}></Stack.Screen>
@@ -66,6 +69,9 @@ const getMember = async()=>{
           <Stack.Screen options={{ headerShown: true }} name='Địa chỉ' component={ListAddress} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Thêm mới địa chỉ' component={NewAddress} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Sửa địa chỉ' component={EditAddress} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Lấy lại mật khẩu' component={QuenMatKhau} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Xác nhận Email' component={XacNhanEmail} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Lấy lại mật khẩu của bạn' component={LayLaiMatKhau} ></Stack.Screen> 
         </Stack.Navigator>
         
       }
