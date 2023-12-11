@@ -1,14 +1,14 @@
-import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable} from "react-native";
+import {  View,ScrollView,FlatList,Alert,Text,RefreshControl,TouchableOpacity,Image ,Pressable} from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS} from "../../api"
+import {GET_ALL_USER_ORDERS,HUY_USER_ORDERS,CHECK_STAR_PRODUCT} from "../../api"
 import {React,useState,useEffect} from "react";
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
-import {Avatar, Title,Caption,TouchableRipple} from "react-native-paper"
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-const DangXuLy = (props) => {
+import ButtonVote from "../common/ButtonVote";
+const DonHoan = () => {
     const navigation = useNavigation()
     const isFocused = useIsFocused()
     const [listDonHang,setListDonHang] = useState([])
@@ -27,13 +27,8 @@ const DangXuLy = (props) => {
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
             
             if(res.data.errCode === 0){
-                setListDonHang(res.data.getOrders)
-                res.data.getOrders.map((item)=>{
-                    if(item.status===0||item.status===5){
-                        arr.push(item)
-                    }
-                })
-                setGetOrder([...arr])
+                console.log(res.data.getDonHoan);
+                setListDonHang(res.data.getDonHoan)
                 setListCarts(res.data.getCarts)
                 setGetAllProducts(res.data.getAllProducts)    
                 setRefreshing(false)
@@ -41,37 +36,8 @@ const DangXuLy = (props) => {
         }).catch((err)=>{console.log(err)})
     }
    
+ 
     
-    const handleHuyDon = (id)=>{
-        data = {
-            id: id,
-        }
-        if(id){
-            Alert.alert('Xác nhận hủy đơn hàng', 'Bạn có chắc muốn hủy đơn hàng này', [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                {text: 'OK', onPress: async() => {
-                    await axios.put(HUY_USER_ORDERS,data).then((res) => {
-                        if(res.data.errCode == 0){
-                            Alert.alert('Thông báo', 'Đơn hàng đã được hủy, bạn hãy chờ bên Shop duyệt hủy đơn hàng', [
-                                {text: 'OK', onPress: () => {
-                                    getAllOrder()
-                                }},
-                              ]);
-                        }else{
-                            alert(res.data.errMessage);
-                            getAllOrder()
-                        }
-
-                     }).catch((err) => {console.log(err)});
-                }},
-              ]);
-        }
-
-    }
     useEffect(()=>{
         
         getAllOrder()
@@ -115,7 +81,7 @@ const DangXuLy = (props) => {
             size
         )
     }
-     getSoLuong = (arr,id)=>{
+     getSoLuong =(arr,id)=>{
         let soLuong = 0
         arr.map((item)=>{
             if(item.ipSanPham === id){
@@ -127,19 +93,14 @@ const DangXuLy = (props) => {
             soLuong
         )
     }
+ 
     tongSoSanPham =(id)=>{
+        
         let list = JSON.parse(id)
-      let count = 0
-        list.map((item)=>{
-            listCarts.map((item2,inbiex)=>{
-                if(item === item2.id){
-                    count = count+1
-                }
-            }) 
-        })
-        return count
+      
+        return list.length 
     }
-     list = (id)=>{
+     list = (id,tongtien,id_donhang)=>{
         let list = JSON.parse(id)
        let IdSP = []
        let products = []
@@ -150,20 +111,27 @@ const DangXuLy = (props) => {
                 }
             }) 
         })
+    
         IdSP.map((item)=>{
             getAllProducts.map((product)=>{
                 if(item.ipSanPham == product.id){
-                    products.push(product) 
+                    products.push({
+                        ...product,
+                       id_cart: item.id
+                    }) 
                 }
             })
         })
-        
-    
+        getDanhGia = (id_member,id_sp,id_donhang,id_cart)=>{
+            navigation.navigate('Đánh giá sản phẩm',{id_member: id_member,id_sp: id_sp,id_donhang: id_donhang,id_cart: id_cart});
+            
+        }
+       
         return (
             products.map((item,index)=>{
                 return (
-                    <View  key={index}>
-                        <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                    <View key={index} style={{borderBottomColor:"#ccc",borderBottomWidth:.7}}>
+                        <View style={{flexDirection:"row",margin:5, }}>
                             <Image
                                source={{uri:showImage(item.image)}} 
                                style={{width:50,height:50}}
@@ -217,6 +185,12 @@ const DangXuLy = (props) => {
                               
                             </View>
                         </View>
+                        <View style={{flexDirection:"row",justifyContent:"flex-end",marginTop:5, marginBottom:5}}>
+                        
+                        {/* <TouchableOpacity onPress={()=>{getDanhGia(info.id,item.id,id_donhang,item.id_cart)}} key={index} style={{  padding:10,backgroundColor:"red", borderRadius:10}}>
+                            <Text  style={{color:"#fff", fontWeight:500}}>Đánh giá   </Text>
+                        </TouchableOpacity> */}
+                        </View>
                         
                     </View>
                     
@@ -229,8 +203,9 @@ const DangXuLy = (props) => {
     }
    
     orderDetail = (id)=>{
+      
         navigation.navigate('Chi tiết đơn hàng',{id: id,idUser: info.id,});
-    }
+    } 
     return (
         <ScrollView 
                 refreshControl={
@@ -243,35 +218,31 @@ const DangXuLy = (props) => {
             {listDonHang.map((item,index)=>{
                 return (
                     
-                    <Pressable onPress={()=>{orderDetail(item.id)}} key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
+                    <Pressable onPress={()=>{orderDetail(item.id)}}  key={item.id} style={{backgroundColor:"#fff",borderRadius:10,marginTop:15,marginLeft:5,marginRight:5,padding:7,justifyContent:"space-between"}}>
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.createdAt)}</Text>
+                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
                         </View>
-                        {list(item.idCart,item.tongTien)}
+                        {list(item.idCart,item.tongTien,item.id)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>
                         
-                            <Text style={{fontWeight:"600",color:item.status === 0?"#FFA500":"#20B2AA"}}>{item.status === 1?"Đã xác nhận đơn hàng":"Đơn hàng đang được xử lý"} </Text>
+                            <Text style={{fontWeight:"600",color:item.status === 10?"#006400":"green"}}>{item.status === 10?"Đơn đang trong quá trình xử lý hoàn tiền:":"Đơn hàng đã được hoàn tiền " +" +"+price(item.tongTien)} </Text>
                        
                             
                         </View>
                         <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center",padding:5}}>
                             
-                        <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart)}</Text>
-                        <Text style={{fontSize:18, fontWeight:"700"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
+                        <Text style={{fontWeight:"600"}}>Số Sản phẩm: {tongSoSanPham(item.idCart,item.id)}</Text>
+                        <Text style={{fontSize:18, fontWeight:"700",textDecorationLine:item.status === 11?"line-through":"none"}}>Tổng: <Text style={{fontSize:17,color:"#B22222"}}>{price(item.tongTien)}</Text> </Text>
                         </View>
-                        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                            <View></View>
-                            <Pressable  onPress={()=>{item.status==0?handleHuyDon(item.id):""}} style={{borderColor:"#fff", borderWidth:1,width:100,justifyContent:"center",padding:7,alignItems:"center",borderRadius:10,backgroundColor:item.status === 0?"#FF4500":"#888888"}}>
-                                <Text style={{color:"#fff",fontSize:17,fontWeight:"700"}}>HỦY</Text>
-                            </Pressable>
-                        </View>
-                           
+                        
+                        
+                        
                     </Pressable>
                 )
             })}
         </ScrollView>
     )
 }
-export default DangXuLy;
+export default DonHoan;

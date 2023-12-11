@@ -8,7 +8,7 @@ import {LOGIN} from "../../api";
 import {updateEmail} from "../redux/action/Actions";
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
-
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 const Login = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('Nva@gmail.com');
@@ -92,14 +92,18 @@ const Login = () => {
             <Text
                 style={{ marginTop: 50, alignSelf: "center", fontSize: 24, fontWeight: 600 }}
             >Login</Text>
-         <CustomTextInput
+        <View style={{position:'relative'}}>
+            <Icon name="email" size={25} color='#000' style={{position:"absolute",left:60,top:35}}/>
+            <CustomTextInput
             
-          placeholder={"Xin Nhập Tài Email"} 
-          value={email}
-          onChangeText = {text =>{setEmail(text);}}
-          ></CustomTextInput>
+            placeholder={"Xin Nhập Tài Email"} 
+            value={email}
+            onChangeText = {text =>{setEmail(text);}}
+            ></CustomTextInput>
+        </View>
+        
          
-
+        
          
 
           <View style={{position:'relative'}}>

@@ -1,4 +1,4 @@
-export const IP = '192.168.1.62'
+export const IP = '192.168.1.46'
 export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
@@ -97,4 +97,12 @@ export const POST_PASSWORD_MEMBER = URL + "/api-app/lay-mat-khau-member"
 export const POST_PRICE_9PAY = URL + "/api-app/nap-tien-tk"
 //
 export const GET_ONE_THANHTOAN_9PAY = URL + "/api-app/detail-nap-tien-tk"
+// thống kê sao 
+export const THONG_KE_START = URL + "/api-app/thong-ke-danh-gia"
+//list all start in product
+export const LIST_ALL_THONG_KE_START = URL + "/api-app/list-ke-danh-gia-detai"
+// tìm kiếm sản phẩm
+export const SEARCH_PRODUCT_APP = URL + "/api-app/search-product-app"
+
+
 

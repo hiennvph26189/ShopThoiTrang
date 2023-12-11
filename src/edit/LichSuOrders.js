@@ -6,6 +6,7 @@ import DangXuLy from "./DangXuLy";
 import DangGiaoHang from "./DangGiaoHang";
 import DonHuy from "./DonHuy";
 import GiaoThanhCong from "./GiaoThanhCong";
+import DonHoan from "./DonHoan";
 const LichSuOrders = (props) => {
     const navigation = props.navigation;
     
@@ -57,9 +58,14 @@ const LichSuOrders = (props) => {
                 }]} onPress={()=>{setSelectetab(3)}}>
                     <Text style={{fontWeight:"600"}}> Đơn đã hủy</Text>
                 </Pressable>
+                <Pressable style={[styles.tab,{
+                    backgroundColor: selectTab == 4 ? "#FF9900" : "#fff"
+                }]} onPress={()=>{setSelectetab(4)}}>
+                    <Text style={{fontWeight:"600"}}> Đơn hoàn</Text>
+                </Pressable>
             </ScrollView>
             <ScrollView>
-            {selectTab == 0 ? (<DangXuLy orderDetails={orderDetails} />) : selectTab == 1 ? (<DangGiaoHang orderDetail={orderDetails} />) : selectTab == 2 ? (<GiaoThanhCong orderDetails={orderDetails}/>) :  (<DonHuy />) }
+            {selectTab == 0 ? (<DangXuLy orderDetails={orderDetails} />) : selectTab == 1 ? (<DangGiaoHang orderDetail={orderDetails} />) : selectTab == 2 ? (<GiaoThanhCong orderDetails={orderDetails}/>) : selectTab == 3 ?  (<DonHuy />):selectTab == 4 ?<DonHoan /> :null }
             </ScrollView>
            
                

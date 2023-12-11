@@ -19,6 +19,7 @@ import PriceDetail from "../edit/PriceDetail";
 import OrderDetail from "../edit/OrderDetail";
 import NewsDetail from "../edit/NewsDetail";
 import DetailProduct from "../common/DetailProduct";
+import ChiTietDanhGia from "../common/ChiTietDanhGia";
 import DanhSachSanPham from "../common/DanhSachSanPham";
 import ThongBaoNapTien from "../common/ThongBaoNapTien";
 import ThongBaoOrder from "../common/ThongBaoOrder";
@@ -76,6 +77,7 @@ const getMember = async()=>{
           <Stack.Screen options={{ headerShown: true }} name='Lấy lại mật khẩu của bạn' component={LayLaiMatKhau} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Thông báo nạp tiền' component={ThongBaoNapTien} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Chi tiết nạp tiền' component={PriceDetail} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Tất cả đánh giá' component={ChiTietDanhGia} ></Stack.Screen> 
         </Stack.Navigator>
         
       }

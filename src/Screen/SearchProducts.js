@@ -1,6 +1,6 @@
 import { Text, View ,ScrollView,TouchableOpacity,Image, TextInput} from "react-native";
 import React, {useEffect,useState} from "react";
-import { GET_ALL_NEWS,GETALLPRODUCTS } from "../../api"
+import { SEARCH_PRODUCT_APP,GETALLPRODUCTS } from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 const SearchProducts = () => {
@@ -8,17 +8,9 @@ const SearchProducts = () => {
     const [arrProducts, setArrProducts]= useState([])
     const [arrSearch, setArrSearch]= useState([])
    const [search,setSearch] =  useState("")
-    const getAllNew = ()=>{
-        axios.get(GETALLPRODUCTS).then((res)=>{
-            
-            if(res.data.errCode ===0){
-              
-                setArrSearch(res.data.totalProducts)
-            }
-        }).catch((err)=>{console.log(err)})
-    }
+   
     useEffect(()=>{
-        getAllNew()
+       
     },[])
     const price =(price)=>{
         let x = price;
@@ -26,21 +18,18 @@ const SearchProducts = () => {
         return  x;
 }
 
-    const searchFilter = (text)=>{
-        if(text){
-            const newData = arrSearch.filter((item)=>{
-                const itemData = item.tenSp? item.tenSp.toUpperCase(): "".toUpperCase()
-                const textData = text.toUpperCase()
-                return itemData.indexOf(textData)> -1
-            })
-            if(newData){
-                setArrProducts(newData)
-                setSearch(text)
-            }
+    const searchFilter =async (key_search)=>{
+        setSearch(key_search)
+        if(key_search !=""){
            
-        }else{
-            setArrProducts(arrSearch)
-            setSearch(text)
+            await axios.get(`${SEARCH_PRODUCT_APP}?key_search=${key_search}`).then((res)=>{
+               if(res.data.errCode == 0){
+                    setArrProducts(res.data.data)
+                    
+               }else{
+                    setArrProducts([])
+               }
+            }).catch((err)=>{console.log(err);})
         }
     }
     handleDetailProduct = (id)=>{
@@ -67,8 +56,8 @@ const SearchProducts = () => {
                                source={{uri:showImage(item.image)}} 
                                style={{width:100,height:100}}
                             />
-                            <View style={{}}>
-                                <Text style={{width:"80%",padding:6,alignItems:"center",fontSize:17}}>{item.tenSp}</Text>
+                            <View style={{padding:10}}>
+                                <Text style={{width:"80%",alignItems:"center",fontSize:17}}>{item.tenSp}</Text>
                                 <View style={{width:310, flexDirection:"row", justifyContent:"space-between"}}>
                                 {item.sale <=0?
                                      <Text style={{

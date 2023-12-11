@@ -89,7 +89,7 @@ const LayLaiMatKhau = (props) => {
    
           
             <Text
-                style={{ marginTop: 50, alignSelf: "left",marginLeft:42, fontSize: 20, fontWeight: 600 }}
+                style={{ marginTop: 50,marginLeft:42, fontSize: 20, fontWeight: 600,  }}
             >Vui lòng nhập mật khẩu mới:</Text>
          <View>
                 <View style={{ position: 'relative' }} >
@@ -112,7 +112,7 @@ const LayLaiMatKhau = (props) => {
                 </View>
             </View>
             <Text
-                style={{ marginTop: 10, alignSelf: "left",marginLeft:40, fontSize: 20, fontWeight: 600 }}
+                style={{ marginTop: 10, marginLeft:40, fontSize: 20, fontWeight: 600 }}
             > Xác nhận mật khẩu:</Text>
             <View>
                 <View style={{ position: 'relative' }}>

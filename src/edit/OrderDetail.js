@@ -240,8 +240,12 @@ tongSoSanPham =(id)=>{
                         <Text style={styles.textInfoUser}>Tổng tiền:  <Text style={styles.textName}>{price(getOrder.tongTien?getOrder.tongTien:"")}</Text></Text>
                         <Text style={styles.textInfoUser}>Phương thức thanh toán:  <Text style={styles.textName}>{itemThanhToan.method == "TK"?"Tiền trong tài khoản": "Ví 9Pay"}</Text></Text>
                         <Text style={styles.textInfoUser}>Trạng thái đơn hàng: {" "}  
-                            <Text style={[styles.textName,{color:getOrder&&getOrder.status == 0 ? "#FF9900" : getOrder.status == 1 ? "#0099FF" : getOrder.status == 2 ? "#6A5ACD" : getOrder.status == 3 ? "#006400" :getOrder.status == 4?"#FF6347":"#8B0000"}]}>
-                            {getOrder&&getOrder.status == 0 ? "Đang chờ xử duyệt đơn" : getOrder.status == 1 ? "Đã xác nhận đơn hàng"  : getOrder.status == 2 ? "Đơn của bạn đang được giao " : getOrder.status == 3 ? "Giao thành công"  :getOrder.status == 4?"Đang Chờ xác nhận hủy đơn":"Đã hủy thành công"}
+                            <Text style={[styles.textName,{color:getOrder&&getOrder.status == 0 ? "#FF9900" : getOrder.status == 1 ? "#0099FF" : getOrder.status == 2 ? "#6A5ACD" : getOrder.status == 3 ? "#006400" :getOrder.status == 4?"#FF6347":getOrder.status == 5?"#8B0000":getOrder.status == 10?"#6A5ACD":getOrder.status == 11?"green":"#fff"}]}>
+                            {getOrder&&getOrder.status == 0 ? 
+                            "Đang chờ xử duyệt đơn" : getOrder.status == 1 ? 
+                            "Đã xác nhận đơn hàng"  : getOrder.status == 2 ? 
+                            "Đơn của bạn đang được giao " : getOrder.status == 3 ? 
+                            "Giao thành công"  :getOrder.status == 4?"Đang Chờ xác nhận hủy đơn":getOrder.status == 5?"Đã hủy thành công":getOrder.status == 10?"Đơn dang xử lý hoàn tiền":getOrder.status == 11?"Đơn hàng đã hoàn tiền":""}
                             </Text>
                         </Text>
                 </View>

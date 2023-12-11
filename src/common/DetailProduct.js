@@ -24,7 +24,7 @@ import axios from "axios";
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS,GET_TOTAL_STAR_TB_STAR_PRODUCT} from "../../api"
+import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS,GET_TOTAL_STAR_TB_STAR_PRODUCT,THONG_KE_START} from "../../api"
 import StarRating from 'react-native-star-rating';
 
 const WIDTH = Dimensions.get('window').width;
@@ -53,6 +53,8 @@ const DetailProduct = (props) => {
     const [rating, setRating] = useState(0);
     const [totalStar, setTotalStar] = useState(0);
     const [arrVoteStar, setArrVoteStar] = useState([]);
+    const [itemThongKeStar, setItemThongKeStar] = useState({});
+    const [id_product, setId_product] = useState(idProduct);
 
     const [xemChiTiet,setXemChiTiet] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
@@ -85,6 +87,15 @@ const DetailProduct = (props) => {
                 }
             })
         }
+    }
+    const thongKeStar = async()=>{
+        await axios.get(`${THONG_KE_START}?id_product=${idProduct}`).then((res)=>{
+            
+            if(res.data.errCode === 0){
+                setItemThongKeStar(res.data.data)
+                console.log(res.data.data, "LOGDATa");
+            }
+        }).catch((err)=>{console.log(err)})
     }
     const getTotalStarProduct = async() =>{
         if(idProduct){
@@ -123,14 +134,17 @@ const DetailProduct = (props) => {
             }
         }).catch((error) => { console.log(error) });
     }
+    const XemTatCaDanhGia = (id)=>{
+        navigation.navigate('Tất cả đánh giá',{id_product:id})
+    }
     useEffect(()=>{
-        console.log(info, "LSKJDLSJLA");
+        thongKeStar()
         getArrSizesroduct()
         getTotalStarProduct()
         getDetailProduct()
         loadCategories()
     },
-    [isFocused])
+    [isFocused,id_product])
 
      price =(price)=>{
         if(price){
@@ -140,7 +154,8 @@ const DetailProduct = (props) => {
         }
         
         
-}
+    }
+
     getCategory = (id)=>{
         let name = ""
         if(id&&categoryList){
@@ -209,7 +224,7 @@ const DetailProduct = (props) => {
         
         return arrSanPhamKhac.map((item,index)=>{
             return (
-                <TouchableOpacity onPress={()=>{orProduct(item.id)}}  key={index}>
+                <TouchableOpacity onPress={()=>{orProduct(item.id)}}  >
                         <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
                             <Image
                                source={{uri:showImage(item.image)}} 
@@ -336,6 +351,10 @@ const DetailProduct = (props) => {
         }
       
         
+    }
+    const bgWidth = (Number)=>{
+        let width = (Number/100)*300
+        return width
     }
     return (
         <View style={{backgroundColor:"#fff"}}>
@@ -672,13 +691,18 @@ const DetailProduct = (props) => {
                                     paddingBottom:10,
                                     height:"auto"
                                 }}>
-                                    <View>
-                                        <View style={{flexDirection:"row", alignItems: 'center', padding:5, alignItems:"center", borderBottomWidth:.5,justifyContent:"space-between"}}>
-                                            <View style={{flexDirection:"row", alignItems: 'center'}}>
+                                    <View style={{}}>
+                                            <TouchableOpacity onPress={()=>XemTatCaDanhGia(idProduct)}>
+                                                <Text style={{color:"blue", textAlign:"right", marginBottom:10, marginRight:10,fontStyle:"italic", fontWeight:500, textDecorationLine:"underline"}}> Xem tất cả </Text>
+                                            </TouchableOpacity>
+                                        <View style={{ padding:5, alignItems:"center", borderWidth:1, borderColor:"#ccc", paddingBottom:10,paddingTop:10}}>
+                                        
+                                            <View style={{ alignItems: 'center'}}>
+                                            <Text style={{marginLeft:5, fontSize:16, fontWeight:500, color:"red", marginBottom:10}}>{rating}/5</Text>
                                                 <StarRating
                                                     disabled={false}
                                                     maxStars={5}
-                                                    rating={rating}
+                                                    rating={parseFloat(rating)}
                                                     fullStarColor="#FFA500"
                                                     emptyStarColor="#FFA500"
                                                     halfStarColor="#FFA500"
@@ -686,18 +710,71 @@ const DetailProduct = (props) => {
                                                     
                                                     
                                                 />
-                                                <Text style={{marginLeft:5, fontSize:16, fontWeight:500, color:"red"}}>{rating}/5</Text>
-                                                <Text> ({totalStar} Đánh giá)</Text>
+                                               
+                                                <Text style={{marginTop:5}}> ({totalStar} Đánh giá)</Text>
 
                                             </View>
-                                            <View>
-                                            <Text style={{color:"blue"}}> Xem tất cả </Text>
-
-                                            </View>
+                                            
+                                           
+                                        </View>
+                                        <View style={{ borderWidth:1,borderTopWidth:0, padding:10, borderColor:"#ccc"}}>
+                                               
+                                                <View>
+                                                    <View style={{flexDirection:"row",width:"100%",justifyContent:"space-between", alignItems:"center",marginTop:5}}>
+                                                        <Text>5 sao</Text>
+                                                        <View style={{width:300, height:10,backgroundColor:"#ccc",borderRadius:50, marginLeft:5}}>
+                                                            <View style={{width:itemThongKeStar.ceil5star>0?bgWidth(itemThongKeStar.ceil5star):0, backgroundColor:"#fe9727",borderRadius:50}}>
+                                                                <Text></Text>
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        <Text>{itemThongKeStar.star5}</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:"row",width:"100%",justifyContent:"space-between", alignItems:"center",marginTop:5}}>
+                                                        <Text>4 sao</Text>
+                                                        <View style={{width:300, height:10,backgroundColor:"#ccc",borderRadius:50, marginLeft:5}}>
+                                                            <View style={{width:itemThongKeStar.ceil4star>0?bgWidth(itemThongKeStar.ceil4star):0, backgroundColor:"#fe9727",borderRadius:50}}>
+                                                                <Text></Text>
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        <Text>{itemThongKeStar.star4}</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:"row",width:"100%",justifyContent:"space-between", alignItems:"center",marginTop:5}}>
+                                                        <Text>3 sao</Text>
+                                                        <View style={{width:300, height:10,backgroundColor:"#ccc",borderRadius:50, marginLeft:5}}>
+                                                            <View style={{width:itemThongKeStar.ceil3star>0?bgWidth(itemThongKeStar.ceil3star):0, backgroundColor:"#fe9727",borderRadius:50}}>
+                                                                <Text></Text>
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        <Text>{itemThongKeStar.star3}</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:"row",width:"100%",justifyContent:"space-between", alignItems:"center",marginTop:5}}>
+                                                        <Text>2 sao</Text>
+                                                        <View style={{width:300, height:10,backgroundColor:"#ccc",borderRadius:50, marginLeft:5}}>
+                                                            <View style={{width:itemThongKeStar.ceil2star>0?bgWidth(itemThongKeStar.ceil2star):0, backgroundColor:"#fe9727",borderRadius:50}}>
+                                                                <Text></Text>
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        <Text>{itemThongKeStar.star2}</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:"row",width:"100%",justifyContent:"space-between", alignItems:"center",marginTop:5}}>
+                                                        <Text>1 sao</Text>
+                                                        <View style={{width:300, height:10,backgroundColor:"#ccc",borderRadius:50, marginLeft:5}}>
+                                                            <View style={{width:itemThongKeStar.ceil1star>0?bgWidth(itemThongKeStar.ceil1star):0, backgroundColor:"#fe9727",borderRadius:50}}>
+                                                                <Text></Text>
+                                                            </View>
+                                                            
+                                                        </View>
+                                                        <Text>{itemThongKeStar.star1}</Text>
+                                                    </View>
+                                                </View>
                                         </View>
                                     </View>
                                 
-                                    <View>
+                                    <View style={{marginTop:20, borderTopWidth:1, borderColor:"#ccc"}}>
                                             {arrVoteStar.length >0 && arrVoteStar.map((item,index)=>{
                                                 return(
                                                     <View key={index} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#ccc"}}>
@@ -705,7 +782,7 @@ const DetailProduct = (props) => {
                                                             <View >
                                                             <Image
                                                                 source={{uri:item.anhDaiDien}} 
-                                                                style={{width:35,height:35, borderRadius:50}}
+                                                                style={{width:35,height:35, borderRadius:50, objectFit:"cover"}}
                                                                 />
                                                             </View>
                                                             <View style={{marginLeft:6}}>
@@ -737,7 +814,7 @@ const DetailProduct = (props) => {
                                                         }
                                                         
                                                         <View style={{paddingLeft:40, marginTop:5}}>
-                                                            <Text style={{ color:"#A9A9A9"}}>{formatDate(item.createdAt)}</Text>    
+                                                            <Text style={{ color:"#A9A9A9", textAlign:"right",fontSize:12}}>{formatDate(item.createdAt)}</Text>    
                                                         </View>  
                                                     </View>
                                                 )
