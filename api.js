@@ -1,4 +1,4 @@
-export const IP = '192.168.1.62'
+export const IP = '192.168.1.252'
 export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
@@ -21,6 +21,8 @@ export const LICHSU_NAPTIEN_MEMBER = URL + "/api/lich-su-naptien-members"
 export const LIST_PRODUCTS_IN_CATEGORIES = URL + "/api-app/list-category-in-products"
 // get danh mục sản phẩm
 export const GET_CATEGORIES = URL + "/api/get-all-categories"
+// sản phẩm mới nhất
+export const GET_NEW_PRODUCTS = URL+"/api-app/list-new-product"
 //Phản hồi
 export const FEED_BACK = URL+"/api-app/lienhe-member";
 // get tất cả các sản phẩm trong trang chủ
@@ -103,6 +105,14 @@ export const THONG_KE_START = URL + "/api-app/thong-ke-danh-gia"
 export const LIST_ALL_THONG_KE_START = URL + "/api-app/list-ke-danh-gia-detai"
 // tìm kiếm sản phẩm
 export const SEARCH_PRODUCT_APP = URL + "/api-app/search-product-app"
+//get all sản phẩm yêu thích theo member
+export const GET_ALL_LIKE_PRODUCTS_MEMBER = URL+'/api-app/get-like-products'
+//sản phẩm yêu thích
+export const LIKE_PRODUCTS = URL+'/api-app/like-products'
+//Xóa sản phẩm yêu tích
+export const DELETE_LIKE_PRODUCTS = URL+'/api-app/delete-like-products'
+//get one like product in member
+export const GET_ONE_LIKE_PRODUCT = URL+'/api-app/get-one-like-product'
 
 
 

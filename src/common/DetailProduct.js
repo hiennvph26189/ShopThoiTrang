@@ -10,7 +10,7 @@ import {
     TextInput,
     Pressable,
     TouchableOpacity,
-    useWindowDimensions 
+    useWindowDimensions, ToastAndroid
 } from "react-native"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import React, { useState, useRef,useEffect } from "react";
@@ -24,8 +24,10 @@ import axios from "axios";
 import Moment from 'moment';
 import vi from "moment/locale/vi";
 import fr from "moment/locale/fr";
-import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS,GET_TOTAL_STAR_TB_STAR_PRODUCT,THONG_KE_START} from "../../api"
+import {GET_CATEGORIES,POST_CART_USER,GET_ONE_PRODUCT,LIST_SIZE_PRODUCTS,GET_TOTAL_STAR_TB_STAR_PRODUCT,
+    THONG_KE_START,LIKE_PRODUCTS,DELETE_LIKE_PRODUCTS,GET_ONE_LIKE_PRODUCT} from "../../api"
 import StarRating from 'react-native-star-rating';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -55,6 +57,7 @@ const DetailProduct = (props) => {
     const [arrVoteStar, setArrVoteStar] = useState([]);
     const [itemThongKeStar, setItemThongKeStar] = useState({});
     const [id_product, setId_product] = useState(idProduct);
+    const [like, setLike] = useState(false);
 
     const [xemChiTiet,setXemChiTiet] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
@@ -62,6 +65,67 @@ const DetailProduct = (props) => {
         getAllOrder()
         setRefreshing(true)
         
+    }
+
+    const toggleLike = async () => {
+        console.log(info.id +' id');
+        if (info.id != undefined) {
+            const data = {
+                id_product: idProduct,
+                id_member: info.id,
+            }
+            console.log('IDproduct' + LIKE_PRODUCTS);
+            await axios.post(LIKE_PRODUCTS, data).then((res) => {
+                console.log(res.data + 'Ssss');
+                if (res.data.errCode == 0) {
+                    ToastAndroid.showWithGravity(
+                        'Thêm vào danh sách yêu thích thành công',
+                        ToastAndroid.SHORT,
+                        ToastAndroid.BOTTOM, 25, 50,
+                    );
+                    getOneLikeProd(idProduct, info.id)
+                }
+
+            })
+        } else {
+            return Alert.alert('Thông báo', 'Bạn chưa đăng nhập', [
+                {
+                    text: 'OK', onPress: () => {
+
+                    }
+                },
+            ]);
+        }
+
+
+    };
+
+    const xoaLike_product = async () => {
+
+        await axios.delete(`${DELETE_LIKE_PRODUCTS}?id_product=${idProduct}&id_member=${info.id}`).then((res) => {
+            console.log(res.data + ' deleted');
+            if (res && res.data.errCode === 0) {
+                ToastAndroid.showWithGravity(
+                    'Xóa sản phẩm yêu thích thành công',
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM, 25, 50,
+                );
+                getOneLikeProd(idProduct, info.id)
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    const getOneLikeProd = async (id_product, id_member) => {
+        await axios.get(`${GET_ONE_LIKE_PRODUCT}?id_product=${id_product}&id_member=${id_member}`).then((res) => {
+            if (res && res.data.errCode === 0) {
+                setLike(true)
+            } else {
+                setLike(false)
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
     }
     
     const onchange = (nativeEvent) => {
@@ -143,6 +207,9 @@ const DetailProduct = (props) => {
         getTotalStarProduct()
         getDetailProduct()
         loadCategories()
+        if (info.id != undefined) {
+            getOneLikeProd(idProduct, info.id)
+        }
     },
     [isFocused,id_product])
 
@@ -377,6 +444,43 @@ const DetailProduct = (props) => {
                                 fontWeight: 'bold',
                                 fontSize: 16,
                             }}>{detailProduct?detailProduct.tenSp:""}</Text>
+                             {like == true ?
+                                    <TouchableOpacity
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                            backgroundColor: '#fff',
+                                            borderRadius: 20,
+                                            elevation: 5,
+                                            position: 'absolute',
+                                            right: 10,
+                                            marginRight: 10,
+                                        }}
+                                        onPress={xoaLike_product}
+                                    >
+
+                                        <Icon name="heart" size={30} color="red" style={{ top: 5, left: 5 }} />
+
+
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                            backgroundColor: '#fff',
+                                            borderRadius: 20,
+                                            elevation: 5,
+                                            position: 'absolute',
+                                            right: 10,
+                                            marginRight: 10,
+                                        }}
+                                        onPress={toggleLike}
+                                    >
+
+                                        <Icon name="heart-outline" size={30} color="#000" style={{ top: 5, left: 5 }} />
+                                    </TouchableOpacity>
+                                }
                             
                         </View>
                         {

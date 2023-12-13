@@ -177,7 +177,7 @@ const Profile = (props) => {
                     </View>
                 </View>
                 <View style={styles.menuWrapper}>
-                    <TouchableRipple>
+                    <TouchableRipple onPress={()=>{navigation.navigate('Sản phẩm yêu thích')}}>
                         <View style={styles.menuItem}>
                             <Icon name="heart-outline" color="#000" size={25}/>
                             <Text style={styles.menuItemText}>

@@ -30,6 +30,7 @@ import EditAddress from '../edit/EditAddress';
 import ChiTietDonHangThanhToan from '../common/ChiTietDonHangThanhToan';
 import {useDispatch, useSelector} from 'react-redux'
 import axios from "axios";
+import ListLikeProduct from "../common/ListLikeProduct";
 const Stack = createNativeStackNavigator();
 
 const AuthStack = ()=>{
@@ -78,6 +79,7 @@ const getMember = async()=>{
           <Stack.Screen options={{ headerShown: true }} name='Thông báo nạp tiền' component={ThongBaoNapTien} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Chi tiết nạp tiền' component={PriceDetail} ></Stack.Screen> 
           <Stack.Screen options={{ headerShown: true }} name='Tất cả đánh giá' component={ChiTietDanhGia} ></Stack.Screen> 
+          <Stack.Screen options={{ headerShown: true }} name='Sản phẩm yêu thích' component={ListLikeProduct} ></Stack.Screen> 
         </Stack.Navigator>
         
       }
