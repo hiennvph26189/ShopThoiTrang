@@ -1,6 +1,6 @@
 import { View,ScrollView,FlatList,Alert,Text,RefreshControl,StyleSheet,Image ,Pressable } from "react-native";
 import axios from "axios";
-import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS,ITEM_ADDRESS_ORDER_DETAIL,GET_METHUD_THANH_TOAN_ORDER} from "../../api"
+import {GET_ALL_USER_ORDERS,CHI_TIET_ORDERS,ITEM_ADDRESS_ORDER_DETAIL,GET_METHUD_THANH_TOAN_ORDER,THONG_KE_START} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import {useDispatch, useSelector} from 'react-redux'
 import {React,useState,useEffect} from "react";
@@ -47,6 +47,7 @@ const OrderDetail = (props) => {
             }
         }).catch((err)=>{console.log(err)})
     }
+  
     const getItemAddressMember = async(idOder) =>{
         await axios.get(`${ITEM_ADDRESS_ORDER_DETAIL}?id_address=${idOder}`).then((res)=>{
             

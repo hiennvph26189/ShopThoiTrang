@@ -1,4 +1,4 @@
-export const IP = '192.168.1.46'
+export const IP = '192.168.1.62'
 export const URL = "http://"+IP+":8080"
     //Hiển: ở nhà:  192.168.1.62,192.168.1.61, 192.168.1.244 ở trường:  192.168.137.1,10.24.38.241
 // loggin member
