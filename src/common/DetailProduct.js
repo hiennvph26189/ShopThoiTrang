@@ -68,7 +68,7 @@ const DetailProduct = (props) => {
     }
 
     const toggleLike = async () => {
-        console.log(info.id +' id');
+       
         if (info.id != undefined) {
             const data = {
                 id_product: idProduct,
@@ -76,7 +76,7 @@ const DetailProduct = (props) => {
             }
             console.log('IDproduct' + LIKE_PRODUCTS);
             await axios.post(LIKE_PRODUCTS, data).then((res) => {
-                console.log(res.data + 'Ssss');
+                console.log(res.data.errCode + 'Ssss');
                 if (res.data.errCode == 0) {
                     ToastAndroid.showWithGravity(
                         'Thêm vào danh sách yêu thích thành công',
@@ -694,7 +694,7 @@ const DetailProduct = (props) => {
                         <View style={{borderWidth: 1, borderColor: '#b8a165',borderRadius:5,width:"40%",padding:7,position:"absolute", top:-20,left:20, backgroundColor:"#fff",}}>
                             <Text style={{ fontWeight: 'bold',textAlign:"center"  }}>Chính sách bảo hành</Text>
                         </View>
-                            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                            <View style={{ flexDirection: 'row', marginTop: 35 }}>
                                 <Text style={{ fontWeight: 'bold' }}>HOÀN TIỀN: </Text>
                                 <Text><Text>Áp dụng cho sản phẩm lỗi và không lỗi.</Text></Text>
                             </View>

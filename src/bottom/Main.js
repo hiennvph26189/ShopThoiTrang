@@ -80,7 +80,7 @@ const Main = (props) => {
         await axios.get(GET_NEW_PRODUCTS).then((res) => {
 
             if (res.data.errCode === 0) {
-
+                
                 setNewProduct(res.data.newProduct)
 
             }
@@ -99,18 +99,8 @@ const Main = (props) => {
     }
 
     const showImage = (image) => {
-        if (image) {
-
-            let list = JSON.parse(image)
-            let url = ""
-            for (let i = 0; i < list.length; i++) {
-                if (list[0]) {
-                    url = list[0]
-                }
-            }
-            return url
-
-        }
+        return image
+        
     }
     const price = (price) => {
         let x = price;
@@ -250,7 +240,7 @@ const Main = (props) => {
                         decelerationRate={0}
                         scrollEventThrottle={16}
                         data={listNewProduct}
-                        keyExtractor={(item) => item}
+                        keyExtractor={(item) => item.id}
                         renderItem={({ item, index }) => {
                             const inputRange = [
                                 (index - 1) * HeghtW,
@@ -302,7 +292,7 @@ const Main = (props) => {
 
                                                         }}>
 
-                                                            {price(item.giaSanPham - (item.giaSanPham * (item.sale / 100)))}
+                                                            {item.giaBanSale}
                                                         </Text>
                                                         <Text style={{
                                                             fontSize: 25,

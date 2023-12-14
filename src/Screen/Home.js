@@ -10,6 +10,7 @@ import {GET_CART_USER} from "../../api"
 import { useNavigation,useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategoriesStart } from "../redux/action/Actions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import axios from "axios";
 const Home = (props) => {
     const info = useSelector(state => state.Reducers.arrUser);
