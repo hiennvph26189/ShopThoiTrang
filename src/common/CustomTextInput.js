@@ -6,7 +6,7 @@ const CustomTextInput = ({value, onChangeText, placeholder, icon, type}) => {
         <View style={{ width: '80%', height: 50, borderWidth: 0.5, 
         borderRadius: 10, alignSelf: "center", marginTop: 20,
          flexDirection: "row", alignItems: "center",paddingLeft:20,paddingRight:20}}>
-            <Image source={icon} style={{ width: 24, height: 24 }}></Image>
+            {/* <Image source={icon} style={{ width: 24, height: 24 }}></Image> */}
             {type == "number-pad" ?
                  <TextInput 
                  value={value}

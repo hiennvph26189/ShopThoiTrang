@@ -165,7 +165,7 @@ const RePass = () => {
                         value={password}
                         onChangeText={text => { setPassWord(text); }}
                         type={showPassWord1 ? 'password' : 'texxt'}
-                        icon={require('../images/pass.png')}
+                        // icon={require('../images/pass.png')}
                     />
                     <Pressable style={{ position: 'absolute', right: 50, top: "50%" }} onPress={() => showPass1()}>
                         {showPassWord1 ?

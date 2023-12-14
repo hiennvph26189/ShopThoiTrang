@@ -93,7 +93,7 @@ const Login = () => {
                 style={{ marginTop: 50, alignSelf: "center", fontSize: 24, fontWeight: 600 }}
             >Login</Text>
         <View style={{position:'relative'}}>
-            <Icon name="email" size={25} color='#000' style={{position:"absolute",left:60,top:35}}/>
+            {/* <Icon name="email" size={25} color='#000' style={{position:"absolute",left:60,top:35}}/> */}
             <CustomTextInput
             
             placeholder={"Xin Nhập Tài Email"} 
@@ -116,12 +116,12 @@ const Login = () => {
 
             <Pressable style={{position:'absolute',right:50,top:31}} onPress={()=>showPass1()}>
             {showPassWord1?
-                <Image
+                <Icon
                     style={{width:25,height:25}}
                     source={require('../Screen/image/eye.png')}
                 />
             :
-            <Image
+            <Icon
                     style={{width:25,height:25}}
                     source={require('../Screen/image/hidden.png')}
                 />}

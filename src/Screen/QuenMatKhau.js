@@ -63,7 +63,7 @@ const QuenMatKhau = () => {
                 style={{ marginTop: 50, alignSelf: "center", fontSize: 24, fontWeight: 600 }}
             >Vui lòng nhập email của bạn</Text>
             <View style={{position:"relative"}}>
-                <Icon name="email" size={25} color='#000' style={{position:"absolute",left:60,top:30}}/>
+                
                 <CustomTextInput
                 
                 placeholder={"Xin Nhập Tài Email"} 
