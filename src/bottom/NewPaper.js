@@ -8,7 +8,7 @@ const NewPaper = () => {
     const [arrNews, setArrNews]= useState([])
    
     const getAllNew = ()=>{
-        axios.get(GET_ALL_NEWS).then((res)=>{
+        axios.get(`${GET_ALL_NEWS}?page=1`).then((res)=>{
          
             if(res.data.errCode ===0){
                 setArrNews(res.data.news)
@@ -19,7 +19,7 @@ const NewPaper = () => {
         getAllNew()
     },[])
     return (
-        <View>
+        <View >
             <Header 
                 title="News"
             />

@@ -272,7 +272,7 @@ const DonHuy = () => {
                             
                             <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                                 <View></View>
-                                <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
+                                <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updatedAt )}</Text>
                             </View>
                             {list(item.idCart,item.tongTien)}
                             <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>

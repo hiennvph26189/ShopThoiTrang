@@ -69,7 +69,7 @@ const DangGiaoHang = () => {
         }
     }
     const formatDate= (date)=>{
-        const newFr = Moment(date).locale("vi", fr).format("DD/MM/YYYY  HH:mm:ss");
+        const newFr = Moment(date).format("DD/MM/YYYY  HH:mm:ss");
         return newFr
     }
     const price =(price)=>{
@@ -221,7 +221,7 @@ const DangGiaoHang = () => {
                        
                         <View style={{justifyContent:"space-between",flexDirection:"row"}}>
                             <View></View>
-                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updateAt)}</Text>
+                            <Text style={{color:"#A9A9A9",fontWeight:"600"}}> {formatDate(item.updatedAt)}</Text>
                         </View>
                         {list(item.idCart,item.tongTien)}
                         <View style={{borderBottomColor:"#ccc",borderBottomWidth:.7, padding:5}}>

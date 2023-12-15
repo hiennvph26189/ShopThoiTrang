@@ -65,7 +65,7 @@ const ItemLike = (props) => {
         );
       }
       handleDetailProduct = (id) => {
-        navigation.navigate('ProductDetail', { id: id }, { handleDetailProduct: { handleDetailProduct } });
+        navigation.navigate('Chi tiết sản phẩm', { id: id }, { handleDetailProduct: { handleDetailProduct } });
       }
       const onAddToCart = async (item) => {
 

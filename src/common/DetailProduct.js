@@ -74,9 +74,9 @@ const DetailProduct = (props) => {
                 id_product: idProduct,
                 id_member: info.id,
             }
-            console.log('IDproduct' + LIKE_PRODUCTS);
+           
             await axios.post(LIKE_PRODUCTS, data).then((res) => {
-                console.log(res.data.errCode + 'Ssss');
+                console.log(res.data.errMessage + 'Ssss');
                 if (res.data.errCode == 0) {
                     ToastAndroid.showWithGravity(
                         'Thêm vào danh sách yêu thích thành công',
@@ -103,7 +103,7 @@ const DetailProduct = (props) => {
     const xoaLike_product = async () => {
 
         await axios.delete(`${DELETE_LIKE_PRODUCTS}?id_product=${idProduct}&id_member=${info.id}`).then((res) => {
-            console.log(res.data + ' deleted');
+            console.log(res.data.errCode + ' deleted');
             if (res && res.data.errCode === 0) {
                 ToastAndroid.showWithGravity(
                     'Xóa sản phẩm yêu thích thành công',
@@ -118,6 +118,7 @@ const DetailProduct = (props) => {
     }
     const getOneLikeProd = async (id_product, id_member) => {
         await axios.get(`${GET_ONE_LIKE_PRODUCT}?id_product=${id_product}&id_member=${id_member}`).then((res) => {
+            console.log(res.data.errCode,"LOHS");
             if (res && res.data.errCode === 0) {
                 setLike(true)
             } else {
@@ -189,7 +190,7 @@ const DetailProduct = (props) => {
         }
     }
     const loadCategories = async () => {
-        await axios.get(GET_CATEGORIES).then((res) => {
+        await axios.get(`${GET_CATEGORIES}?page=1`).then((res) => {
 
             if (res && res.data.errCode === 0) {
                 setCategoryList(res.data.data);
@@ -291,7 +292,7 @@ const DetailProduct = (props) => {
         
         return arrSanPhamKhac.map((item,index)=>{
             return (
-                <TouchableOpacity onPress={()=>{orProduct(item.id)}}  >
+                <TouchableOpacity onPress={()=>{orProduct(item.id)}} key={item.id} >
                         <View  style={{flexDirection:"row",margin:5, borderBottomColor:"#ccc",borderBottomWidth:.7}}>
                             <Image
                                source={{uri:showImage(item.image)}} 
@@ -881,7 +882,7 @@ const DetailProduct = (props) => {
                                     <View style={{marginTop:20, borderTopWidth:1, borderColor:"#ccc"}}>
                                             {arrVoteStar.length >0 && arrVoteStar.map((item,index)=>{
                                                 return(
-                                                    <View key={index} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#ccc"}}>
+                                                    <View key={item.id} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#ccc"}}>
                                                         <View  style={{flexDirection:"row", marginTop:10, marginBottom:10, alignItems:"center"}}>
                                                             <View >
                                                             <Image

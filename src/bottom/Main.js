@@ -88,11 +88,11 @@ const Main = (props) => {
     }
 
     const loadCategories = async () => {
-        await axios.get(GET_CATEGORIES).then((res) => {
-
+        await axios.get(`${GET_CATEGORIES}?page=1`).then((res) => {
+       
             if (res && res.data.errCode === 0) {
-                setCategoryList(res.data.data);
-
+                setCategoryList(res.data.categories);
+                
                 setRefreshing(false)
             }
         }).catch((error) => { console.log(error) });
@@ -136,14 +136,16 @@ const Main = (props) => {
                         outputRange: [0, 1, 0],
                     });
                     return (
+                        <View key={index}>
                         <Animated.Image
-                            key={index}
+                            
                             source={{ uri: showImage(imagen.image) }}
                             style={[
                                 { width: width, height: ALTURA_BACKDROP, opacity },
                                 StyleSheet.absoluteFillObject,
                             ]}
                         />
+                        </View>
                     );
                 })}
                 <LinearGradient
