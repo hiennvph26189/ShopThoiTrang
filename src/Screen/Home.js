@@ -119,6 +119,7 @@ const Home = (props) => {
                             borderRadius: 22
                         }}
                         onPress={() => { setSelectetab(2); }}>
+                        <Icon  name=""/>
                         <Image
                             source={require('../Screen/image/bag.png')}
                             style={{ width: 24, height: 24, tintColor: selectTab == 2 ?'#000033':"#fff", justifyContent: "center", alignSelf: "center", marginTop: 10 }}
