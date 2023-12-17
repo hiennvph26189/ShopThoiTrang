@@ -54,35 +54,36 @@ const LayLaiMatKhau = (props) => {
                 setErrorMessage("Mật khẩu không trùng khớp. Vui lòng nhập lại mật khẩu")
             } else {
                 setBadConfirmPassword(false)
+                let data = {
+                    email:email,
+                    password:passwordNew
+                }
+                axios.put(POST_PASSWORD_MEMBER,data).then((res)=>{
+                    if(res.data.errCode == 0){
+                        Alert.alert(
+                            'Thông báo',
+                            res.data.errMessage,
+                            [{ text: 'OK', onPress: () => navigation.navigate('Login') },
+                                
+                            ],
+                            { cancelable: false }
+                          );
+                    }else{
+                        Alert.alert(
+                            'Thông báo',
+                            res.data.errMessage,
+                            [{ text: 'OK' }],
+                            { cancelable: false }
+                          );
+                    }
+                }).catch((err)=>{console.log(err);})
             }
         } else {
             setBadConfirmPassword(true)
             setErrorMessage("Vui lòng nhập lại mật khẩu của bạn")
             return
         }
-        let data = {
-            email:email,
-            password:passwordNew
-        }
-        axios.put(POST_PASSWORD_MEMBER,data).then((res)=>{
-            if(res.data.errCode == 0){
-                Alert.alert(
-                    'Thông báo',
-                    res.data.errMessage,
-                    [{ text: 'OK', onPress: () => navigation.navigate('Login') },
-                        
-                    ],
-                    { cancelable: false }
-                  );
-            }else{
-                Alert.alert(
-                    'Thông báo',
-                    res.data.errMessage,
-                    [{ text: 'OK' }],
-                    { cancelable: false }
-                  );
-            }
-        }).catch((err)=>{console.log(err);})
+       
     }
     return (
         <View style={{ flex: 1 }}>
