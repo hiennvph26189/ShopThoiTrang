@@ -48,7 +48,7 @@ const NewAddress = () => {
     const choiceQuanHuyen = async (IdTinh) => {
         await axios.get(`${GET_QUAN}?tinh=${IdTinh}`).then((res) => {
             if (res.data.errCode == 0) {
-                console.log(res.data.listQuan + ' quan');
+                
                 setQuanHuyen(res.data.listQuan)
 
             }
@@ -57,7 +57,8 @@ const NewAddress = () => {
     const choiceXa = async (IdTinh, IdQuan) => {
         await axios.get(`${GET_XA}?tinh=${IdTinh}&quan=${IdQuan}`).then((res) => {
             if (res.data.errCode == 0) {
-                console.log(res.data.listXa + ' quan');
+              
+                
                 setXaPhuong(res.data.listXa)
 
             }
@@ -128,7 +129,7 @@ const NewAddress = () => {
         }
         
         await axios.post(POST_ADDRESS_MEMBERS, data).then((res) => {
-            console.log(res.data + 'Ssss');
+           
             if (res.data.errCode == 0) {
                 ToastAndroid.showWithGravity(
                     'Thêm địa chỉ thành công',
@@ -217,7 +218,7 @@ const NewAddress = () => {
                         choiceQuanHuyen(selectedItem.id)
                         setTenQuan('')
                         setTenXa('')
-                        console.log(selectedItem._name);
+                       
                         setCheckQuan(true)
                         setCheckXa(true)
 
@@ -261,7 +262,7 @@ const NewAddress = () => {
                         defaultIndex={defaultIndex}
                         onSelect={(selectedItem, index) => {
 
-                            console.log(selectedItem._name);
+                           
                             setTenQuan(selectedItem._prefix + ' ' + selectedItem._name)
                             choiceQuanHuyen(IdTinh)
                             setCheckQuan(false)
@@ -272,11 +273,11 @@ const NewAddress = () => {
 
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
-                            console.log(tenQuan + 'aaaaa');
+                           
 
                             if (checkQuan == true) {
 
-                                console.log(tenQuan + ' sad');
+                               
                                 return ten
                             } else {
                                 return selectedItem._prefix + ' ' + selectedItem._name
@@ -320,10 +321,11 @@ const NewAddress = () => {
                         defaultButtonText={'Xã/Phường/Thị trấn'}
                         defaultIndex={defaultIndex}
                         onSelect={(selectedItem, index) => {
-
+                            
+                            if(selectedItem.length)
                             choiceXa(IdTinh, IdQuan)
                             setTenXa(selectedItem._prefix +" "+selectedItem._name)
-                            console.log(selectedItem._name);
+                           
                             setCheckXa(false)
 
 

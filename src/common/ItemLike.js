@@ -45,7 +45,7 @@ const ItemLike = (props) => {
               onPress: async () => {
                 try {
                   const res = await axios.delete(`${DELETE_LIKE_PRODUCTS}?id_product=${id}&id_member=${info.id}`);
-                  console.log(res.data + ' deleted');
+                
                   if (res && res.data.errCode === 0) {
                     ToastAndroid.showWithGravity(
                       'Xóa sản phẩm yêu thích thành công',
@@ -70,8 +70,8 @@ const ItemLike = (props) => {
       const onAddToCart = async (item) => {
 
         let id = info.id
-        // console.log("Ok")
-        console.log(item.id + ' itemSP');
+        
+       
         if (id && item.id) {
     
           let data = {
@@ -127,7 +127,7 @@ const ItemLike = (props) => {
       }
       useEffect(() => {
         props.lodaData1()
-        console.log(props + ' props');
+    
       }, [])
 
     return (

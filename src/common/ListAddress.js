@@ -31,7 +31,7 @@ const ListAddress = (props) => {
   }, [isFocused])
 
   const lodaData = () => {
-    console.log('ok');
+    
     getAddress()
   }
   return (

@@ -33,7 +33,7 @@ const ItemDanhSach = (props) => {
 }
    onAddToCart= async(item)=>{
     let id =  info.id
-    // console.log("Ok")
+ 
     if(id&&item.id){
      
             let data = {

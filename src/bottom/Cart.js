@@ -152,7 +152,7 @@ const Cart = (props) => {
         cartList.map((item,index) => {
             checkLeng = checkLeng +1
         })
-        console.log( checkLeng);
+    
         if(checkLeng>0){
           
         let ids = []

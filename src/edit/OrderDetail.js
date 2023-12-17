@@ -58,11 +58,11 @@ const OrderDetail = (props) => {
         }).catch((err)=>{console.log(err)})
     }
     const getItemThanhToanOrder = async() =>{
-        console.log(idOder, ":DAKS:D:S");
+       
         await axios.get(`${GET_METHUD_THANH_TOAN_ORDER}?id_order=${idOder}`).then((res)=>{
          
             if(res.data.errCode === 0){
-                console.log(res.data.selectThanhToan);
+                
                 setItemThanhToan(res.data.selectThanhToan)
                
             }

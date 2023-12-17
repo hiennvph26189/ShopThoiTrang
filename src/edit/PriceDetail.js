@@ -28,7 +28,6 @@ const PriceDetail = (props) => {
         }
     }
     const price =(price)=>{
-        console.log(price);
         let x = parseInt(price);
         x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return  x;
@@ -38,7 +37,6 @@ const PriceDetail = (props) => {
     return newFr
 }
 const formatTime= (time)=>{
-    console.log(time);
     const newFr = Moment(time).locale("vi", fr).format("HH:mm:ss");
 
     return newFr

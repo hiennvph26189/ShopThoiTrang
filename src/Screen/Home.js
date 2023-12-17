@@ -122,7 +122,7 @@ const Home = (props) => {
                         <Icon  name=""/>
                         <Image
                             source={require('../Screen/image/bag.png')}
-                            style={{ width: 24, height: 24, tintColor: selectTab == 2 ?'#000033':"#fff", justifyContent: "center", alignSelf: "center", marginTop: 10 }}
+                            style={{ width: 24, height: 24, tintColor: selectTab == 2 ?'#000033':"#fff", justifyContent: "center", alignSelf: "center",bottom:8}}
                         />
                         {lenght >0&&
                              <View style={{

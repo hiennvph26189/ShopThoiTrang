@@ -27,7 +27,7 @@ const DonHoan = () => {
         await axios.get(`${GET_ALL_USER_ORDERS}?id=${info.id}`).then((res)=>{
             
             if(res.data.errCode === 0){
-                console.log(res.data.getDonHoan);
+              
                 setListDonHang(res.data.getDonHoan)
                 setListCarts(res.data.getCarts)
                 setGetAllProducts(res.data.getAllProducts)    

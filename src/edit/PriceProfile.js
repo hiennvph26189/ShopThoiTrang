@@ -98,7 +98,6 @@ const PriceProfile = () => {
                 setErrPrice(false)
             }   
         }
-        console.log(parseInt(price));
         post9Pay(parseInt(price),IP)
         
    }

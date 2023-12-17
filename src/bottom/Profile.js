@@ -86,7 +86,10 @@ const Profile = (props) => {
         let count = 0
         if(getAllOrders){
             getAllOrders.map((iten,index)=>{
-                count = count+1
+                if(iten.status == 3){
+                    count = count+1
+                }
+                
             })
         }
         return count;

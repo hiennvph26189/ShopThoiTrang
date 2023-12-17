@@ -89,7 +89,6 @@ const RePass = () => {
             passwordNew: passwordNew,
             re_password:re_password,
         }
-        console.log(CHANGE_PASSWD);
       await  axios.put(CHANGE_PASSWD, data1).then(res=>{
        
             if (res.data.errCode==1) {

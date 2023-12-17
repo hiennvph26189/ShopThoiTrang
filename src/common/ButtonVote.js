@@ -15,9 +15,9 @@ const ButtonVote = (props) => {
     const [checkVote,setCheckVote] = useState(false)
     const [rating, setRating] = useState(5);
     const checkVoteStar = async()=>{
-        console.log(id_donhang);
+       
         await axios.get(`${CHECK_STAR_PRODUCT}?id_member=${id_member}&id_sp=${id_sp}&id_donhang=${id_donhang}&id_cart=${id_cart}`).then((res)=>{
-            console.log(res.data)
+            
             if(res.data.errCode === 0){
                 setCheckVote(true)
                 setRating(res.data.numberStar)

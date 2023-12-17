@@ -11,7 +11,7 @@ const EditAddress = (props) => {
     const route = props.route;
     let item = route.params.item;
 
-    console.log(item.hoTen + ' itemaddress');
+    
 
     const navigation = useNavigation();
     const [hoten, setHoTen] = useState('');
@@ -55,7 +55,7 @@ const EditAddress = (props) => {
     const choiceQuanHuyen = async (IdTinh) => {
         await axios.get(`${GET_QUAN}?tinh=${IdTinh}`).then((res) => {
             if (res.data.errCode == 0) {
-                console.log(res.data.listQuan + ' quan');
+               
                 setQuanHuyen(res.data.listQuan)
 
             }
@@ -64,7 +64,7 @@ const EditAddress = (props) => {
     const choiceXa = async (IdTinh, IdQuan) => {
         await axios.get(`${GET_XA}?tinh=${IdTinh}&quan=${IdQuan}`).then((res) => {
             if (res.data.errCode == 0) {
-                console.log(res.data.listXa + ' quan');
+             
                 setXaPhuong(res.data.listXa)
 
             }
@@ -341,11 +341,11 @@ const EditAddress = (props) => {
 
                                     }}
                                     buttonTextAfterSelection={(selectedItem, index) => {
-                                        console.log(tenQuan + 'aaaaa');
+                                        
 
                                         if (checkQuan == true) {
 
-                                            console.log(tenQuan + ' sad');
+                                            
                                             return ten
                                         } else {
                                             return selectedItem._prefix + ' ' + selectedItem._name
@@ -391,7 +391,7 @@ const EditAddress = (props) => {
 
                                         choiceXa(IdTinh, IdQuan)
                                         setTenXa(selectedItem._prefix + ' '+selectedItem._name)
-                                        console.log(selectedItem._prefix + ' '+selectedItem._name);
+                                       
                                         setCheckXa(false)
 
 

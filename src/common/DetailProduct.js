@@ -76,7 +76,7 @@ const DetailProduct = (props) => {
             }
            
             await axios.post(LIKE_PRODUCTS, data).then((res) => {
-                console.log(res.data.errMessage + 'Ssss');
+              
                 if (res.data.errCode == 0) {
                     ToastAndroid.showWithGravity(
                         'Thêm vào danh sách yêu thích thành công',
@@ -103,7 +103,7 @@ const DetailProduct = (props) => {
     const xoaLike_product = async () => {
 
         await axios.delete(`${DELETE_LIKE_PRODUCTS}?id_product=${idProduct}&id_member=${info.id}`).then((res) => {
-            console.log(res.data.errCode + ' deleted');
+          
             if (res && res.data.errCode === 0) {
                 ToastAndroid.showWithGravity(
                     'Xóa sản phẩm yêu thích thành công',
@@ -118,7 +118,7 @@ const DetailProduct = (props) => {
     }
     const getOneLikeProd = async (id_product, id_member) => {
         await axios.get(`${GET_ONE_LIKE_PRODUCT}?id_product=${id_product}&id_member=${id_member}`).then((res) => {
-            console.log(res.data.errCode,"LOHS");
+           
             if (res && res.data.errCode === 0) {
                 setLike(true)
             } else {
@@ -158,17 +158,17 @@ const DetailProduct = (props) => {
             
             if(res.data.errCode === 0){
                 setItemThongKeStar(res.data.data)
-                console.log(res.data.data, "LOGDATa");
+                
             }
         }).catch((err)=>{console.log(err)})
     }
     const getTotalStarProduct = async() =>{
         if(idProduct){
             await axios.get(`${GET_TOTAL_STAR_TB_STAR_PRODUCT}?id=${idProduct}`).then((res)=>{
-                console.log(res.data)
+             
                 if(res.data.errCode === 0){
                     setArrVoteStar(res.data.data)
-                    console.log(res.data.data)
+                    
                     setRating(res.data.tbStar)
                     setTotalStar(res.data.totalStar)
                 }
@@ -178,7 +178,7 @@ const DetailProduct = (props) => {
     const getArrSizesroduct = async() =>{
         if(idProduct){
             await axios.get(`${LIST_SIZE_PRODUCTS}?id=${idProduct}`).then((res)=>{
-                console.log(res.data)
+                
                 if(res.data.errCode === 0){
                   
                    let arr = Object.entries(res.data.data).map(([key, value]) => ({ key, value }));
@@ -255,7 +255,7 @@ const DetailProduct = (props) => {
                   
                    let arr = Object.entries(res.data.data).map(([key, value]) => ({ key, value }));
                     setArrSizes(arr)
-                    console.log(res.data.data);
+                   
                     
                 }
             })
@@ -263,10 +263,10 @@ const DetailProduct = (props) => {
 
         if(id){
             await axios.get(`${GET_TOTAL_STAR_TB_STAR_PRODUCT}?id=${id}`).then((res)=>{
-                console.log(res.data)
+              
                 if(res.data.errCode === 0){
                     setArrVoteStar(res.data.data)
-                    console.log(res.data.data)
+                    
                     setRating(res.data.tbStar)
                     setTotalStar(res.data.totalStar)
                 }
@@ -370,8 +370,8 @@ const DetailProduct = (props) => {
     }
     onAddToCart= async(id)=>{
         
-        console.log("SAK:DAKS:k");
-        console.log(id,"test ID")
+       
+       
         if(id !== undefined){
             if(arrSizes&&arrSizes.length >0){
                 if(idProduct){

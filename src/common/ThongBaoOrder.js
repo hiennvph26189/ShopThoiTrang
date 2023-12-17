@@ -37,11 +37,11 @@ const ThongBaoOrder = (props) => {
             data_9pay:data_9pay
         }
         await axios.post(ORDER_CARD_9PAY,post_data).then(res=>{
-        console.log(data2)
+        
         }).catch(err=>{console.log(err)});
        }else{
         
-        console.log("OK");
+       
        }
     }
    

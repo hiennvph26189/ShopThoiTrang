@@ -56,11 +56,9 @@ const ItemAddress = (props) => {
             ],
             {    cancelable: false }
         );
-        console.log(props);
+       
     }
-    // useEffect(()=>{
-    //     console.log(props.key);
-    // },[])
+   
 
     const formatPhoneNumber = (phoneNumber) => {
         // Định dạng số điện thoại thành 'XXXX XXX XXX'

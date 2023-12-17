@@ -70,7 +70,6 @@ const XacNhanEmail = (props) => {
             key_code: keyCode
         }
         if(email != "" && keyCode !=""){
-            console.log(POST_MA_XAC_MINH);
             await axios.post(POST_MA_XAC_MINH,data).then((res)=>{
                 if(res.data.errCode == 0){
                     navigation.navigate('Lấy lại mật khẩu của bạn',{email:email})

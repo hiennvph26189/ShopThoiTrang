@@ -20,10 +20,10 @@ const ItemVote = (props) => {
         setText(inputText);
       };
     const getDetailProduct = async() =>{
-        console.log(route);
+       
         if(id_sp){
             await axios.get(`${GET_ONE_PRODUCT_IN_CART_VOTE_START}?id_product=${id_sp}&id_cart=${id_cart}`).then((res)=>{
-                console.log(res.data)
+               
                 if(res.data.errCode === 0){
                     setItemProduct(res.data.dataProduct);
                   
@@ -70,7 +70,7 @@ postDnahGia = async()=>{
     }
     if(id_sp){
         await axios.post(POST_VOTE_START,data).then((res)=>{
-            console.log(res.data);
+           
             if(res.data.errCode === 0){
                 Alert.alert('Thông báo',res.data.errMessage , [
                     {text: 'OK', onPress: () => {

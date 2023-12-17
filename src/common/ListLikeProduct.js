@@ -13,7 +13,7 @@ const ListLikeProduct = (props) => {
 
   const getAllLikeProduct = async () => {
     await axios.get(`${GET_ALL_LIKE_PRODUCTS_MEMBER}?id_members=${info.id}`).then((res) => {
-      console.log(res.data);
+      
       if (res && res.data.errCode === 0) {
         setListLikeProduct(res.data.listLikePrd);
       }
@@ -30,7 +30,7 @@ const ListLikeProduct = (props) => {
 
   }, [isFocused])
   const lodaData1 = () => {
-    console.log('ok');
+    
     getAllLikeProduct()
   }
 

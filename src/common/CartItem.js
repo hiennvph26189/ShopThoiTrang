@@ -31,7 +31,7 @@ const CartItem = (props) => {
         await axios.get(GETALLPRODUCTS).then((res) => {
 
             if (res && res.data.errCode === 0) {
-                //console.log(res.data.products,"OK")
+               
                 setArrProducts(res.data.totalProducts)
                 if(res.data.totalProducts){
                     res.data.totalProducts.map((item,index)=>{
@@ -45,7 +45,7 @@ const CartItem = (props) => {
     }
     const loadDataCartItem = async()=>{
         await axios.get(`${LIST_SIZE_IN_CART_PRODUCT}?id_cart=${item.id}&id_product=${item.ipSanPham}`).then((res) => {
-            console.log(res.data)
+           
             if (res.data.errCode === 0) {
                 
                 setItemCarrt(res.data.data.carts[0])
@@ -70,7 +70,7 @@ const CartItem = (props) => {
     useEffect(()=>{
         if(loaditemChill){
             setSize(props.item1.size)
-            console.log(props.item1.size)
+           
             loadDataCartItem()
             setSoLuong(props.item1.soLuong)
     
@@ -119,14 +119,14 @@ const CartItem = (props) => {
     }
     const loadItem = async(id)=>{
         props.loadDataCartItem()
-       console.log("caskd;a")
+     
    }
     CheckID = (id)=>{
         props.checkid(id)
 
     }
     const congSoLuong =(id,soLuongSanPham)=>{
-        console.log(size)
+        
         let count = soLuong 
         count = count +1
         setSoLuong(count)
@@ -137,7 +137,7 @@ const CartItem = (props) => {
     }
     const defaultIndex = countries.findIndex((item) => item === "40");
     const truSoLuong =(id)=>{
-        console.log(size)
+        
         let count = soLuong 
         count = count -1
         setSoLuong(count)
@@ -322,7 +322,7 @@ const CartItem = (props) => {
                         props.updateCart(props.item1.id,1,selectedItem)
                        
                             // Nếu có, set state cho numberSize với giá trị của size đó
-                            console.log(itemSize[selectedItem])
+                           
                             setNumberSize(itemSize[selectedItem]);
                           
                           setSoLuong(1)

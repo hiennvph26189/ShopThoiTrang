@@ -34,10 +34,10 @@ const ChiTietDanhGia = (props) => {
      const getTotalStarProduct = async(id_product,star) =>{
         if(id_product){
             await axios.get(`${LIST_ALL_THONG_KE_START}?id_product=${id_product}&star=${star}`).then((res)=>{
-                console.log(res.data)
+                
                 if(res.data.errCode === 0){
                     setArrVoteStar(res.data.data)
-                    console.log(res.data.data)
+                    
                    
                     setTotalStar(res.data.totalStar)
                 }
@@ -120,7 +120,7 @@ const ChiTietDanhGia = (props) => {
             <ScrollView style={{marginTop:10, borderTopWidth:1, borderColor:"#fff"}}>
                     {arrVoteStar.length >0 && arrVoteStar.map((item,index)=>{
                         return(
-                            <View key={index} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#fff", backgroundColor:"#fff",padding:10}}>
+                            <View key={item.id} style={{borderBottomWidth:.25, marginBottom:5, paddingBottom:10, borderBottomColor:"#fff", backgroundColor:"#fff",padding:10}}>
                                 <View  style={{flexDirection:"row", marginTop:10, marginBottom:10, alignItems:"center"}}>
                                     <View >
                                     <Image

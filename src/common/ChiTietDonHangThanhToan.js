@@ -23,7 +23,7 @@ const ChiTietDonHangThanhToan = (props) => {
     const preventExit = useRef(false);
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('blur', () => {
-            console.log("á;aksdk");
+           
       });
     
       return unsubscribe;
@@ -71,7 +71,7 @@ const ChiTietDonHangThanhToan = (props) => {
     }, []);
     const getProductCart = async () => {
         await axios.get(`${GET_PRODUCT_CART_MEMBER}?id_member=${id_member}`).then((res) => {
-            console.log(res.data.data);
+            
           if (res.data.errCode === 0) {
                 setArrProductCart(res.data.data)   
           }
@@ -79,7 +79,7 @@ const ChiTietDonHangThanhToan = (props) => {
       }
       const getItemAddressMember = async () => {
         await axios.get(`${ITEM_ADDRESS_MEMBER}?id_member=${id_member}`).then((res) => {
-            console.log(res.data);
+           
           if (res.data.errCode === 0) {
             setItemAddress(res.data.itemAddress)   
           }
@@ -92,7 +92,7 @@ const ChiTietDonHangThanhToan = (props) => {
     },[isFocused])
     useEffect(() => {
         const handleBackPress = () => {
-            console.log("OK");
+           
           // Log ở đây khi người dùng ấn nút back
          alert("Vui lòng thanh toán hàng hoặc hủy đơn hàng")
           // Trả về true để ngăn chặn hành động mặc định của nút back
@@ -190,7 +190,7 @@ const ChiTietDonHangThanhToan = (props) => {
                 })
                
                     if(tongTiens <info.tienTk){
-                        console.log(postData);
+                      
                         data = {
                             idCart:JSON.stringify(arrIdCart),
                             idUser: info.id,
@@ -238,7 +238,7 @@ const ChiTietDonHangThanhToan = (props) => {
                 arrCart.map((item,index)=>{
                     arrIdCart.push(item.id)
                 })
-                console.log(arrIdCart);
+                
                 let post_data = {
                     idCart: JSON.stringify(arrIdCart),
                     idUser: id_member
@@ -260,7 +260,7 @@ const ChiTietDonHangThanhToan = (props) => {
         if (url.includes('?code=')) {
             const data = url.split('?code=')[1];
             let utf8String = ""
-            console.log(data)
+            
             await axios.get(`${CONVERT_CODE_SHA}?data=${data}`).then(res => {
 
                 utf8String = res.data
@@ -310,7 +310,7 @@ const ChiTietDonHangThanhToan = (props) => {
                     tongTien: tien,
                   
                 }
-                console.log( data_order);
+                
                 navigation.navigate('Thông báo Order', { utf8String, data_order, arrTenSp, })
             }
 
